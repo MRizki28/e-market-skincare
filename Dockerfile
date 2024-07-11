@@ -22,6 +22,11 @@ RUN apt-get update && apt-get install -y \
     libmagickwand-dev \
     && rm -rf /var/lib/apt/lists/*
 
+
+    # Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+&& apt-get install -y nodejs
+
 # Configure and install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql sockets mysqli zip \
