@@ -9,6 +9,7 @@ Route::get('/', function () {
 
 Route::prefix('v1')->group(function() {
     Route::prefix('user')->controller(UserController::class)->group(function() {
+        Route::get('/', 'getAllData');
         Route::post('register', 'register');
     });
 });
