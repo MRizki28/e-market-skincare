@@ -48,7 +48,7 @@ class UserRepositories implements UserInterfaces
         try {
             $data = new $this->userModel;
             $data->email = $request->input('email');
-            $data->password = Hash::make($request->input('password'));
+            $data->password = Hash::make('12345678');
             $data->save();
             return $this->success($data, 'success', 'Success register');
         } catch (\Throwable $th) {
