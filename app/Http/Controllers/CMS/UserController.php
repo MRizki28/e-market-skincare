@@ -15,6 +15,11 @@ class UserController extends Controller
     {
         $this->userRepositories = $userRepositories;
     }
+
+    public function getAllData(Request $request)
+    {
+        return $this->userRepositories->getAllData($request);
+    }
     
     public function register(UserRequest $request)
     {
