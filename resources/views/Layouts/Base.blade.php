@@ -45,9 +45,6 @@
     </div>
     @include('Layouts.scripts')
     @yield('js-service')
-
-
-    <script type="module" src="{{ asset('js/firebase/firebase.service.js') }}"></script>
 </body>
 
 </html>
