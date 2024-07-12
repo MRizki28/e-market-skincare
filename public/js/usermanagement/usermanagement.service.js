@@ -42,6 +42,36 @@ class userManagementService {
             console.error(error);
         }
     }
+
+    async createData(e, isEditMode){
+        let submitButton = $(e.target).find(':submit')
+        try {
+            let formData = new FormData(e.target)  
+            if (isEditMode) {
+                
+            }else{
+                submitButton.attr('disabled', true)
+                const response = await axios.post('/v1/user/register', formData)
+                const responseData = await response.data
+                if (responseData.status == 'success') {
+                    successAlert().then(function () { 
+                        $('#userManagementModal').modal('hide')
+                    })
+                    this.getAllData()
+                    submitButton.attr('disabled', false)
+                }
+            }
+        } catch (error) {
+            console.log(error);
+            submitButton.attr('disabled', false)
+            if (error.response.status == 422) {
+                warningAlert();
+            }else{
+                errorAlert();
+            }
+        };
+        
+    }
 }
 
 export default userManagementService;
