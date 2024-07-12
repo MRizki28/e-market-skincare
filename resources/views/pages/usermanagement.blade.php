@@ -9,9 +9,9 @@
             <x-base-table initId="table">
                 <x-slot name="thead">
                     <tr class="text-center">
-                        <th width="50">Username</th>
+                        <th >email</th>
                         <th>Role</th>
-                        <th width="120">Aksi</th>
+                        <th>Aksi</th>
                     </tr>
                 </x-slot>
             </x-base-table>
@@ -19,4 +19,8 @@
     </div>
 
     {{-- <x-usermanagement.admin-staff-modal></x-usermanagement.admin-staff-modal> --}}
+@endsection
+
+@section('js-service')
+    <script type="module" src="{{ asset('js/usermanagement/usermanagement.controller.js') }}"></script>
 @endsection
