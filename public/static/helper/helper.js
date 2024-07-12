@@ -12,20 +12,20 @@ function clearInputForm() {
 
 function paginationLink(element, params) {
     console.log(params)
-    params.data.data.links.forEach((link, index) => {
+    params.data.links.forEach((link, index) => {
         if (index === 0) {
             element.append(`
-                <li class="page-item ${params.data.data.prev_page_url ? '' : 'disabled'}">
-                    <a class="page-link" href="${params.data.data.prev_page_url || '#'}" aria-label="Previous" id="pagination-prev" >
+                <li class="page-item ${params.data.prev_page_url ? '' : 'disabled'}">
+                    <a class="page-link" href="${params.data.prev_page_url || '#'}" aria-label="Previous" id="pagination-prev" >
                         <span aria-hidden="true">«</span>
                         <span class="sr-only">Previous</span>
                     </a>
                 </li>
             `)
-        } else if (index === params.data.data.links.length - 1) {
+        } else if (index === params.data.links.length - 1) {
             element.append(`
-                <li class="page-item ${params.data.data.next_page_url ? '' : 'disabled'}">
-                    <a class="page-link" href="${params.data.data.next_page_url || '#'}" aria-label="Next" id="pagination-next" >
+                <li class="page-item ${params.data.next_page_url ? '' : 'disabled'}">
+                    <a class="page-link" href="${params.data.next_page_url || '#'}" aria-label="Next" id="pagination-next" >
                         <span aria-hidden="true">»</span></span>
                         <span class="sr-only">Next</span>
                     </a>
