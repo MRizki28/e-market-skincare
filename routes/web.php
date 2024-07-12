@@ -4,7 +4,7 @@ use App\Http\Controllers\CMS\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.usermanagement');
 });
 
 Route::prefix('v1')->group(function() {
