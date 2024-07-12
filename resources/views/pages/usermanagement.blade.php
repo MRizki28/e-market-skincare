@@ -9,7 +9,7 @@
             <x-base-table initId="table">
                 <x-slot name="thead">
                     <tr class="text-center">
-                        <th >email</th>
+                        <th>email</th>
                         <th>Role</th>
                         <th>Aksi</th>
                     </tr>
@@ -18,7 +18,7 @@
         </x-base-body>
     </div>
 
-    {{-- <x-usermanagement.admin-staff-modal></x-usermanagement.admin-staff-modal> --}}
+    <x-usermanagement.usermanagement-modal></x-usermanagement.usermanagement-modal>
 @endsection
 
 @section('js-service')
