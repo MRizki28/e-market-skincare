@@ -77,4 +77,10 @@ $(document).ready(function () {
         e.preventDefault();
         usermanagementservice.createData(e, isEditMode)
     });
+
+    $(document).on('click', '.edit-modal', function (e) {
+        isEditMode = true
+        const id = $(this).data('id')
+        usermanagementservice.getDataById(id, showModal)
+    })  
 });
