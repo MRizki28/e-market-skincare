@@ -287,6 +287,16 @@ function successDeleteAlert() {
     })
 }
 
+function emailTakenAlert() {
+    Swal.fire({
+        title: 'Peringatan',
+        text: 'Email sudah digunakan, silahkan gunakan email lain!',
+        icon: 'warning',
+        timer: 5000,
+        showConfirmButton: true
+    });
+}
+
 $(document).ready(function () {
     $.validator.addMethod("fileExtension", function (value, element) {
         return this.optional(element) || /\.(docx|png|jpg|jpeg|xlsx|xls|csv|doc|pdf)$/i.test(value);
