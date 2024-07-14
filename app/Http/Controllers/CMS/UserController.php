@@ -25,4 +25,14 @@ class UserController extends Controller
     {
         return $this->userRepositories->register($request);
     }
+
+    public function getDataById($id)
+    {
+        return $this->userRepositories->getDataById($id);
+    } 
+
+    public function updateData(UserRequest $request, $id)
+    {
+        return $this->userRepositories->updateData($request, $id);
+    } 
 }
