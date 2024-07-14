@@ -48,7 +48,17 @@ class userManagementService {
         try {
             let formData = new FormData(e.target)  
             if (isEditMode) {
-                
+                let id = $('#id').val()
+                submitButton.attr('disabled', true)
+                const response = await axios.post(`/v1/user/update/${id}`, formData)
+                const responseData = await response.data
+                if (responseData.status == 'success') {
+                    successUpdateAlert().then(function () { 
+                        $('#userManagementModal').modal('hide')
+                    })
+                    this.getAllData()
+                    submitButton.attr('disabled', false)
+                }
             }else{
                 submitButton.attr('disabled', true)
                 const response = await axios.post('/v1/user/register', formData)
@@ -64,13 +74,30 @@ class userManagementService {
         } catch (error) {
             console.log(error);
             submitButton.attr('disabled', false)
-            if (error.response.status == 422) {
+            if (error.response.data.data.email == 'The email has already been taken.') {
+                emailTakenAlert();
+            }else if(error.response.status == 422) {
                 warningAlert();
             }else{
                 errorAlert();
             }
         };
         
+    }
+
+    async getDataById(id, isEditMode){
+        try {
+            const response = await axios.get('/v1/user/get/' + id)
+            const responseData = await response.data
+            console.log(responseData)
+            if (responseData.status == 'success') {
+                isEditMode(true, responseData.data.id)
+                $('#email').val(responseData.data.email)
+                $('#role').val(responseData.data.role)
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
