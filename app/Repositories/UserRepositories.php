@@ -55,4 +55,31 @@ class UserRepositories implements UserInterfaces
             return $this->error($th->getMessage());
         }
     }
+
+    public function getDataById($id)
+    {
+        $data = $this->userModel->find($id);
+        if ($data) {
+            return $this->success($data, 'success', 'Success get data by id');
+        }else{
+            return $this->dataNotFound();
+        }
+    }
+
+    public function updateData(UserRequest $request, $id)
+    {
+        try {
+            $data = $this->userModel->find($id);
+            if ($data) {
+                $data->email = $request->input('email');
+                $data->password = Hash::make('12345678');
+                $data->save();
+                return $this->success($data, 'success', 'Success update data');
+            }else{
+                return $this->dataNotFound();
+            }
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
+    }
 }
