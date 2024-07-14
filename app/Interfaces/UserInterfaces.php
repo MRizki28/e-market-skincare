@@ -9,4 +9,6 @@ interface UserInterfaces
 {
     public function getAllData(Request $request);
     public function register(UserRequest $request);
+    public function getDataById($id);
+    public function updateData(UserRequest $request, $id);
 }
