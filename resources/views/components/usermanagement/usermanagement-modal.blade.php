@@ -22,6 +22,7 @@
                                 <select name="role" id="role" class="form-control" style="width: 100%; height: 30px;">
                                     <option value="" selected disabled hidden>Choose here</option>
                                     <option value="admin">Admin</option>
+                                    <option value="user">User</option>
                                 </select>
                             </div>
                             <div class="form-group form-show-validation">
