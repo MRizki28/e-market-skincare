@@ -83,4 +83,17 @@ $(document).ready(function () {
         const id = $(this).data('id')
         usermanagementservice.getDataById(id, showModal)
     })  
+
+
+    $('#userManagementModal').on('hidden.bs.modal', function () {
+        isEditMode = false
+        $('#id').val('')
+        $('#email').val('')
+        $('#role').val('').trigger('change')
+        $('#modal-title').text('Tambah Data');
+        $('.button-footer button[type="submit"]').text('Simpan');
+        $('.form-group').removeClass('has-error').removeClass('has-success')
+        $('.form-group').find('.error').remove()
+        $('.form-validate').remove()
+    })
 });
