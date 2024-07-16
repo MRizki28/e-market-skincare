@@ -7,6 +7,7 @@ use App\Interfaces\DistributorInterfaces;
 use App\Models\DistributorModel;
 use App\Traits\HttpResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DistributorRepositories implements DistributorInterfaces
 {
@@ -47,5 +48,18 @@ class DistributorRepositories implements DistributorInterfaces
 
     public function createData(DistributorRequest $request)
     {
+        try {
+            $id_user = Auth::user()->id;
+            $data = new $this->distributorModel;
+            $data->id_user = $id_user;
+            $data->name_distributor = $request->input('name_distributor');
+            $data->address = $request->input('address');
+            $data->phone_number = $request->input('phone_number');
+            $data->save();
+
+            return $this->success($data, 'success', 'Success create data distributor');
+        } catch (\Throwable $th) {
+            return $this->error($th);
+        }
     }
 }
