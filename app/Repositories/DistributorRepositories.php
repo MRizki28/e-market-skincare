@@ -20,44 +20,36 @@ class DistributorRepositories implements DistributorInterfaces
         $this->distributorModel = $distributorModel;
     }
 
-    public function getAllData(Request $request)
+    public function getAllData()
     {
-        $search = $request->input('search');
-        $limit = $request->input('limit') ? $request->input('limit') : 10;
-        $page = (int) $request->input('page', 1);
-
-        $query = $this->distributorModel->query();
-
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name_distributor', 'like', '%' . $search . '%')
-                    ->orWhere('address', 'like', '%' . $search . '%')
-                    ->orWhere('phone_number', 'like', '%' . $search . '%');
-            });
+        try {
+            $id_user = Auth::user()->id;
+            $data = $this->distributorModel->where('id_user', $id_user)->get();
+            if ($data->isEmpty()) {
+                return $this->success([], 'data not found', 'Data distributor not found');
+            }else{
+                return $this->success($data, 'success', 'Success get all data distributor');
+            }
+        } catch (\Throwable $th) {
+            return $this->error($th);
         }
-
-        $data = $query->paginate($limit, ['*'], 'page', $page);
-
-        if ($data->isEmpty()) {
-            return $this->dataNotFound();
-        } else {
-            return $this->success($data, 'success', 'Success get data distributor');
-        }
-    
     }
 
     public function createData(DistributorRequest $request)
     {
         try {
             $id_user = Auth::user()->id;
-            $data = new $this->distributorModel;
-            $data->id_user = $id_user;
-            $data->name_distributor = $request->input('name_distributor');
-            $data->address = $request->input('address');
-            $data->phone_number = $request->input('phone_number');
-            $data->save();
+            $data = $this->distributorModel->updateOrCreate(
+                ['id_user' => $id_user],
+                [
+                    'id_user' => $id_user,
+                    'name_distributor' => $request->input('name_distributor'),
+                    'address' => $request->input('address'),
+                    'phone_number' => $request->input('phone_number'),
+                ]
+            );
 
-            return $this->success($data, 'success', 'Success create data distributor');
+            return $this->success($data, 'success', 'Success create or update data distributor');
         } catch (\Throwable $th) {
             return $this->error($th);
         }
