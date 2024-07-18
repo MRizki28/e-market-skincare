@@ -11,4 +11,5 @@ interface UserInterfaces
     public function register(UserRequest $request);
     public function getDataById($id);
     public function updateData(UserRequest $request, $id);
+    public function deleteData($id);
 }
