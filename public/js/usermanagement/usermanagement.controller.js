@@ -84,6 +84,12 @@ $(document).ready(function () {
         usermanagementservice.getDataById(id, showModal)
     })  
 
+    $(document).on('click', '.delete-confirm', function (e) {
+        e.preventDefault()
+        const id = $(this).data('id')
+        usermanagementservice.deleteData(id)
+    })
+
 
     $('#userManagementModal').on('hidden.bs.modal', function () {
         isEditMode = false
