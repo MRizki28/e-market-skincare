@@ -35,4 +35,9 @@ class UserController extends Controller
     {
         return $this->userRepositories->updateData($request, $id);
     } 
+
+    public function deleteData($id)
+    {
+        return $this->userRepositories->deleteData($id);
+    }
 }
