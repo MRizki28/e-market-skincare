@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tb_distributor', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('id_user')->constrained('users');
+            $table->foreignUuid('id_user')->constrained('users')->onDelete('cascade');
             $table->string('name_distributor', 50);
             $table->text('address');
             $table->string('phone_number', 50);
