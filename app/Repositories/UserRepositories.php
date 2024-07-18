@@ -7,6 +7,7 @@ use App\Interfaces\UserInterfaces;
 use App\Models\User;
 use App\Traits\HttpResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepositories implements UserInterfaces
@@ -38,7 +39,7 @@ class UserRepositories implements UserInterfaces
 
         if ($data->isEmpty()) {
             return $this->dataNotFound();
-        }else{
+        } else {
             return $this->success($data, 'success', 'Success get data user');
         }
     }
@@ -61,7 +62,7 @@ class UserRepositories implements UserInterfaces
         $data = $this->userModel->find($id);
         if ($data) {
             return $this->success($data, 'success', 'Success get data by id');
-        }else{
+        } else {
             return $this->dataNotFound();
         }
     }
@@ -75,11 +76,29 @@ class UserRepositories implements UserInterfaces
                 $data->password = Hash::make('12345678');
                 $data->save();
                 return $this->success($data, 'success', 'Success update data');
-            }else{
+            } else {
                 return $this->dataNotFound();
             }
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
+        }
+    }
+
+    public function deleteData($id)
+    {
+        $data = $this->userModel->find($id);
+        if ($data->id == Auth::user()->id) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You can\'t delete your own account'
+            ], 400);
+        } else {
+            if ($data) {
+                $data->delete();
+                return $this->delete();
+            } else {
+                return $this->dataNotFound();
+            }
         }
     }
 }
