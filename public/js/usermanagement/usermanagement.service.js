@@ -25,7 +25,7 @@ class userManagementService {
                         "<button class='btn btn-sm edit-modal mr-1' data-toggle='modal' data-target='#userModal' data-id='" +
                         item.id + "'><i class='fas fa-edit'></i></button>" +
                         "<button type='submit' class='delete-confirm btn btn-sm' data-id='" +
-                        item.id +"'><i class='fas fa-trash-alt'></i></button>" +
+                        item.id + "'><i class='fas fa-trash-alt'></i></button>" +
                         "</td>";
                     tableBody += "</tr>";
                     dataNotFound.hide()
@@ -43,28 +43,28 @@ class userManagementService {
         }
     }
 
-    async createData(e, isEditMode){
+    async createData(e, isEditMode) {
         let submitButton = $(e.target).find(':submit')
         try {
-            let formData = new FormData(e.target)  
+            let formData = new FormData(e.target)
             if (isEditMode) {
                 let id = $('#id').val()
                 submitButton.attr('disabled', true)
                 const response = await axios.post(`/v1/user/update/${id}`, formData)
                 const responseData = await response.data
                 if (responseData.status == 'success') {
-                    successUpdateAlert().then(function () { 
+                    successUpdateAlert().then(function () {
                         $('#userManagementModal').modal('hide')
                     })
                     this.getAllData()
                     submitButton.attr('disabled', false)
                 }
-            }else{
+            } else {
                 submitButton.attr('disabled', true)
                 const response = await axios.post('/v1/user/register', formData)
                 const responseData = await response.data
                 if (responseData.status == 'success') {
-                    successAlert().then(function () { 
+                    successAlert().then(function () {
                         $('#userManagementModal').modal('hide')
                     })
                     this.getAllData()
@@ -76,16 +76,16 @@ class userManagementService {
             submitButton.attr('disabled', false)
             if (error.response.data.data.email == 'The email has already been taken.') {
                 emailTakenAlert();
-            }else if(error.response.status == 422) {
+            } else if (error.response.status == 422) {
                 warningAlert();
-            }else{
+            } else {
                 errorAlert();
             }
         };
-        
+
     }
 
-    async getDataById(id, isEditMode){
+    async getDataById(id, isEditMode) {
         try {
             const response = await axios.get('/v1/user/get/' + id)
             const responseData = await response.data
@@ -97,6 +97,32 @@ class userManagementService {
             }
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    async deleteData(id) {
+        try {
+            const response = await axios.delete('/v1/user/delete/' + id)
+            deleteAlert().then(async (result) => {
+                if (result.isConfirmed) {
+                    const responseData = await response.data
+                    if (responseData.status == 'success') {
+                        successDeleteAlert()
+                        this.getAllData()
+                    }
+                }
+            })
+        } catch (error) {
+            console.log(error);
+            if (error.response.status == 400) {
+                Swal.fire({
+                    title: 'Warning',
+                    text: 'Tidak bisa hapus diri sendiri',
+                    icon: 'warning',
+                    timer: 5000,
+                    showConfirmButton: true
+                })
+            }
         }
     }
 }
