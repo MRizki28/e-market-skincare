@@ -7,6 +7,6 @@ use Illuminate\Http\Request;
 
 interface DistributorInterfaces
 {
-    public function getAllData(Request $request);
+    public function getAllData();
     public function createData(DistributorRequest $request);
 }
