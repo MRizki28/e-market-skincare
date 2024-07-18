@@ -26,6 +26,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::post('register', 'register');
             Route::get('/get/{id}', 'getDataById');
             Route::post('update/{id}', 'updateData');
+            Route::delete('delete/{id}', 'deleteData');
         });
 
         Route::prefix('distributor')->controller(DistributorController::class)->group(function () {
