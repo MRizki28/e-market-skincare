@@ -16,6 +16,11 @@ class DistributorController extends Controller
         $this->distributorRepositories = $distributorRepositories;
     }
 
+    public function getAllData()
+    {
+        return $this->distributorRepositories->getAllData();
+    }
+
     public function createData(DistributorRequest $request)
     {
         return $this->distributorRepositories->createData($request);
