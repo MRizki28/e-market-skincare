@@ -38,6 +38,12 @@
 								<p>User management</p>
 							</a>
 						</li>  
+						<li class="nav-item {{ request()->is('distributor') ? 'active' : '' }}">
+							<a href="{{ url('/distributor') }}">
+								<i class="fa-solid fa-user"></i>
+								<p>Distributor</p>
+							</a>
+						</li>  
 					<ul>
 				</div>
 			</div>
