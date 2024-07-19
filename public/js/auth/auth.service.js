@@ -17,6 +17,8 @@ class authService {
             submitButton.attr('disabled', false)
             if (error.response.status == 422) {
                 warningAlert();
+            }else if(error.response.status == 401){
+                emailOrPasswordWrong() 
             } else {
                 errorAlert();
                 console.log(error);
