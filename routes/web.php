@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CMS\AuthController;
 use App\Http\Controllers\CMS\DistributorController;
+use App\Http\Controllers\CMS\ProductController;
 use App\Http\Controllers\CMS\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,14 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::prefix('distributor')->controller(DistributorController::class)->group(function () {
             Route::get('/', 'getAllData');
             Route::post('create', 'createData');
+        });
+
+        Route::prefix('product')->controller(ProductController::class)->group(function () {
+            Route::get('/', 'getAllData');
+            Route::post('create', 'createData');
+            Route::get('/get/{id}', 'getDataById');
+            Route::post('/update/{id}', 'updateData');
+            Route::delete('/delete/{id}', 'deleteData');
         });
     });
     
