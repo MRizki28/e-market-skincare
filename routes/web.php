@@ -20,6 +20,8 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/distributor', function() {
         return view('pages.distributor');
     });
+
+    Route::post('/logout', [AuthController::class, 'logout']);
     
     Route::prefix('v1')->group(function () {
         Route::prefix('user')->controller(UserController::class)->group(function () {
