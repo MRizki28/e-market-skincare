@@ -6,6 +6,7 @@ use App\Http\Requests\Auth\AuthRequest;
 use App\Interfaces\AuthInterfaces;
 use App\Models\User;
 use App\Traits\HttpResponseTrait;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthRepositories implements AuthInterfaces
@@ -38,6 +39,23 @@ class AuthRepositories implements AuthInterfaces
                     ]
                 ], 200);
             }
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        try {
+            $request->user()->tokens()->delete();
+            Auth::guard('web')->logout();
+
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'logout success',
+            ], 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
         }
