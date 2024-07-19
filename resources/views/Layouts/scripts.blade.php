@@ -88,7 +88,7 @@
 
 {{-- logout --}}
 <script>
-    const urlLogout = 'logoutadmin'
+    const urlLogout = 'logout'
     $(document).ready(function() {
         $('#iconLogout').click(function(e) {
             Swal.fire({
