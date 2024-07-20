@@ -16,6 +16,11 @@ class ProductController extends Controller
         $this->productRepositories = $productRepositories;
     }
 
+    public function getAllData(Request $request)
+    {
+        return $this->productRepositories->getAllData($request);
+    }
+
     public function createData(ProductRequest $request)
     {
         return $this->productRepositories->createData($request);
