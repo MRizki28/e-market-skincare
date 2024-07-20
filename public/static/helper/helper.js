@@ -11,7 +11,6 @@ function clearInputForm() {
 }
 
 function paginationLink(element, params) {
-    console.log(params)
     params.data.links.forEach((link, index) => {
         if (index === 0) {
             element.append(`
@@ -367,4 +366,14 @@ function insertLineBreaks(text, wordsPerLine) {
     }
 
     return newText.trim();
+}
+
+function formatCurrency(value){
+    let numberValue = value.replace(/[^0-9]/g, '');
+    numberValue = numberWithCommas(numberValue);
+    return numberValue
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
