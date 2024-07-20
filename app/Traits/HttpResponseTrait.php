@@ -15,7 +15,7 @@ trait HttpResponseTrait
         ], $code);
     }
 
-    protected function dataNotFound($status = "success",$message = 'Data not found', $code = 404) {
+    protected function dataNotFound($status = "success",$message = 'Data not found', $code = 200) {
         return response()->json([
             'status' => $status,
             'message' => $message
