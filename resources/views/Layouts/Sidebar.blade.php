@@ -43,7 +43,13 @@
 								<i class="fa-solid fa-user"></i>
 								<p>Distributor</p>
 							</a>
-						</li>  
+						</li> 
+						<li class="nav-item {{ request()->is('product') ? 'active' : '' }}">
+							<a href="{{ url('/product') }}">
+								<i class="fa-solid fa-user"></i>
+								<p>Product</p>
+							</a>
+						</li>   
 					<ul>
 				</div>
 			</div>
