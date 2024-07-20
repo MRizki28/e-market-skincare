@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Helper\FileUpload;
 use App\Http\Requests\Product\ProductRequest;
 use App\Interfaces\ProductInterfaces;
 use App\Models\DistributorModel;
@@ -15,18 +16,20 @@ class ProductRepositories implements ProductInterfaces
 {
     protected $productModel;
     protected $distributorModel;
+    protected $fileUpload;
     use HttpResponseTrait;
 
-    public function __construct(ProductModel $productModel, DistributorModel $distributorModel)
+    public function __construct(ProductModel $productModel, DistributorModel $distributorModel, FileUpload $fileUpload)
     {
         $this->productModel = $productModel;
         $this->distributorModel = $distributorModel;
+        $this->fileUpload = $fileUpload;
     }
 
     public function getAllData(Request $request)
     {
         $search = $request->input('search');
-        $limit = $request->input('limit') ? $request->input('limit') : 11;
+        $limit = $request->input('limit') ? $request->input('limit') : 10;
         $page = (int) $request->input('page', 1);
 
         $query = $this->productModel->query();
@@ -59,13 +62,10 @@ class ProductRepositories implements ProductInterfaces
                 $data->product_name = $request->input('product_name');
                 $data->id_distributor = $distributor->id;
                 if ($request->hasFile('product_image')) {
-                    $file = $request->file('product_image');
-                    $extension = $file->getClientOriginalExtension();
-                    $filename = 'PRODUCT-' . Str::random(5) . '.' . $extension;
-                    $file->move(public_path('uploads/product'), $filename);
-                    $data->product_image = $filename;
+                    $data->product_image = $this->fileUpload->uploadFile($request->file('product_image'), 'uploads/product/', 'PRODUCT-');
                 }
                 $data->price = $request->input('price');
+                $data->description = $request->input('description');
                 $data->save();
                 return $this->success($data, 'success', 'Success create data product');
             }
@@ -93,17 +93,10 @@ class ProductRepositories implements ProductInterfaces
             } else {
                 $data->product_name = $request->input('product_name');
                 if ($request->hasFile('product_image')) {
-                    $file = $request->file('product_image');
-                    $extension = $file->getClientOriginalExtension();
-                    $filename = 'PRODUCT-' . Str::random(5) . '.' . $extension;
-                    $file->move(public_path('uploads/product'), $filename);
-                    $old_file = public_path('uploads/product/') . $data->product_image;
-                    if (file_exists($old_file)) {
-                        unlink($old_file);
-                    }
-                    $data->product_image = $filename;
+                    $data->product_image = $this->fileUpload->updateFile($request->file('product_image'), 'uploads/product/', 'PRODUCT-', $data->product_image);
                 }
                 $data->price = $request->input('price');
+                $data->description = $request->input('description');
                 $data->save();
 
                 return $this->success($data, 'success', 'Success update data product');
