@@ -16,6 +16,7 @@ class ProductModel extends Model
         'id_distibutor',
         'product_name',
         'product_image',
-        'price'
+        'price',
+        'description'
     ];
 }
