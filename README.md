@@ -1,6 +1,8 @@
 
 ## About 
-Sistem emarket skincare
+Sistem e-market skincare
+
+!!THIS SISTEM USING TWO TEMPLATING FOR ADMIN USING BLADE U CAN SEE THE FOLDER resources/views, AND THE FRONTEND USING REACT IN resources/js
 
 
 #### Installation
