@@ -67,11 +67,15 @@ class productService {
                 submitButton.attr('disabled', true)
                 const response = await axios.post('/v1/product/create', formData)
                 const responseData = await response.data
+                console.log(responseData)
                 if (responseData.status == 'success') {
                     successAlert().then(function () {
                         $('#productModal').modal('hide')
                     })
                     this.getAllData()
+                    submitButton.attr('disabled', false)
+                }else if(responseData.message == 'Data distributor not found'){
+                    distributorNotFountAlert()
                     submitButton.attr('disabled', false)
                 }
             }
