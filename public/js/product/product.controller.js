@@ -33,7 +33,7 @@ $(document).ready(function () {
 
     function showModal(editModal = false, id = '') {
         isEditMode = editModal
-        $('#modal-title').text('Edit Member');
+        $('#modal-title').text('Edit Product');
         $('.button-footer button[type="submit"]').text('Update');
 
         $('#id').val(id);
@@ -101,4 +101,18 @@ $(document).ready(function () {
         ProductServie.deleteData(id)
     });
 
+    $('#productModal').on('hidden.bs.modal', function () {
+        isEditMode = false
+        $('#id').val('')
+        $('#product_name').val('')
+        $('#price').val('')
+        $('#description').val('')
+        $('#product_image').val('')
+        $('#modal-title').text('Tambah Data');
+        $('.button-footer button[type="submit"]').text('Simpan');
+        $('.form-group').removeClass('has-error').removeClass('has-success')
+        $('.form-group').find('.error').remove()
+        $('.form-validate').remove()
+        $('#preview').attr('src', '')
+    })
 });
