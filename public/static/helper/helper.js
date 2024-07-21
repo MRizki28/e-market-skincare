@@ -306,6 +306,16 @@ function emailOrPasswordWrong() {
     });
 }
 
+function distributorNotFountAlert() {
+    Swal.fire({
+        title: 'Peringatan',
+        text: 'Data distributor belum diinputkan, silahkan inputkan data distributor terlebih dahulu!',
+        icon: 'warning',
+        timer: 5000,
+        showConfirmButton: true
+    });
+}
+
 $(document).ready(function () {
     $.validator.addMethod("fileExtension", function (value, element) {
         return this.optional(element) || /\.(docx|png|jpg|jpeg|xlsx|xls|csv|doc|pdf)$/i.test(value);
@@ -368,7 +378,7 @@ function insertLineBreaks(text, wordsPerLine) {
     return newText.trim();
 }
 
-function formatCurrency(value){
+function formatCurrency(value) {
     let numberValue = value.replace(/[^0-9]/g, '');
     numberValue = numberWithCommas(numberValue);
     return numberValue
