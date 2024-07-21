@@ -8,7 +8,7 @@
 </head>
 <body>
     @viteReactRefresh
-    @vite('resources/js/app.jsx')
+    @vite('resources/js/index.jsx')
     <div id="frontend-app"></div>
 </body>
 </html>
