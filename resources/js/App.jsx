@@ -1,11 +1,10 @@
 import React from "react";
+import AppRoute from "./routes/AppRoute";
 
 const App = () => {
     return (
-        <h1 className="font-bold">
-            Hello world!
-        </h1>
-    );
+        <AppRoute></AppRoute>
+    )
 }
 
 export default App;

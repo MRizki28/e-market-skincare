@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'basic-commersial-regular';
+    src: url('/public/static/fonts/basic-commercial/BasicCommercialLT-Black.ttf');
+}

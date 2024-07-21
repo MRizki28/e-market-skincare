@@ -6,13 +6,9 @@ use App\Http\Controllers\CMS\ProductController;
 use App\Http\Controllers\CMS\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('cms/admin/login', function () {
+Route::get('/cms/admin/login', function () {
     return view('Auth.login');
 })->name('login');
-
-Route::get('/{any}', function () {
-    return view('frontend');
-})->where('any', '.*');
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -55,3 +51,8 @@ Route::middleware(['web', 'auth'])->group(function () {
     });
     
 });
+
+
+Route::get('/{any}', function () {
+    return view('frontend');
+})->where('any', '.*');

@@ -3,9 +3,17 @@ export default {
   content: [
     "./resources/**/*.blade.php",
     './resources/js/**/*.jsx',
+    'node_modules/flowbite-react/lib/esm/**/*.js'
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        basicCommersialRegular: ['basic-commersial-regular'],
+      },
+      colors: {
+        pinkSkincare: '#FF4191'
+      }
+    },
   },
   plugins: [],
 }

@@ -110,7 +110,7 @@
                         },
                         success: function(response) {
                             console.log(response);
-                            window.location.href = '/login';
+                            window.location.href = '{{ url("cms/admin/login") }}';
                         },
                         error: function(xhr, status, error) {
                             console.log(error)
