@@ -3,6 +3,7 @@ import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import { BsCartCheck } from "react-icons/bs";
 import LogoSkincare from "../../../public/logoEskincare.png";
+import { IoSearch } from "react-icons/io5";
 
 export default function Navbar() {
     return (
@@ -26,10 +27,16 @@ export default function Navbar() {
                             <BsCartCheck className="text-2xl"></BsCartCheck>
                         </div>
                     </div>
-                    <div className="items-center justify-between hidden w-full md:block md:w-[50%] " id="navbar-cta">
-                        <div>
-                            <input type="text" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5" placeholder="Skincare" required />
-                        </div>
+                    <div className="items-center justify-between hidden w-full md:block md:w-[70%] " id="navbar-cta">
+                        <form className="max-w-2xl mx-auto">
+                            <div className="relative w-full">
+                                <input type="search" id="location-search" className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-white " placeholder="Search.." required />
+                                <button type="submit" className="absolute top-0 end-0 h-full p-2.5 text-sm font-medium text-white bg-pink-700 ">
+                                    <IoSearch className="text-xl"></IoSearch>
+                                    <span className="sr-only">Search</span>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </nav>
