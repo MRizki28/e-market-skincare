@@ -6,3 +6,14 @@
     font-family: 'basic-commersial-regular';
     src: url('/public/static/fonts/basic-commercial/BasicCommercialLT-Black.ttf');
 }
+
+body{
+    background-color: #f7f7f7;
+}
+
+@media screen and (max-width: 768px) {
+    .custom-w {
+        width: 182% !important;
+    }
+    
+}
