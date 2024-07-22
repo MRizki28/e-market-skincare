@@ -18,9 +18,9 @@ export default function Navbar() {
                         {/* <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-black">R-SKINCARE</span> */}
                     </a>
                     <div className="flex md:order-2 space-x-3 md:space-x-4 rtl:space-x-reverse">
-                        <div className="flex justify-center items-center space-x-2">
+                        <div className="flex justify-center items-center space-x-2 hover:text-red-600">
                             <CgProfile className="text-2xl"></CgProfile>
-                            <Link to="/login">Login</Link>
+                            <a href="cms/admin/login">Login</a>
                         </div>
                         <div className="border-black border"></div>
                         <div className="flex items-center">
