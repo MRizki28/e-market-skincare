@@ -9,7 +9,7 @@ class authService {
             const responseData = await response.data
             if (responseData.status == 'success') {
                 successAlert().then(function () {
-                    window.location.href = '/cms/admin'
+                    window.location.href = '/cms/admin/usermanagement'
                 })
                 submitButton.attr('disabled', false)
             }
