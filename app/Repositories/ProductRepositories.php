@@ -124,4 +124,18 @@ class ProductRepositories implements ProductInterfaces
             return $this->error($th->getMessage());
         }
     }
+
+    public function bestProduct(Request $request)
+    {
+        try {
+            $data = $this->productModel->orderBy('created_at', 'desc')->limit(5)->get();
+            if ($data->isEmpty()) {
+                return $this->dataNotFound();
+            } else {
+                return $this->success($data, 'success', 'Success get best product');
+            }
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
+    }
 }
