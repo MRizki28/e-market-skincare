@@ -40,4 +40,9 @@ class ProductController extends Controller
     {
         return $this->productRepositories->deleteData($id);
     }
+
+    public function bestProduct(Request $request)
+    {
+        return $this->productRepositories->bestProduct($request);
+    }
 }
