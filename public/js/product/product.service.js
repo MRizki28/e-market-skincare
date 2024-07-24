@@ -16,11 +16,14 @@ class productService {
         let tableBody
         if (responseData.message === 'Success get data product') {
             $.each(responseData.data.data, function (index, item) {
+                let imageUrl = "cms/admin/uploads/product/" + item.product_image;
+                let sliceUrlImage = imageUrl.replace('cms/admin', '')
+
                 tableBody += "<tr>";
                 tableBody += "<td>" + item.product_name + "</td>"
                 tableBody += "<td>" + "Rp. " + numberWithCommas(item.price) + "</td>"
                 tableBody += "<td>" + item.description + "</td>"
-                tableBody += "<td>" + "<a href='" + "uploads/product/" + item.product_image + "' target='_blank'><img src='" + "uploads/product/" + item.product_image + "' class='img-thumbnail' width='50' height='50'></a>" + "</td>"
+                tableBody += "<td><a href='" + sliceUrlImage + "' target='_blank'><img src='" + sliceUrlImage + "' class='img-thumbnail' width='50' height='50'></a></td>";
                 tableBody +=
                     "<td style='padding: 0 10px !important;'  class='text-center '>" +
                     "<button class='btn btn-sm edit-modal mr-1' data-toggle='modal' data-target='#productModal' data-id='" +
@@ -44,14 +47,12 @@ class productService {
 
     }
 
-    async createData(e, isEditMode, price) {
+    async createData(e, isEditMode) {
         let submitButton = $(e.target).find(':submit')
         try {
             let formData = new FormData(e.target)
-            formData.append('price', price)
-
+            formData.append('price', localStorage.getItem('price'))
             if (isEditMode) {
-                console.log(price)
                 let id = $('#id').val()
                 submitButton.attr('disabled', true)
                 const response = await axios.post(`/v1/product/update/${id}`, formData)
@@ -74,7 +75,7 @@ class productService {
                     })
                     this.getAllData()
                     submitButton.attr('disabled', false)
-                }else if(responseData.message == 'Data distributor not found'){
+                } else if (responseData.message == 'Data distributor not found') {
                     distributorNotFountAlert()
                     submitButton.attr('disabled', false)
                 }
@@ -90,7 +91,7 @@ class productService {
         };
     }
 
-    async getDataById(id, isEditMode, updatePrice) {
+    async getDataById(id, isEditMode) {
         try {
             const response = await axios.get(`/v1/product/get/${id}`)
             const responseData = await response.data
@@ -98,12 +99,14 @@ class productService {
                 const priceAsString = responseData.data.price.toString();
                 const formattedPrice = formatCurrency(priceAsString);
 
-                updatePrice = responseData.data.price;
+                let imageUrl = 'cms/admin/uploads/product/' + responseData.data.product_image;
+                imageUrl = imageUrl.replace('cms/admin', '');
+
+                localStorage.setItem('price', responseData.data.price);
                 $('#product_name').val(responseData.data.product_name)
                 $('#price').val(formattedPrice)
                 $('#description').val(responseData.data.description)
-                $('#preview').attr('src', "uploads/product/" + responseData.data
-                    .product_image);
+                $('#preview').attr('src', imageUrl);
 
                 $('#product_image').on('change', function () {
                     const file = $(this)[0].files[0];
@@ -114,7 +117,7 @@ class productService {
                     fileReader.readAsDataURL(file);
                 });
 
-                const fileUrl = "uploads/product/" + responseData.data.product_image;
+                const fileUrl = imageUrl;
                 const fileNames = fileUrl.split('/').pop();
                 const blob = await fetch(fileUrl).then(r => r.blob());
                 const file = new File([blob], fileNames);
