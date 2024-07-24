@@ -12,4 +12,5 @@ interface ProductInterfaces
     public function getDataById($id);
     public function updateData(ProductRequest $request, $id);
     public function deleteData($id);
+    public function bestProduct(Request $request);
 }
