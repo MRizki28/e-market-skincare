@@ -5,11 +5,9 @@ $(document).ready(function () {
     const ProductServie = new productService();
     ProductServie.getAllData();
 
-    let price = 0;
-
     $(document).on('input', '#price', function () {
         this.value = formatCurrency(this.value);
-        price = this.value.split('.').join('');
+        localStorage.setItem('price', this.value.split('.').join(''));
     })
 
     $(document).on('click', '.page-link', function (e) {
@@ -85,15 +83,13 @@ $(document).ready(function () {
 
     $('#formTambah').submit(function (e) { 
         e.preventDefault();
-        ProductServie.createData(e, isEditMode, price)
+        ProductServie.createData(e, isEditMode)
     })
 
     $(document).on('click', '.edit-modal', function () {
         isEditMode = true
         const id = $(this).data('id')
-        ProductServie.getDataById(id, showModal, function (updatePrice) {
-            price = updatePrice
-        })
+        ProductServie.getDataById(id, showModal)
     });
 
     $(document).on('click', '.delete-confirm', function () {
