@@ -11,9 +11,10 @@ Route::get('/cms/admin/login', function () {
 })->name('login');
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('best-product', [ProductController::class, 'bestProduct']);
 
 Route::middleware(['web', 'auth'])->group(function () {
-    Route::get('/cms/admin', function () {
+    Route::get('/cms/admin/usermanagement', function () {
         return view('pages.usermanagement');
     });
 
@@ -53,6 +54,7 @@ Route::middleware(['web', 'auth'])->group(function () {
 });
 
 
-Route::get('/{any}', function () {
+Route::fallback(function () {
     return view('frontend');
-})->where('any', '.*');
+});
+
