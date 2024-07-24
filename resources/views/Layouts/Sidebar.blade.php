@@ -26,26 +26,26 @@
 						</div>
 					</div>
 					<ul class="nav nav-primary">
-						<li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
-							<a href="{{ url('/') }}">
+						<li class="nav-item {{ request()->is('/cms/admin') ? 'active' : '' }}">
+							<a href="{{ url('/cms/admin') }}">
 								<i class="fa-solid fa-home"></i>
 								<p>Dashboard</p>
 							</a>
 						</li>  
-						<li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
-							<a href="{{ url('/') }}">
+						<li class="nav-item {{ request()->is('/cms/admin/usermanagement') ? 'active' : '' }}">
+							<a href="{{ url('/cms/admin/usermanagement') }}">
 								<i class="fa-solid fa-user"></i>
 								<p>User management</p>
 							</a>
 						</li>  
-						<li class="nav-item {{ request()->is('distributor') ? 'active' : '' }}">
-							<a href="{{ url('/distributor') }}">
+						<li class="nav-item {{ request()->is('/cms/admin/distributor') ? 'active' : '' }}">
+							<a href="{{ url('/cms/admin/distributor') }}">
 								<i class="fa-solid fa-user"></i>
 								<p>Distributor</p>
 							</a>
 						</li> 
-						<li class="nav-item {{ request()->is('product') ? 'active' : '' }}">
-							<a href="{{ url('/product') }}">
+						<li class="nav-item {{ request()->is('cms/admin/product') ? 'active' : '' }}">
+							<a href="{{ url('cms/admin/product') }}">
 								<i class="fa-solid fa-user"></i>
 								<p>Product</p>
 							</a>
