@@ -1,25 +1,24 @@
-import React from "react";
-import ProductImg from "../../../../../public/product.webp"
+import React, { useEffect, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { BsCartCheck } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import bestProductScript from "../../../scripts/home/bestProductScript";
 
 export default function BestProduct() {
-    const products = [
-        {
-            "name": "Product 1",
-            "price": 100000,
-            "description": "Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.",
-            "image": { ProductImg }
-        }
-    ]
-    const result = []
+    const [data, setData] = useState([]);
 
-    for (let product = 0; product <= 4; product++) {
-        result.push({ ...products[0] })
+    const getBestProduct = async () => {
+        const product = await bestProductScript.getBestProduct();
+        setData(product);
+    };
+
+    const handleAddToCart = (product) => {
+        bestProductScript.handleAddToCart(product);
     }
 
-    console.log(result)
+    useEffect(() => {
+        getBestProduct();
+    }, []);
 
     return (
         <div className="max-w-screen-xl mx-auto">
@@ -28,35 +27,37 @@ export default function BestProduct() {
                     <h1 className="text-left font-basicCommersialRegular text-2xl">BEST PRODUCT</h1>
                 </div>
                 <div className="ml-auto text-center">
-                    <Link to="/" className="hover:text-red-500"><h3>View All</h3></Link>
+                    <Link to="/" className="hover:text-red-500">
+                        <h3>View All</h3>
+                    </Link>
                 </div>
             </div>
-            <div className="grid grid-cols-1 gap-y-1 md:grid-cols-5">
-                {...result.map((product, index) => (
-                    <div key={index} className="max-w-xl md:max-w-60 bg-white border">
+            <div className="grid grid-cols-1 gap-y-4 gap-2 md:grid-cols-5">
+                {data.map((product, index) => (
+                    <div key={index} className="bg-white border flex flex-col max-w-xl md:max-w-xs">
                         <a href="#">
                             <LazyLoadImage
                                 alt="product"
-                                src={product.image.ProductImg}
+                                src={`uploads/product/${product.product_image}`}
                                 effect="blur"
-                                wrapperProps={
-                                    { style: { transitionDelay: "1s" } }
-                                }>
-                            </LazyLoadImage>
+                                className="w-full h-60 object-cover"
+                                wrapperProps={{ style: { transitionDelay: "1s" } }}
+                            />
                         </a>
-                        <div className="p-5 font-basicCommersialRegular">
+                        <div className="p-5 flex flex-col flex-grow">
                             <a href="#">
                                 <h5 className="mb-2 text-xl font-bold tracking-tight text-red-600">{product.price}</h5>
                             </a>
                             <p className="mb-3 font-normal text-[12px] text-[#432883]">{product.description}</p>
-                            <div className="">
-                                <button className="bg-red-600 text-white p-2 text-sm rounded-md w-full flex justify-center hover:bg-red-800">+<BsCartCheck className="text-xl text-center"></BsCartCheck></button>
+                            <div className="mt-auto">
+                                <button onClick={handleAddToCart} className="bg-red-600 text-white p-2 text-sm rounded-md w-full flex justify-center hover:bg-red-800">
+                                    +<BsCartCheck className="text-xl" />
+                                </button>
                             </div>
                         </div>
                     </div>
                 ))}
             </div>
-
         </div>
-    )
+    );
 }
