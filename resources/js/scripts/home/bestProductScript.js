@@ -26,12 +26,13 @@ class bestProductScript {
     }
 
     static handleAddToCart(product){
-        if (!localStorage.getItem('token')) {
-            confirm('You must login first to add product to cart')
-            if (confirm) {
+        const token = localStorage.getItem('token')
+        if (!token || !token.startsWith('Bearer')) {
+            if (confirm('Please login if you want to add to cart') == true) {
                 window.location.href = '/login'
+            }else{
+                return
             }
-            return
         }
 
         console.log(product)
