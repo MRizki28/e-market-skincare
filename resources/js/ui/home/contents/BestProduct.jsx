@@ -35,7 +35,7 @@ export default function BestProduct() {
             <div className="grid grid-cols-1 gap-y-4 gap-2 md:grid-cols-5">
                 {data.map((product, index) => (
                     <div key={index} className="bg-white border flex flex-col max-w-xl md:max-w-xs">
-                        <a href="#">
+                        <Link to={`/detail-product/${product.product_name}`}>
                             <LazyLoadImage
                                 alt="product"
                                 src={`uploads/product/${product.product_image}`}
@@ -43,11 +43,11 @@ export default function BestProduct() {
                                 className="w-full h-60 object-cover"
                                 wrapperProps={{ style: { transitionDelay: "1s" } }}
                             />
-                        </a>
+                        </Link>
                         <div className="p-5 flex flex-col flex-grow">
-                            <a href="#">
+                            <Link to={`/detail-product/${product.product_name}`}>
                                 <h5 className="mb-2 text-xl font-bold tracking-tight text-red-600">{product.price}</h5>
-                            </a>
+                            </Link>
                             <p className="mb-3 font-normal text-[12px] text-[#432883]">{product.description}</p>
                             <div className="mt-auto">
                                 <button onClick={handleAddToCart} className="bg-red-600 text-white p-2 text-sm rounded-md w-full flex justify-center hover:bg-red-800">
