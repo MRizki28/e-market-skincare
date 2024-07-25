@@ -5,11 +5,13 @@ import Hero from "./contents/Hero";
 
 export function Home() {
     return (
-        <>
-            <Navbar></Navbar>
-            <Hero></Hero>
-            <BestProduct></BestProduct>
-            <Footer></Footer>
-        </> 
-    )
+        <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-grow">
+                <Hero />
+                <BestProduct />
+            </main>
+            <Footer />
+        </div>
+    );
 }
