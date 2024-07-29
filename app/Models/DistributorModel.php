@@ -15,6 +15,7 @@ class DistributorModel extends Model
         'id_user',
         'name_distributor',
         'address',
-        'phone_number'
+        'phone_number',
+        'description'
     ];
 }
