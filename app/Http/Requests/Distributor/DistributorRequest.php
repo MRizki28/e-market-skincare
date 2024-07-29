@@ -26,6 +26,7 @@ class DistributorRequest extends FormRequest
         return [
             'name_distributor' => 'required',
             'address' => 'required',
+            'description' => 'required|min:200',
             'phone_number' => 'required',
         ];
     }
