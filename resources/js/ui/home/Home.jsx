@@ -1,6 +1,6 @@
 import { Footer } from "../../baseComponents/Footer";
 import Navbar from "../../baseComponents/Navbar";
-import BestProduct from "./contents/BestProduct";
+import BestProduct from "./contents/Product";
 import Hero from "./contents/Hero";
 
 export function Home() {
