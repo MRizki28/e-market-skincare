@@ -48,7 +48,7 @@ class userManagementService {
             if (isEditMode) {
                 let id = $('#id').val()
                 submitButton.attr('disabled', true)
-                const response = await axios.post(`/v1/user/update/${id}`, formData)
+                const response = await axios.post(`${appUrl}/v1/user/update/${id}`, formData)
                 const responseData = await response.data
                 if (responseData.status == 'success') {
                     successUpdateAlert().then(function () {
@@ -59,7 +59,7 @@ class userManagementService {
                 }
             } else {
                 submitButton.attr('disabled', true)
-                const response = await axios.post('/v1/user/register', formData)
+                const response = await axios.post(`${appUrl}/v1/user/register`, formData)
                 const responseData = await response.data
                 if (responseData.status == 'success') {
                     successAlert().then(function () {
@@ -84,7 +84,7 @@ class userManagementService {
 
     async getDataById(id, isEditMode) {
         try {
-            const response = await axios.get('/v1/user/get/' + id)
+            const response = await axios.get(`${appUrl}/v1/user/get/` + id)
             const responseData = await response.data
             if (responseData.status == 'success') {
                 isEditMode(true, responseData.data.id)
@@ -97,7 +97,7 @@ class userManagementService {
 
     async deleteData(id) {
         try {
-            const response = await axios.delete('/v1/user/delete/' + id)
+            const response = await axios.delete(`${appUrl}/v1/user/delete/` + id)
             deleteAlert().then(async (result) => {
                 if (result.isConfirmed) {
                     const responseData = await response.data
