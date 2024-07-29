@@ -20,10 +20,8 @@ services:
         volumes:
             - dbdata:/var/lib/mysql
         environment:
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-            MYSQL_DATABASE: ${DB_DATABASE}
-            MYSQL_USER: ${DB_USERNAME}
-            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${DB_DATABASE}   
         ports:
             - 33061:3306
 
@@ -43,7 +41,7 @@ services:
         image: phpmyadmin/phpmyadmin
         environment:
             PMA_HOST: database
-            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         ports:
         - 8083:80
         depends_on:
