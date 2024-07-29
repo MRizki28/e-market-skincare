@@ -40,6 +40,7 @@ export default function BestProduct() {
                 </div>
             </div>
             {data.length === 0 ? (
+                
                 <div className="text-center mt-10">
                     <span className="text-lg text-gray-500">Data not found</span>
                 </div>
