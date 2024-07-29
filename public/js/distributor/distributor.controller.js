@@ -4,10 +4,7 @@ $(document).ready(function () {
     const DistributorService = new distributorService()
 
     DistributorService.renderData();
-    $('#formDistributor').submit(function (e) {
-        e.preventDefault();
-        DistributorService.createAndUpdate(e);
-    })
+   
 
     function validation() {
         $('#formDistributor').validate({
@@ -20,6 +17,10 @@ $(document).ready(function () {
                 },
                 address: {
                     required: true
+                },
+                description: {
+                    required: true,
+                    minlength: 200
                 }
             },
             messages: {
@@ -31,6 +32,10 @@ $(document).ready(function () {
                 },
                 address: {
                     required: 'Alamat tidak boleh kosong'
+                },
+                description: {
+                    required: 'Deskripsi tidak boleh kosong',
+                    minlength: 'Deskripsi minimal 200 karakter'
                 }
             },
             highlight: function (element) {
@@ -43,5 +48,14 @@ $(document).ready(function () {
         })
     }
 
+    $('#name_distributor, #phone_number, #address, #description').on('input', function () {
+        $(this).valid();
+    })
+
     validation()
+
+    $('#formDistributor').submit(function (e) {
+        e.preventDefault();
+        DistributorService.createAndUpdate(e);
+    })
 });
