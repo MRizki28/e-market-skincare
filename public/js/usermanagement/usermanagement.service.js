@@ -8,6 +8,7 @@ class userManagementService {
         let params = $("#form-search").val();
         let endpoint = paramsUrl(url || '/v1/user', { search: params });
         const response = await axios.get(endpoint);
+        console.log(response)
         const responseData = await response.data;
 
         table.empty()
