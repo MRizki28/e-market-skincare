@@ -46,6 +46,7 @@ class DistributorRepositories implements DistributorInterfaces
                     'name_distributor' => $request->input('name_distributor'),
                     'address' => $request->input('address'),
                     'phone_number' => $request->input('phone_number'),
+                    'description' => $request->input('description')
                 ]
             );
 
