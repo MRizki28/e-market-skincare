@@ -16,14 +16,17 @@ class productService {
         let tableBody
         if (responseData.message === 'Success get data product') {
             $.each(responseData.data.data, function (index, item) {
-                let imageUrl = "cms/admin/uploads/product/" + item.product_image;
-                let sliceUrlImage = imageUrl.replace('cms/admin', '')
-
                 tableBody += "<tr>";
                 tableBody += "<td>" + item.product_name + "</td>"
                 tableBody += "<td>" + "Rp. " + numberWithCommas(item.price) + "</td>"
                 tableBody += "<td>" + item.description + "</td>"
-                tableBody += "<td><a href='" + sliceUrlImage + "' target='_blank'><img src='" + sliceUrlImage + "' class='img-thumbnail' width='50' height='50'></a></td>";
+                tableBody += `
+                <td>
+                    <a href="${appUrl}/uploads/product/${item.product_image}" target="_blank">
+                        <img src="${appUrl}/uploads/product/${item.product_image}" class="img-thumbnail" width="50" height="50">
+                    </a>
+                </td>
+                `;
                 tableBody +=
                     "<td style='padding: 0 10px !important;'  class='text-center '>" +
                     "<button class='btn btn-sm edit-modal mr-1' data-toggle='modal' data-target='#productModal' data-id='" +
@@ -55,7 +58,7 @@ class productService {
             if (isEditMode) {
                 let id = $('#id').val()
                 submitButton.attr('disabled', true)
-                const response = await axios.post(`/v1/product/update/${id}`, formData)
+                const response = await axios.post(`${appUrl}/v1/product/update/${id}`, formData)
                 const responseData = await response.data
                 if (responseData.status == 'success') {
                     successUpdateAlert().then(function () {
@@ -66,7 +69,7 @@ class productService {
                 }
             } else {
                 submitButton.attr('disabled', true)
-                const response = await axios.post('/v1/product/create', formData)
+                const response = await axios.post(`${appUrl}/v1/product/create`, formData)
                 const responseData = await response.data
                 console.log(responseData)
                 if (responseData.status == 'success') {
@@ -93,20 +96,17 @@ class productService {
 
     async getDataById(id, isEditMode) {
         try {
-            const response = await axios.get(`/v1/product/get/${id}`)
+            const response = await axios.get(`${appUrl}/v1/product/get/${id}`)
             const responseData = await response.data
             if (responseData.status == 'success') {
                 const priceAsString = responseData.data.price.toString();
                 const formattedPrice = formatCurrency(priceAsString);
 
-                let imageUrl = 'cms/admin/uploads/product/' + responseData.data.product_image;
-                imageUrl = imageUrl.replace('cms/admin', '');
-
                 localStorage.setItem('price', responseData.data.price);
                 $('#product_name').val(responseData.data.product_name)
                 $('#price').val(formattedPrice)
                 $('#description').val(responseData.data.description)
-                $('#preview').attr('src', imageUrl);
+                $('#preview').attr('src', `${appUrl}/uploads/product/${responseData.data.product_image}`);
 
                 $('#product_image').on('change', function () {
                     const file = $(this)[0].files[0];
@@ -117,7 +117,7 @@ class productService {
                     fileReader.readAsDataURL(file);
                 });
 
-                const fileUrl = imageUrl;
+                const fileUrl = `${appUrl}/uploads/product/${responseData.data.product_image}`;
                 const fileNames = fileUrl.split('/').pop();
                 const blob = await fetch(fileUrl).then(r => r.blob());
                 const file = new File([blob], fileNames);
@@ -133,7 +133,7 @@ class productService {
 
     async deleteData(id) {
         try {
-            const response = await axios.delete('/v1/product/delete/' + id)
+            const response = await axios.delete(`${appUrl}/v1/product/delete` + id)
             deleteAlert().then(async (result) => {
                 if (result.isConfirmed) {
                     const responseData = await response.data
