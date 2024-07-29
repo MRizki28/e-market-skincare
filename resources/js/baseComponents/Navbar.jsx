@@ -19,7 +19,7 @@ export default function Navbar() {
                     <div className="flex md:order-2 space-x-3 md:space-x-4 rtl:space-x-reverse text-white">
                         <div className="flex justify-center items-center space-x-2 hover:text-greyText">
                             <CgProfile className="text-2xl"></CgProfile>
-                            <a href="cms/admin/login">Login</a>
+                            <a href={`${appUrl}/cms/admin/login`}>Login</a>
                         </div>
                         <div className="hidden lg:block border-white border"></div>
                         <div className="hidden lg:block">
