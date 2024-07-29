@@ -8,20 +8,26 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="name_distributor">Name Distributor</label>
+                                <label for="name_distributor">Nama Distributor</label>
                                 <input type="text" class="form-control" name="name_distributor" id="name_distributor" placeholder="Input here">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="phone_number">Phone number</label>
+                                <label for="phone_number">Nomor Handphone</label>
                                 <input type="number" class="form-control" name="phone_number" id="phone_number" placeholder="Input here">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="address">Address</label>
+                                <label for="address">Alamat Lengkap</label>
                                 <textarea class="form-control" name="address" id="address" placeholder="Input here" rows="4" cols="50"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="description">Deskripsi</label>
+                                <textarea class="form-control" name="description" id="description" placeholder="Input here" rows="4" cols="50"></textarea>
                             </div>
                         </div>
                     </div>
