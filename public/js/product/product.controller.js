@@ -52,21 +52,23 @@ $(document).ready(function () {
                     required: true
                 },
                 description: {
-                    required: true
+                    required: true,
+                    minlength:50
                 }
             },
             messages: {
                 product_name: {
-                    required: 'Product name cannot be empty'
+                    required: 'Product name tidak boleh kosong'
                 },
                 price: {
-                    required: 'Price cannot be empty'
+                    required: 'Price tidak boleh kosong'
                 },
                 product_image: {
-                    required: 'Product image cannot be empty'
+                    required: 'Product image tidak boleh kosong'
                 },
                 description: {
-                    required: 'Description cannot be empty'
+                    required: 'Description tidak boleh kosong',
+                    minlength: 'Description minimal 50 karakter'
                 }
             },
             highlight: function (element) {
@@ -80,6 +82,14 @@ $(document).ready(function () {
     }
 
     validation()
+
+    $('#product_name, #price, #description').on('input', function () {
+        $(this).valid();
+    })
+
+    $('#product_image').on('change', function () {
+        $(this).valid();
+    })
 
     $('#formTambah').submit(function (e) { 
         e.preventDefault();
