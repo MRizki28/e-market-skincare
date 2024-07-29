@@ -8,6 +8,8 @@ class bestProductScript {
             const responseData = await response.data
             if (responseData.message == 'Success get best product') {
                 return responseData.data.map(product => bestProductScript.formatCurrency(product))
+            }else{
+                return []
             }
         } catch (error) {
             console.log(error);
