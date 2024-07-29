@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignUuid('id_user')->constrained('users')->onDelete('cascade');
             $table->string('name_distributor', 50);
             $table->text('address');
+            $table->text('description');
             $table->string('phone_number', 50);
             $table->timestamps();
         });
