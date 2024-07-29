@@ -5,6 +5,10 @@ import { RiBankCardFill, RiMoneyDollarBoxFill } from "react-icons/ri";
 import { LuPackageCheck } from "react-icons/lu";
 import { FaMotorcycle } from "react-icons/fa";
 import { MdMonetizationOn } from "react-icons/md";
+import DistributorImg from '../../../../../public/distributor.webp';
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import { CiShop } from "react-icons/ci";
+
 export function Detail() {
     return (
         <div className="max-w-screen-xl p-4 mx-auto">
@@ -85,6 +89,48 @@ export function Detail() {
                     </div>
                 </div>
             </div>
+
+            <div className="border bg-white rounded-xl mt-5">
+            <div className="flex flex-col md:flex-row p-5 space-y-4 md:space-y-0 md:space-x-10">
+                <div className="flex items-center space-x-4">
+                    <LazyLoadImage
+                        src={DistributorImg}
+                        className="rounded-full w-20 h-20 object-cover"
+                        effect="blur"
+                        wrapperProps={{ style: { transitionDelay: "1s" } }}
+                    />
+                    <div className="flex flex-col justify-center">
+                        <span className="text-brownSkincare font-bold text-lg">Rizki Skincare</span>
+                        <div className="flex space-x-3 mt-2">
+                            <button className="border border-brownSkincare px-4 py-2 bg-orange-100 hover:bg-white flex items-center space-x-2">
+                                <IoChatboxEllipsesOutline className="text-xl text-orange-700" />
+                                <span className="hidden md:inline">Chat</span>
+                            </button>
+                            <button className="border px-4 py-2 hover:bg-gray-200 flex items-center space-x-2">
+                                <CiShop className="text-xl text-orange-700" />
+                                <span className="hidden md:inline">Shop</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div className="border border-gray-200 "></div>
+                <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:space-x-5 md:ml-4">
+                    <div className="flex justify-between md:space-x-3">
+                        <span>Produk</span>
+                        <span className="text-brownSkincare">40</span>
+                    </div>
+                    <div className="flex justify-between md:space-x-3">
+                        <span>Presentasi chat</span>
+                        <span className="text-brownSkincare">100%</span>
+                    </div>
+                    <div className="flex justify-between md:space-x-3">
+                        <span>Waktu chat dibalas</span>
+                        <span className="text-brownSkincare">Hitungan jam</span>
+                    </div>
+                </div>
+            </div>
         </div>
+        </div>
+
     );
 }
