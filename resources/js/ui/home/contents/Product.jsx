@@ -3,6 +3,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { BsCartCheck } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import bestProductScript from "../../../scripts/home/bestProductScript";
+import { truncateText } from "../../../helper/truncateText";
 
 export default function BestProduct() {
     const [data, setData] = useState([]);
@@ -21,6 +22,10 @@ export default function BestProduct() {
     }, []);
 
     const hasData = data.length > 0;
+
+    const resultTrancentText = data.map((product) => 
+        truncateText(product.description, 50)
+    );
 
     return (
         <div className="max-w-screen-xl mx-auto">
@@ -56,7 +61,7 @@ export default function BestProduct() {
                                 <Link to={`/detail-product/${product.product_name}`}>
                                     <h5 className="mb-2 text-xl font-bold tracking-tight text-brownSkincare">{product.price}</h5>
                                 </Link>
-                                <p className="mb-3 font-normal text-[12px] text-black">{product.description}</p>
+                                <p className="mb-3 font-normal text-[12px] text-black">{resultTrancentText}</p>
                                 <div className="mt-auto">
                                     <button 
                                         onClick={() => handleAddToCart(product)} 
