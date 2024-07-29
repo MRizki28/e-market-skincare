@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Frontend</title>
+    <script>
+        let appUrl = '{{ env('API_URL_BE') }}';
+   </script>
 </head>
 <body>
     @viteReactRefresh
