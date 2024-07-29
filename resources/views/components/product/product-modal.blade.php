@@ -16,12 +16,12 @@
                             <img src="" alt="" id="preview" class="mx-auto d-block pb-2"
                                 style="max-width: 200px; padding-top: 23px">
                             <div class="form-group form-show-validation">
-                                <label for="product_name">Product Name</label>
+                                <label for="product_name">Nama Produk</label>
                                 <input type="text" class="form-control" name="product_name" id="product_name"
                                     placeholder="Input here">
                             </div>
                             <div class="form-group form-show-validation">
-                                <label for="price">Price</label>
+                                <label for="price">Harga</label>
                                 <input type="text" class="form-control" name="price" id="price"
                                     placeholder="Rp.">
                             </div>
@@ -31,7 +31,7 @@
                             </div>
 
                             <div class="form-group form-show-validation">
-                                <label for="description">Description</label>
+                                <label for="description">Deskripsi</label>
                                 <textarea class="form-control" name="description" id="description" placeholder="Input here" rows="4" cols="50"></textarea>
                             </div>
 
