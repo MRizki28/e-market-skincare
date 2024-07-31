@@ -13,6 +13,8 @@ export default {
       colors: {
         brownSkincare: '#e18c44',
         greyText: '#4c4848',
+        semiBlack: '#333333',
+        priceColor: '#d43232'
       }
     },
   },
