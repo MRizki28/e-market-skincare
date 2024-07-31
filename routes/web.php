@@ -12,6 +12,7 @@ Route::get('/cms/admin/login', function () {
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('best-product', [ProductController::class, 'bestProduct']);
+Route::get('product-detail/{id}', [ProductController::class, 'getDataById']);
 
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/cms/admin/usermanagement', function () {
