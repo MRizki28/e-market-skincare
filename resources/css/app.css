@@ -4,7 +4,8 @@
 
 @font-face {
     font-family: 'basic-commersial-regular';
-    src: url('/public/static/fonts/basic-commercial/BasicCommercialLT-Black.ttf');
+    src: url('/public/static/fonts/basic-commercial/BasicCommercialLT-Black.ttf') format('truetype');
+    font-display: swap;
 }
 
 body{
