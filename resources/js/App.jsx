@@ -1,10 +1,14 @@
-import React from "react";
-import AppRoute from "./routes/AppRoute";
+import React, { Suspense, lazy } from 'react';
+
+// Lazy load AppRoute
+const AppRoute = lazy(() => import('./routes/AppRoute'));
 
 const App = () => {
     return (
-        <AppRoute></AppRoute>
-    )
+        <Suspense fallback={<div>Loading...</div>}>
+            <AppRoute />
+        </Suspense>
+    );
 }
 
 export default App;
