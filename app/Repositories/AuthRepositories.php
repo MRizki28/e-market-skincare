@@ -28,13 +28,16 @@ class AuthRepositories implements AuthInterfaces
                     'message' => 'email or password is incorrect',
                 ], 401);
             }else{
-                $user = $this->userModel->where('email', $request->email)->first();
+                $user = $this->userModel->with('profile')->where('email', $request->email)->first();
                 $token = $user->createToken('token')->plainTextToken;
                 return response()->json([
                     'status' => 'success',
                     'message' => 'login success',
                     'data' => [
-                        'name' => $user->email,
+                        'name' => $user->profile->name,
+                        'address' => $user->profile->personal_address,
+                        'phone_number' => $user->profile->personal_phone_number,
+                        'email' => $user->email,
                         'token' => $token,
                     ]
                 ], 200);
