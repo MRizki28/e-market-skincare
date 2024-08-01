@@ -60,6 +60,7 @@ class ProductRepositories implements ProductInterfaces
             } else {
                 $data = new $this->productModel;
                 $data->product_name = $request->input('product_name');
+                $data->product_code = '#'. Str::random(5);
                 $data->id_distributor = $distributor->id;
                 if ($request->hasFile('product_image')) {
                     $data->product_image = $this->fileUpload->uploadFile($request->file('product_image'), 'uploads/product/', 'PRODUCT-');
@@ -98,7 +99,6 @@ class ProductRepositories implements ProductInterfaces
                 $data->price = $request->input('price');
                 $data->description = $request->input('description');
                 $data->save();
-
                 return $this->success($data, 'success', 'Success update data product');
             }
         } catch (\Throwable $th) {
