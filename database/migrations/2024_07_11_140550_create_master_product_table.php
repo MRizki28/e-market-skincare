@@ -14,16 +14,11 @@ return new class extends Migration
         Schema::create('tb_product', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('id_distributor')->constrained('tb_distributor')->onDelete('cascade');
+            $table->string('product_code', 50);
             $table->string('product_name', 50);
             $table->string('product_image');
             $table->integer('price');
             $table->text('description');
-            $table->timestamps();
-        });
-
-        Schema::create('tb_cart', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('id_product', 50);
             $table->timestamps();
         });
     }
@@ -34,6 +29,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('tb_product');
-        Schema::dropIfExists('tb_cart');
     }
 };
