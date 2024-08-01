@@ -36,6 +36,8 @@ export function Detail() {
         }
     }
 
+    const dataUser = JSON.parse(localStorage.getItem('infoUser'));
+
     useEffect(() => {
         getDataById();
     }, [])
@@ -51,7 +53,7 @@ export function Detail() {
                     <div className="font-basicCommersialRegular w-full md:w-1/2 lg:w-2/5 mb-4 md:mb-0 ">
                         <div>
                             <h1 className="text-sm text-semiBlack font-bold">{data.product_name}</h1>
-                            <span className="text-[12px] text-greyText">Kode produk: 1234567</span>
+                            <span className="text-[12px] text-greyText">{data.product_code}</span>
                         </div>
                         <div className="mt-2">
                             <span className="text-sm text-priceColor">{data.priceFormat}</span>
@@ -60,25 +62,20 @@ export function Detail() {
                         <div className="mt-2">
                             <form action="">
                                 <div>
-                                    <input type="text" id="disabled-input" aria-label="disabled input" class="mb-5 bg-gray-100 border border-gray-300 text-sm rounded-lg   block w-full p-2.5 cursor-not-allowed dark:bg-gray-300 dark:border-[#e8e8e8] dark:placeholder-[#e8e8e8] dark:text-gray-400" value="Muhammad Rizki" disabled />
+                                    <input type="text" id="name" aria-label="disabled input" className="mb-5 bg-gray-100 border border-gray-300 text-sm rounded-lg   block w-full p-2.5 cursor-not-allowed dark:bg-gray-300 dark:border-[#e8e8e8] dark:placeholder-[#e8e8e8] dark:text-gray-400" value={dataUser.name}  disabled />
                                 </div>
                                 <div>
-                                    <input type="text" id="disabled-input" aria-label="disabled input" class="mb-5 bg-gray-100 border border-gray-300 text-sm rounded-lg   block w-full p-2.5 cursor-not-allowed dark:bg-gray-300 dark:border-[#e8e8e8] dark:placeholder-[#e8e8e8] dark:text-gray-400" value="Muhammad Rizki" disabled />
+                                    <input type="text" id="address" aria-label="disabled input" className="mb-5 bg-gray-100 border border-gray-300 text-sm rounded-lg   block w-full p-2.5 cursor-not-allowed dark:bg-gray-300 dark:border-[#e8e8e8] dark:placeholder-[#e8e8e8] dark:text-gray-400" value={dataUser.address}   disabled />
                                 </div>
                                 <div>
-                                    <input type="number" id="number" class="shadow-sm bg-gray-50 border border-gray-500 text-black text-sm rounded-lg block w-full p-2.5  dark:placeholder-gray-400 " placeholder="1" required />
+                                    <input type="number" id="number" className="shadow-sm bg-gray-50 border border-gray-500 text-black text-sm rounded-lg block w-full p-2.5  dark:placeholder-gray-400 " placeholder="1" required />
                                 </div>
                             </form>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-3 mt-11">
+                        <div className="mt-5">
                             <div>
-                                <button className="bg-brownSkincare text-white p-2 text-sm rounded-md w-full flex justify-center hover:bg-orange-500">
-                                    +<BsCartCheck className="text-xl" />
-                                </button>
-                            </div>
-                            <div>
-                                <button className="bg-blue-500 text-white p-2 text-sm rounded-md w-full flex justify-center hover:bg-blue-600">
+                                <button className="bg-black text-white p-2 text-sm rounded-md w-full flex justify-center hover:bg-gray-700">
                                     +<RiMoneyDollarBoxFill className="text-xl" />
                                 </button>
                             </div>
@@ -103,7 +100,7 @@ export function Detail() {
                             </h2>
                             <div id="accordion-flush-body-1" className={`${openAcording[1] ? 'block' : 'hidden'}`} aria-labelledby="accordion-flush-heading-1">
                                 <div className="py-5 border-b border-gray-200 dark:border-gray-400">
-                                    <p className="mb-2 text-gray-500 dark:text-gray-400 text-[12px]">{data.description}</p>
+                                    <p className="mb-2 text-black dark:text-black text-[12px]">{data.description}</p>
                                 </div>
                             </div>
                             <h2 id="accordion-flush-heading-2">
@@ -117,7 +114,7 @@ export function Detail() {
                                 >
                                     <span>Pengiriman</span>
                                     {openAcording[2] ? (
-                                        <FiMinus className="w-3 h-3 transform shrink-0" aria-hidden="true" />
+                                        <FiMinus className="w-3 h-3 transform shrink-0 " aria-hidden="true" />
                                     ) : (
                                         <FaPlus className="w-3 h-3 transform shrink-0" aria-hidden="true" />
                                     )}
@@ -128,11 +125,11 @@ export function Detail() {
                                     <div className="flex flex-col sm:flex-row sm:gap-5">
                                         <div className="flex items-center gap-2 mt-3">
                                             <FaMotorcycle className="text-sm text-green-500" />
-                                            <span className="text-gray-400 text-sm">Ojek</span>
+                                            <span className="text-black text-sm">Ojek</span>
                                         </div>
                                         <div className="flex items-center gap-2 mt-3">
                                             <LuPackageCheck className="text-sm text-orange-500" />
-                                            <span className="text-gray-400 text-sm">COD</span>
+                                            <span className="text-black text-sm">COD</span>
                                         </div>
                                     </div>
                                 </div>
