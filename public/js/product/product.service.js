@@ -17,9 +17,10 @@ class productService {
         if (responseData.message === 'Success get data product') {
             $.each(responseData.data.data, function (index, item) {
                 tableBody += "<tr>";
+                tableBody += "<td>" + item.product_code + "</td>"
                 tableBody += "<td>" + item.product_name + "</td>"
                 tableBody += "<td>" + "Rp. " + numberWithCommas(item.price) + "</td>"
-                tableBody += "<td>" + item.description + "</td>"
+                tableBody += "<td class='text-center'>" + insertLineBreaks(item.description, 15) + "</td>"
                 tableBody += `
                 <td>
                     <a href="${appUrl}/uploads/product/${item.product_image}" target="_blank">
