@@ -9,6 +9,7 @@
             <x-base-table initId="table">
                 <x-slot name="thead">
                     <tr class="text-center">
+                        <th>Kode</th>
                         <th>Nama produk</th>
                         <th>Harga</th>
                         <th>Deskripsi</th>
