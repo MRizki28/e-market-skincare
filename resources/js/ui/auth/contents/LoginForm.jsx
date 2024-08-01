@@ -10,13 +10,21 @@ export function LoginForm() {
         try {
             const response = await axios.post('/login', data)
             const responseData = response.data
-            if(responseData.message == 'login success') {
+            console.log(responseData)
+            if (responseData.message == 'login success') {
                 alert('Login berhasil')
-                localStorage.setItem('token', responseData.data.token)  
+                localStorage.setItem('token', responseData.data.token);
+
+                localStorage.setItem('infoUser', JSON.stringify({
+                    'name': responseData.data.name,
+                    'email': responseData.data.email,
+                    'address': responseData.data.address,
+                    'phone': responseData.data.phone_number,
+                }))
                 window.location.href = '/'
             }
         } catch (error) {
-            if(error.response.status == 401) {
+            if (error.response.status == 401) {
                 alert('Email atau password salah')
             }
             console.log(error)
@@ -46,9 +54,8 @@ export function LoginForm() {
                                         type="email"
                                         id="email"
                                         {...register("email", { required: "Email wajib diisi" })}
-                                        className={`mt-1 p-2 w-full border rounded-md   outline-none transition-colors duration-300 ${
-                                            errors.email ? 'border-red-500' : 'border-gray-300'
-                                        }`}
+                                        className={`mt-1 p-2 w-full border rounded-md   outline-none transition-colors duration-300 ${errors.email ? 'border-red-500' : 'border-gray-300'
+                                            }`}
                                     />
                                     {errors.email && (
                                         <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
@@ -60,9 +67,8 @@ export function LoginForm() {
                                         type="password"
                                         id="password"
                                         {...register("password", { required: "Password is required" })}
-                                        className={`mt-1 p-2 w-full border rounded-md   outline-none transition-colors duration-300 ${
-                                            errors.password ? 'border-red-500' : 'border-gray-300'
-                                        }`}
+                                        className={`mt-1 p-2 w-full border rounded-md   outline-none transition-colors duration-300 ${errors.password ? 'border-red-500' : 'border-gray-300'
+                                            }`}
                                     />
                                     {errors.password && (
                                         <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
