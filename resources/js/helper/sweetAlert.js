@@ -15,6 +15,15 @@ class SweetAlertService {
             reverseButtons: true,
         });
     }
+
+    static async sessionExpired() {
+        return MySwal.fire({
+            title: 'Session Expired',
+            text: 'Sesi anda telah berakhir, silahkan login kembali',
+            icon: 'warning',
+            confirmButtonText: 'OK',
+        });
+    }
 }
 
 export default SweetAlertService;
