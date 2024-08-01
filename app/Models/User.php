@@ -18,4 +18,9 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+
+    public function profile()
+    {
+        return $this->hasOne(ProfileModel::class, 'id_user', 'id');
+    }
 }
