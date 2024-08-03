@@ -2,9 +2,12 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import loginBackground from "../../../../../public/loginBackground.jpg";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { login } from "../../../redux/slices/checkLogin";
 
 export function LoginForm() {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const dispatch = useDispatch();
 
     const onSubmit = async (data) => {
         try {
@@ -14,7 +17,7 @@ export function LoginForm() {
             if (responseData.message == 'login success') {
                 alert('Login berhasil')
                 localStorage.setItem('token', responseData.data.token);
-
+                dispatch(login())
                 localStorage.setItem('infoUser', JSON.stringify({
                     'name': responseData.data.name,
                     'email': responseData.data.email,
@@ -24,7 +27,7 @@ export function LoginForm() {
                 window.location.href = '/'
             }
         } catch (error) {
-            if (error.response.status == 401) {
+            if (error.response && error.response.status === 401) {
                 alert('Email atau password salah')
             }
             console.log(error)
