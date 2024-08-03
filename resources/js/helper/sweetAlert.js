@@ -16,6 +16,60 @@ class SweetAlertService {
         });
     }
 
+    static async successRegister() {
+        return MySwal.fire({
+            title: 'Registrasi Berhasil',
+            text: 'Registrasi berhasil, silahkan login',
+            icon: 'success',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    static async successLogin() {
+        return MySwal.fire({
+            title: 'Login Berhasil',
+            text: 'Login berhasil',
+            icon: 'success',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    static async passwordNotMatch() {
+        return MySwal.fire({
+            title: 'Password tidak sama',
+            text: 'Pastikan password yang anda masukkan sama',
+            icon: 'warning',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    static async emailAlreadyExist() {
+        return MySwal.fire({
+            title: 'Email sudah terdaftar',
+            text: 'Email yang anda masukkan sudah terdaftar, Silahkan gunakan email lain',
+            icon: 'warning',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    static async emailOrPasswordMistant() {
+        return MySwal.fire({
+            title: 'Email atau password salah',
+            text: 'Email atau password anda salah, silahkan coba lagi',
+            icon: 'warning',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    static async errorAlert() {
+        return MySwal.fire({
+            title: 'Error',
+            text: 'Server sedang maintenance, silahkan coba beberapa saat lagi',
+            icon: 'error',
+            confirmButtonText: 'OK',
+        });
+    }
+
     static async sessionExpired() {
         return MySwal.fire({
             title: 'Session Expired',
