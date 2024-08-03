@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
-import { Link } from "react-router-dom";
+import { json, Link } from "react-router-dom";
 import LogoSkincare from "../../../public/logoEskincare.png";
 import { MdAddShoppingCart } from "react-icons/md";
 import { FaHome } from "react-icons/fa";
@@ -16,6 +16,8 @@ export default function Navbar() {
         await logout.logout()
     }
 
+    const dataUser = JSON.parse(localStorage.getItem('infoUser'));
+
     return (
         <>
             <nav className=" bg-white border-gray-200 font-basicCommersialRegular sticky top-0 z-50">
@@ -29,7 +31,7 @@ export default function Navbar() {
                             <div className="flex justify-center items-center space-x-4 ">
                                 <div className="flex  space-x-2 hover:text-red-600">
                                     <CgProfile className="text-2xl"></CgProfile>
-                                    <Link to="/profile/"> <span className="text-sm">Muhammad Rizki</span></Link>
+                                    <Link to="/profile/"> <span className="text-sm">{dataUser.name}</span></Link>
                                 </div>
                                 <div className="border-r-4 border-gray-500 h-6"></div>
                                 <div className="flex justify-center items-center">
