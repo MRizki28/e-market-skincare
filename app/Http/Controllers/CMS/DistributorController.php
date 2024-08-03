@@ -25,4 +25,9 @@ class DistributorController extends Controller
     {
         return $this->distributorRepositories->createData($request);
     }
+
+    public function getDataForFe(Request $request)
+    {
+        return $this->distributorRepositories->getDataForFe($request);
+    }
 }
