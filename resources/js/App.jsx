@@ -1,8 +1,15 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { checkTokenValidity } from './redux/slices/checkLogin';
 
 const AppRoute = lazy(() => import('./routes/AppRoute'));
 
 const App = () => {
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(checkTokenValidity())
+    }, [dispatch])
+
     return (
         <Suspense fallback={
             <div className="fixed inset-0 flex items-center justify-center bg-white/80">
