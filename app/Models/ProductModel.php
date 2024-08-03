@@ -20,4 +20,9 @@ class ProductModel extends Model
         'price',
         'description'
     ];
+
+    public function distributor()
+    {
+        return $this->belongsTo(DistributorModel::class, 'id_distributor', 'id');
+    }
 }
