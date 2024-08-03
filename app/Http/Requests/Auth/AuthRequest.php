@@ -23,10 +23,34 @@ class AuthRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'email' => 'required|email',
-            'password' => 'required',
-        ];
+        $rules = [];
+        if ($this->is('login')) {
+            $rules = [
+                'email' => 'required|email',
+                'password' => 'required',
+            ];
+        } else if ($this->is('api/v1/register-user')) {
+            $rules = [
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|confirmed',
+                'password_confirmation' => 'required',
+                'role' => 'required|in:user,distributor',
+            ];
+
+            if ($this->input('role') !== 'distributor') {
+                $rules['name'] = 'required';
+                $rules['personal_address'] = 'required';
+                $rules['personal_phone_number'] = 'required';
+            }
+
+        } else {
+            $rules = [
+                'email' => 'required|email',
+                'password' => 'required',
+            ];
+        }
+
+        return $rules;
     }
 
     protected function failedValidation(Validator $validator)
