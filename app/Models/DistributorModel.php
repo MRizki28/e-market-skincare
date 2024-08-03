@@ -18,4 +18,9 @@ class DistributorModel extends Model
         'phone_number',
         'description'
     ];
+
+    public function product()
+    {
+        return $this->hasMany(ProductModel::class, 'id_distributor', 'id');
+    }
 }
