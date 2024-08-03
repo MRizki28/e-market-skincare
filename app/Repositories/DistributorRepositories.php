@@ -55,4 +55,30 @@ class DistributorRepositories implements DistributorInterfaces
             return $this->error($th);
         }
     }
+
+    public function getDataForFe(Request $request)
+    {
+        try {
+            $search = $request->input('search');
+            $limit = $request->input('limit') ? $request->input('limit') : 1;
+            $page = (int) $request->input('page', 1);
+
+            $query = $this->distributorModel->query()->with('product');
+
+            if($search){
+                $query->where(function ($q) use ($search) {
+                    $q->where('name_distributor', 'like', '%'.$search.'%');
+                });
+            }
+
+            $data = $query->paginate($limit, ['*'], 'page', $page);
+            if ($data->isEmpty()) {
+                return $this->dataNotFound();
+            } else {
+                return $this->success($data, 'success', 'Success get data distributor');
+            }
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
+    }
 }
