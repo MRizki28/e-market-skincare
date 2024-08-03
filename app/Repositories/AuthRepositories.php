@@ -39,11 +39,12 @@ class AuthRepositories implements AuthInterfaces
                     'status' => 'success',
                     'message' => 'login success',
                     'data' => [
-                        'name' => $user->profile->name,
-                        'address' => $user->profile->personal_address,
-                        'phone_number' => $user->profile->personal_phone_number,
+                        'name' => $user->profile->name ?? null,
+                        'address' => $user->profile->personal_address ?? null,
+                        'phone_number' => $user->profile->personal_phone_number ?? null,
                         'email' => $user->email,
                         'token' => $token,
+                        'role' => $user->role,
                     ]
                 ], 200);
             }
