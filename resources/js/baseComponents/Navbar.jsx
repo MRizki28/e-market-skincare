@@ -55,7 +55,7 @@ export default function Navbar() {
                                 <Link to="/" className="block py-2 px-3 text-black hover:text-red-600" aria-current="page">Home</Link>
                             </li>
                             <li>
-                                <a href="#" className="block py-2 px-3 text-black hover:text-red-600">Distributor</a>
+                                <a href="/distributor" className="block py-2 px-3 text-black hover:text-red-600">Distributor</a>
                             </li>
                             <li>
                                 <a href="#" className="block py-2 px-3 text-black hover:text-red-600">About</a>
