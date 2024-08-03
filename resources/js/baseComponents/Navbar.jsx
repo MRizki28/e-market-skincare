@@ -6,18 +6,15 @@ import { MdAddShoppingCart } from "react-icons/md";
 import { FaHome } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 import logout from "../scripts/auth/logout";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
-    const [login, setLogin] = useState(false)
+    const selector = useSelector((state) => state.checkLogin)
+    const login = selector.isLoggedIn
 
     const handleLogout = async () => {
-        await logout.logout(setLogin)
+        await logout.logout()
     }
-    useEffect(() => {
-        if (localStorage.getItem('token')) {
-            setLogin(true)
-        }
-    }, [])
 
     return (
         <>
