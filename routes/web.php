@@ -6,8 +6,9 @@ use App\Http\Controllers\CMS\ProductController;
 use App\Http\Controllers\CMS\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/cms/admin/login', function () {
-    return view('Auth.login');
+
+Route::get('/login' , function() {
+    return view('frontend');
 })->name('login');
 
 Route::post('/login', [AuthController::class, 'login']);
