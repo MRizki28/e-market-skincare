@@ -15,6 +15,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('best-product', [ProductController::class, 'bestProduct']);
 Route::get('product-detail/{id}', [ProductController::class, 'getDataById']);
 Route::post('api/v1/register-user', [AuthController::class, 'registerUser']);
+Route::get('api/v1/distributor', [DistributorController::class, 'getDataForFe']);
 
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/cms/admin/usermanagement', function () {
