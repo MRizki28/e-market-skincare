@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { login } from "../../../redux/slices/checkLogin";
+import SweetAlertService from "../../../helper/sweetAlert";
 
 export function LoginForm() {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -15,22 +16,24 @@ export function LoginForm() {
             const responseData = response.data
             console.log(responseData)
             if (responseData.message == 'login success') {
-                alert('Login berhasil')
-                localStorage.setItem('token', responseData.data.token);
-                dispatch(login())
-                localStorage.setItem('infoUser', JSON.stringify({
-                    'name': responseData.data.name,
-                    'email': responseData.data.email,
-                    'address': responseData.data.address,
-                    'phone': responseData.data.phone_number,
-                }))
-                window.location.href = '/'
+                SweetAlertService.successLogin().then(() => {
+                    localStorage.setItem('token', responseData.data.token);
+                    dispatch(login())
+                    localStorage.setItem('infoUser', JSON.stringify({
+                        'name': responseData.data.name,
+                        'email': responseData.data.email,
+                        'address': responseData.data.address,
+                        'phone': responseData.data.phone_number,
+                    }))
+                    window.location.href = '/'
+                })
             }
         } catch (error) {
             if (error.response && error.response.status === 401) {
-                alert('Email atau password salah')
+                SweetAlertService.emailOrPasswordMistant()
+            }else{
+                SweetAlertService.errorAlert()
             }
-            console.log(error)
         }
     };
 
@@ -56,7 +59,7 @@ export function LoginForm() {
                                     <input
                                         type="email"
                                         id="email"
-                                        {...register("email", { required: "Email wajib diisi" })}
+                                        {...register("email", { required: "Email wajib diisi" , pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, message: "Invalid email address" } })}
                                         className={`mt-1 p-2 w-full border rounded-md   outline-none transition-colors duration-300 ${errors.email ? 'border-red-500' : 'border-gray-300'
                                             }`}
                                     />
@@ -82,7 +85,7 @@ export function LoginForm() {
                                 </div>
                             </form>
                             <div className="mt-4 text-sm text-gray-600 text-center">
-                                <p>Belum punya akun ? <Link to='register' className="text-black hover:underline">Register</Link></p>
+                                <p>Belum punya akun ? <Link to='/register' className="text-black hover:underline">Register</Link></p>
                             </div>
                         </div>
                     </div>
