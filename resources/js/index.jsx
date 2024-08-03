@@ -7,11 +7,15 @@ import 'flowbite'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 const root = ReactDOM.createRoot(document.getElementById('frontend-app'));
 
 root.render(
     <BrowserRouter>
-        <App></App>
+        <Provider store={store}>
+            <App></App>
+        </Provider>
     </BrowserRouter>
 )
