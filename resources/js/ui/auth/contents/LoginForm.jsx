@@ -12,30 +12,41 @@ export function LoginForm() {
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post('/login', data)
-            const responseData = response.data
-            console.log(responseData)
-            if (responseData.message == 'login success') {
+            const response = await axios.post('/login', data);
+            const responseData = response.data;
+            console.log(response)
+    
+            console.log(responseData);
+    
+            if (responseData.message === 'login success') {
                 SweetAlertService.successLogin().then(() => {
-                    localStorage.setItem('token', responseData.data.token);
-                    dispatch(login())
-                    localStorage.setItem('infoUser', JSON.stringify({
-                        'name': responseData.data.name,
-                        'email': responseData.data.email,
-                        'address': responseData.data.address,
-                        'phone': responseData.data.phone_number,
-                    }))
-                    window.location.href = '/'
-                })
+                    if (responseData.data.role === 'admin' || responseData.data.role === 'distributor') {
+                        window.location.href = 'cms/admin/distributor';
+                    } else {
+                        localStorage.setItem('token', responseData.data.token);
+                        dispatch(login());
+    
+                        localStorage.setItem('infoUser', JSON.stringify({
+                            name: responseData.data.name,
+                            email: responseData.data.email,
+                            address: responseData.data.address,
+                            phone: responseData.data.phone_number,
+                        }));
+    
+                        window.location.href = '/';
+                    }
+                });
             }
         } catch (error) {
+            console.log(error);
             if (error.response && error.response.status === 401) {
-                SweetAlertService.emailOrPasswordMistant()
-            }else{
-                SweetAlertService.errorAlert()
+                SweetAlertService.emailOrPasswordMistant();
+            } else {
+                SweetAlertService.errorAlert();
             }
         }
     };
+    
 
     return (
         <div className="max-w-screen-xl p-4 mx-auto">
@@ -59,7 +70,7 @@ export function LoginForm() {
                                     <input
                                         type="email"
                                         id="email"
-                                        {...register("email", { required: "Email wajib diisi" , pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, message: "Invalid email address" } })}
+                                        {...register("email", { required: "Email wajib diisi", pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, message: "Invalid email address" } })}
                                         className={`mt-1 p-2 w-full border rounded-md   outline-none transition-colors duration-300 ${errors.email ? 'border-red-500' : 'border-gray-300'
                                             }`}
                                     />
