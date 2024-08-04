@@ -13,6 +13,7 @@ class DistributorModel extends Model
     protected $fillable = [
         'id',
         'id_user',
+        'image_distributor',
         'name_distributor',
         'address',
         'phone_number',
