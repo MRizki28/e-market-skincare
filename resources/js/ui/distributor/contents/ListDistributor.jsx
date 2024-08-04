@@ -36,7 +36,7 @@ export function ListDistributor() {
         <>
             <div className="max-w-screen-xl p-7 mx-auto">
                 <div className="font-basicCommersialRegular mt-5 mb-3">
-                    <h1>Detail Product</h1>
+                    <h1>Distributor</h1>
                 </div>
                 <div>
                     <input type="text" value={searchQuery} name="search" id="search" className="border w-full p-3" placeholder="Search" onChange={searchInput} />
@@ -52,7 +52,7 @@ export function ListDistributor() {
                                 <div className="flex flex-col md:flex-row p-5 space-y-4 md:space-y-0 md:space-x-10">
                                     <div className="flex items-center space-x-4">
                                         <LazyLoadImage
-                                            src={DistributorImg}
+                                            src={`uploads/distributor/${item.image_distributor}`}
                                             className="rounded-full w-20 h-20 object-cover"
                                             effect="blur"
                                             wrapperProps={{ style: { transitionDelay: "1s" } }}
@@ -60,10 +60,10 @@ export function ListDistributor() {
                                         <div className="flex flex-col justify-center">
                                             <span className="text-brownSkincare font-bold text-lg">{item.name_distributor}</span>
                                             <div className="flex space-x-3 mt-2">
-                                                <button className="border border-brownSkincare px-4 py-2 bg-orange-100 hover:bg-white flex items-center space-x-2">
+                                                <a href={`https://wa.me/${item.phone_number}?text=Hallo%20admin`} className="border border-brownSkincare px-4 py-2 bg-orange-100 hover:bg-white flex items-center space-x-2">
                                                     <IoChatboxEllipsesOutline className="text-xl text-orange-700" />
                                                     <span className="hidden md:inline">Chat</span>
-                                                </button>
+                                                </a>
                                                 <button className="border px-4 py-2 hover:bg-gray-200 flex items-center space-x-2">
                                                     <CiShop className="text-xl text-orange-700" />
                                                     <span className="hidden md:inline">Shop</span>
