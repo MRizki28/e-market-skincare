@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Helper\FileUpload;
 use App\Http\Requests\Distributor\DistributorRequest;
 use App\Interfaces\DistributorInterfaces;
 use App\Models\DistributorModel;
@@ -13,11 +14,13 @@ class DistributorRepositories implements DistributorInterfaces
 {
 
     protected $distributorModel;
+    protected $fileUpload;
     use HttpResponseTrait;
 
-    public function __construct(DistributorModel $distributorModel)
+    public function __construct(DistributorModel $distributorModel, FileUpload $fileUpload)
     {
         $this->distributorModel = $distributorModel;
+        $this->fileUpload = $fileUpload;
     }
 
     public function getAllData()
@@ -39,20 +42,27 @@ class DistributorRepositories implements DistributorInterfaces
     {
         try {
             $id_user = Auth::user()->id;
+            $dataCreateOrUpdate = [
+                'id_user' => $id_user,
+                'name_distributor' => $request->input('name_distributor'),
+                'address' => $request->input('address'),
+                'phone_number' => $request->input('phone_number'),
+                'description' => $request->input('description'),
+            ];
+
             $data = $this->distributorModel->updateOrCreate(
                 ['id_user' => $id_user],
-                [
-                    'id_user' => $id_user,
-                    'name_distributor' => $request->input('name_distributor'),
-                    'address' => $request->input('address'),
-                    'phone_number' => $request->input('phone_number'),
-                    'description' => $request->input('description')
-                ]
+                $dataCreateOrUpdate
             );
 
+            if($request->hasFile('image_distributor')){
+                $data->image_distributor = $this->fileUpload->updateFile($request->file('image_distributor'), 'uploads/distributor/', 'DISTRIBUTOR-', $data->image_distributor);
+                $data->save();
+            }
+    
             return $this->success($data, 'success', 'Success create or update data distributor');
         } catch (\Throwable $th) {
-            return $this->error($th);
+            return $this->error($th->getMessage());
         }
     }
 
