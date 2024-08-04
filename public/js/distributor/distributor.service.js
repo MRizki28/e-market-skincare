@@ -10,6 +10,14 @@ class distributorService {
                 $('#phone_number').val(responseData.data[0].phone_number);
                 $('#address').val(responseData.data[0].address);
                 $('#description').val(responseData.data[0].description);
+                $('#preview').attr('src', `${appUrl}/uploads/distributor/${responseData.data[0].image_distributor}`);
+                const fileUrl = `${appUrl}/uploads/distributor/${responseData.data[0].image_distributor}`;
+                const fileNames = fileUrl.split('/').pop();
+                const blob = await fetch(fileUrl).then(r => r.blob());
+                const file = new File([blob], fileNames);
+                const fileList = new DataTransfer();
+                fileList.items.add(file);
+                $('#image_distributor').prop('files', fileList.files);
                 $('#btn-simpan').text('Update');
             }else{
                 $('#name_distributor').val('');
