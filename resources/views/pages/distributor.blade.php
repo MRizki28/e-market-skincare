@@ -6,16 +6,26 @@
             <div class="p-3">
                 <form id="formDistributor">
                     <div class="row">
+                        <img src="" alt="" id="preview" class="mx-auto d-block pb-2"
+                        style="max-width: 200px; padding-top: 23px">
+                        <div class="col-md-12">
+                            <div class="form-group form-show-validation">
+                                <label for="image_distributor">Gambar</label>
+                                <input type="file" class="form-control" name="image_distributor" id="image_distributor">
+                            </div>
+                        </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="name_distributor">Nama Distributor</label>
-                                <input type="text" class="form-control" name="name_distributor" id="name_distributor" placeholder="Input here">
+                                <input type="text" class="form-control" name="name_distributor" id="name_distributor"
+                                    placeholder="Input here">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="phone_number">Nomor Handphone</label>
-                                <input type="number" class="form-control" name="phone_number" id="phone_number" placeholder="Input here">
+                                <input type="number" class="form-control" name="phone_number" id="phone_number"
+                                    placeholder="Input here">
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -27,7 +37,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="description">Deskripsi</label>
-                                <textarea class="form-control" name="description" id="description" placeholder="Input here" rows="4" cols="50"></textarea>
+                                <textarea class="form-control" name="description" id="description" placeholder="Input here" rows="4"
+                                    cols="50"></textarea>
                             </div>
                         </div>
                     </div>
@@ -39,7 +50,6 @@
             </div>
         </x-base-body>
     </div>
-
 @endsection
 
 @section('js-service')
