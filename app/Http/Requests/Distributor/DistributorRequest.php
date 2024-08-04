@@ -24,11 +24,12 @@ class DistributorRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'image_distributor' => 'required',
             'name_distributor' => 'required',
             'address' => 'required',
             'description' => 'required|min:200',
             'phone_number' => 'required',
-        ];
+        ];  
     }
 
     protected function failedValidation(Validator $validator)
