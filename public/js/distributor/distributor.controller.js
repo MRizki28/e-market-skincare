@@ -9,6 +9,9 @@ $(document).ready(function () {
     function validation() {
         $('#formDistributor').validate({
             rules: {
+                image_distributor: {
+                    required: true
+                },
                 name_distributor: {
                     required: true
                 },
@@ -24,6 +27,9 @@ $(document).ready(function () {
                 }
             },
             messages: {
+                image_distributor: {
+                    required: 'Gambar distributor tidak boleh kosong'
+                },
                 name_distributor: {
                     required: 'Nama distributor tidak boleh kosong'
                 },
@@ -47,6 +53,16 @@ $(document).ready(function () {
             }
         })
     }
+
+    $('#image_distributor').on('change', function () {
+        $(this).valid();
+        const file = $(this)[0].files[0];
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            $('#preview').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(file);
+    })
 
     $('#name_distributor, #phone_number, #address, #description').on('input', function () {
         $(this).valid();
