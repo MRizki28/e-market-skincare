@@ -1,10 +1,9 @@
 import { CiShop } from "react-icons/ci";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import DistributorImg from '../../../../../public/distributor.webp';
 import { useEffect, useState } from "react";
-import axios from "axios";
 import listDistributor from "../../../scripts/distributor/listDistributor";
+import { Link } from "react-router-dom";
 
 export function ListDistributor() {
     const [data, setData] = useState([]);
@@ -64,10 +63,10 @@ export function ListDistributor() {
                                                     <IoChatboxEllipsesOutline className="text-xl text-orange-700" />
                                                     <span className="hidden md:inline">Chat</span>
                                                 </a>
-                                                <button className="border px-4 py-2 hover:bg-gray-200 flex items-center space-x-2">
+                                                <Link to={`/distributor/detail/${item.id}`} className="border px-4 py-2 hover:bg-gray-200 flex items-center space-x-2">
                                                     <CiShop className="text-xl text-orange-700" />
                                                     <span className="hidden md:inline">Shop</span>
-                                                </button>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
@@ -92,17 +91,36 @@ export function ListDistributor() {
                         <div className="mt-5 flex justify-end">
                             <nav aria-label="Page navigation example">
                                 <ul className="inline-flex -space-x-px text-base h-10">
+                                    <li>
+                                        <button
+                                            onClick={() => handlePageChange(pagination.current_page - 1)}
+                                            disabled={!pagination.prev_page_url}
+                                            className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
+                                        >
+                                            &laquo; Previous
+                                        </button>
+                                    </li>
                                     {pagination.links && pagination.links.map((link, index) => (
-                                        <li key={index}>
-                                            <button
-                                                disabled={!link.url}
-                                                onClick={() => handlePageChange(link.url ? new URL(link.url).searchParams.get('page') : currentPage)}
-                                                className={`flex items-center justify-center px-4 h-10 leading-tight ${link.active ? 'text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700' : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700'}`}
-                                            >
-                                                {link.label.replace("&laquo;", "Previous").replace("&raquo;", "Next")}
-                                            </button>
-                                        </li>
+                                        link.url && link.label !== '&laquo; Previous' && link.label !== 'Next &raquo;' ? (
+                                            <li key={index}>
+                                                <button
+                                                    onClick={() => handlePageChange(new URL(link.url).searchParams.get('page'))}
+                                                    className={`flex items-center justify-center px-4 h-10 leading-tight ${link.active ? 'text-blue-600 bg-blue-50' : 'text-gray-500 bg-white'} border border-gray-300 hover:bg-gray-100 hover:text-gray-700`}
+                                                >
+                                                    {link.label}
+                                                </button>
+                                            </li>
+                                        ) : null
                                     ))}
+                                    <li>
+                                        <button
+                                            onClick={() => handlePageChange(pagination.current_page + 1)}
+                                            disabled={!pagination.next_page_url}
+                                            className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
+                                        >
+                                            Next &raquo;
+                                        </button>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
