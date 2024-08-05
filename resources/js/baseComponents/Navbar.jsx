@@ -3,10 +3,11 @@ import { CgProfile } from "react-icons/cg";
 import { json, Link } from "react-router-dom";
 import LogoSkincare from "../../../public/logoEskincare.png";
 import { MdAddShoppingCart } from "react-icons/md";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaInfoCircle } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 import logout from "../scripts/auth/logout";
 import { useSelector } from "react-redux";
+import { FaShop } from "react-icons/fa6";
 
 export default function Navbar() {
     const selector = useSelector((state) => state.checkLogin)
@@ -67,22 +68,22 @@ export default function Navbar() {
 
             <div className="lg:hidden fixed bottom-0 left-0 z-50 w-full h-16 bg-white  border-t ">
                 <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
-                    <a href="#" className="inline-flex flex-col items-center justify-center px-5  group">
+                    <Link to='/' className="inline-flex flex-col items-center justify-center px-5  group">
                         <FaHome className="text-2xl mb-2 text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600"></FaHome>
                         <span className="text-sm text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600">Home</span>
-                    </a>
-                    <a href="#" className="inline-flex flex-col items-center justify-center px-5  group">
-                        <FaHome className="text-2xl mb-2 text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600"></FaHome>
+                    </Link>
+                    <Link to='/distributor' className="inline-flex flex-col items-center justify-center px-5  group">
+                        <FaShop className="text-2xl mb-2 text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600"></FaShop>
                         <span className="text-sm text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600">Distributor</span>
-                    </a>
-                    <a href="#" className="inline-flex flex-col items-center justify-center px-5  group">
-                        <FaHome className="text-2xl mb-2 text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600"></FaHome>
+                    </Link>
+                    <Link to='/' className="inline-flex flex-col items-center justify-center px-5  group">
+                        <FaInfoCircle className="text-2xl mb-2 text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600"></FaInfoCircle>
                         <span className="text-sm text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600">About</span>
-                    </a>
-                    <a href="#" className="inline-flex flex-col items-center justify-center px-5  group">
+                    </Link>
+                    <Link to='/' className="inline-flex flex-col items-center justify-center px-5  group">
                         <MdAddShoppingCart className="text-2xl mb-2 text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600"></MdAddShoppingCart>
                         <span className="text-sm text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600">Keranjang</span>
-                    </a>
+                    </Link>
                 </div>
             </div>
         </>
