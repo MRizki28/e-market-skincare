@@ -45,4 +45,9 @@ class ProductController extends Controller
     {
         return $this->productRepositories->bestProduct($request);
     }
+
+    public function getDataByDistributor(Request $request, $id)
+    {
+        return $this->productRepositories->getDataByDistributor($request, $id);
+    }
 }
