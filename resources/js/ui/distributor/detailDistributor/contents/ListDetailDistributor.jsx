@@ -20,12 +20,19 @@ export function ListDetailDistributor() {
 
     const getlistData = async (search, page) => {
         const product = await detailListDistributor.getListData(search, page, id_distributor)
-        const formatHelper = new format()
-        product.data.map((item) => {
-            item.priceFormat = formatHelper.formatCurrency(item.price)
-        })
-        setData(product.data);
-        setPagination(product)
+        if (product && product.data) {
+            const formatHelper = new format();
+            const formattedData = product.data.map((item) => ({
+                ...item,
+                priceFormat: formatHelper.formatCurrency(item.price),
+            }));
+
+            setData(formattedData);
+            setPagination(product);
+        } else {
+            setData([]);
+            setPagination({});
+        }
     };
 
     const handlePageChange = (page) => {
