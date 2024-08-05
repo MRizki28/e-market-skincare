@@ -8,6 +8,7 @@ import ProtectedRoutes from "../scripts/protectedRoutes/protectedRoutes";
 import ProtectedLoginRoutes from "../scripts/protectedRoutes/protectedLoginRoutes";
 import { Register } from "../ui/auth/Register";
 import { Distributor } from "../ui/distributor/Distributor";
+import { DetailDistributor } from "../ui/distributor/detailDistributor/DetailDistributor";
 
 export default function AppRoute() {
     return (
@@ -20,6 +21,7 @@ export default function AppRoute() {
             <Route path="/detail-product/:id" element={<ProtectedRoutes> <DetailProduct></DetailProduct></ProtectedRoutes>}></Route>
             <Route path="/404" element={<NotFound></NotFound>}></Route>
             <Route path="/distributor" element={<Distributor></Distributor>}></Route>
+            <Route path="/distributor/detail/:id" element={<ProtectedRoutes><DetailDistributor></DetailDistributor></ProtectedRoutes>}></Route>
             <Route path="*" element={<Navigate to={"/404"}></Navigate>}></Route>
         </Routes>
     )
