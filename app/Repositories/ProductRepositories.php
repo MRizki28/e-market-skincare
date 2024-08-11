@@ -33,7 +33,7 @@ class ProductRepositories implements ProductInterfaces
         $page = (int) $request->input('page', 1);
 
         $query = $this->productModel->query();
-
+        
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('product_name', 'like', '%' . $search . '%')
