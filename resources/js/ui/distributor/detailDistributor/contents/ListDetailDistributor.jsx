@@ -1,13 +1,11 @@
 import { CiShop } from "react-icons/ci";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
-import DistributorImg from '../../../../../../public/distributor.webp';
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RiMoneyDollarBoxFill } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import format from "../../../../helper/format";
 import { truncateText } from "../../../../helper/truncateText";
-import axios from 'axios';
 import detailListDistributor from "../../../../scripts/distributor/detailListDistributor";
 
 export function ListDetailDistributor() {
@@ -15,7 +13,9 @@ export function ListDetailDistributor() {
     const [pagination, setPagination] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
+    const [distributor, setDistibutor] = useState([]);
 
+    const navigate = useNavigate()
     const id_distributor = window.location.pathname.split("/").pop();
 
     const getlistData = async (search, page) => {
@@ -35,6 +35,15 @@ export function ListDetailDistributor() {
         }
     };
 
+    const getDataDistributor = async () => {
+        const distributor = await detailListDistributor.getDistributor(id_distributor)
+        if (distributor.length === 0) {
+            navigate('/404')
+        } else {
+            setDistibutor(distributor);
+        }
+    }
+
     const handlePageChange = (page) => {
         setCurrentPage(page);
         getlistData(searchQuery, page);
@@ -48,6 +57,7 @@ export function ListDetailDistributor() {
 
     useEffect(() => {
         getlistData(searchQuery, currentPage);
+        getDataDistributor();
     }, [currentPage, searchQuery]);
 
     return (
@@ -57,13 +67,13 @@ export function ListDetailDistributor() {
                     <div className="flex flex-col md:flex-row p-5 space-y-4 md:space-y-0 md:space-x-10">
                         <div className="flex items-center space-x-4">
                             <LazyLoadImage
-                                src={DistributorImg}
+                                src={`${appUrl}/uploads/distributor/${distributor.image_distributor}`}
                                 className="rounded-full w-20 h-20 object-cover"
                                 effect="blur"
                                 wrapperProps={{ style: { transitionDelay: "1s" } }}
                             />
                             <div className="flex flex-col justify-center">
-                                <span className="text-brownSkincare font-bold text-lg">Rizki Skincare</span>
+                                <span className="text-brownSkincare font-bold text-lg">{distributor.name_distributor}</span>
                                 <div className="flex space-x-3 mt-2">
                                     <button className="border border-brownSkincare px-4 py-2 bg-orange-100 hover:bg-white flex items-center space-x-2">
                                         <IoChatboxEllipsesOutline className="text-xl text-orange-700" />

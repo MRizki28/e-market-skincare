@@ -7,7 +7,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 export default function Hero() {
     const settings = {
         dots: true,
-        autoplay: false,
+        autoplay: true,
         infinite: true,
         speed: 500,
         slidesToShow: 1,

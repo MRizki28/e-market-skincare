@@ -91,4 +91,14 @@ class DistributorRepositories implements DistributorInterfaces
             return $this->error($th->getMessage());
         }
     }
+
+    public function getDataById($id)
+    {
+        $data = $this->distributorModel->find($id);
+        if(!$data){
+            return $this->dataNotFound();
+        }else{
+            return $this->success($data, 'success', 'Success get data by id');
+        }
+    }
 }

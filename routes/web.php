@@ -13,12 +13,19 @@ Route::get('/login' , function() {
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('best-product', [ProductController::class, 'bestProduct']);
-Route::get('product-detail/{id}', [ProductController::class, 'getDataById']);
 Route::post('api/v1/register-user', [AuthController::class, 'registerUser']);
 Route::get('api/v1/distributor', [DistributorController::class, 'getDataForFe']);
 Route::get('api/v1/product-by-distributor/{id}', [ProductController::class, 'getDataByDistributor']);
+Route::get('api/v1/distributor/{id}', [DistributorController::class, 'getDataById']);
 
+
+Route::get('check', [UserController::class, 'getAllUser']);
 Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('api/check-auth', function () {
+        return response()->json(['data' => true]);
+    });
+
+    Route::get('product-detail/{id}', [ProductController::class, 'getDataById']);
     Route::get('/cms/admin/usermanagement', function () {
         return view('pages.usermanagement');
     });

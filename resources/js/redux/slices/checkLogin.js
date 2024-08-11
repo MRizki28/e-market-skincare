@@ -38,6 +38,9 @@ export const checkTokenValidity = () => async (dispatch) => {
         });
         dispatch(setLoginStatus(response.data.data || false));
     } catch (error) {
-        dispatch(setLoginStatus(false));
+        if (error.response.status === 401) {
+            localStorage.removeItem('token');
+            dispatch(setLoginStatus(false));
+        }
     }
 };

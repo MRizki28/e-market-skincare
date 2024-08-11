@@ -10,4 +10,5 @@ interface DistributorInterfaces
     public function getAllData();
     public function createData(DistributorRequest $request);
     public function getDataForFe(Request $request);
+    public function getDataById($id);
 }

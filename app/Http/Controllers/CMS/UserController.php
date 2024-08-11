@@ -20,7 +20,7 @@ class UserController extends Controller
     {
         return $this->userRepositories->getAllData($request);
     }
-    
+
     public function register(UserRequest $request)
     {
         return $this->userRepositories->register($request);
@@ -29,12 +29,12 @@ class UserController extends Controller
     public function getDataById($id)
     {
         return $this->userRepositories->getDataById($id);
-    } 
+    }
 
     public function updateData(UserRequest $request, $id)
     {
         return $this->userRepositories->updateData($request, $id);
-    } 
+    }
 
     public function deleteData($id)
     {

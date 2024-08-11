@@ -14,6 +14,23 @@ class detailListDistributor {
         };
         
     }
+
+    static async getDistributor(id) {
+        try {
+            const id_distributor = id
+            const response = await axios.get(`${appUrl}/api/v1/distributor/${id_distributor}`);
+            const responseData = response.data.data
+            if(response.data.message == 'Success get data by id'){
+                console.log(responseData);
+                return responseData
+            }else{
+                return []
+            }
+        } catch (error) {
+            console.log(error);
+        };
+        
+    }
 }
 
 export default detailListDistributor;

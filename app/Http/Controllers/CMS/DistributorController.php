@@ -30,4 +30,9 @@ class DistributorController extends Controller
     {
         return $this->distributorRepositories->getDataForFe($request);
     }
+
+    public function getDataById($id)
+    {
+        return $this->distributorRepositories->getDataById($id);
+    }
 }

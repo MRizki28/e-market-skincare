@@ -40,8 +40,6 @@ export default function Navbar() {
                                         <IoIosLogOut className="text-2xl hover:text-red-600"></IoIosLogOut >
                                     </button>
                                 </div>
-
-
                             </div>
                         ) : (
                             <div className="flex justify-center items-center space-x-2 hover:text-red-600">
