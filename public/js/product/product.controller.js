@@ -18,6 +18,16 @@ $(document).ready(function () {
         ProductServie.getAllData(fullUrl);
     });
 
+    $(document).on('keyup', function (e) {
+        if (e.keyCode === 13) {
+            ProductServie.getAllData();
+        }
+    })
+
+    $(document).on('click', '#search-button', function () {
+        ProductServie.getAllData();
+    })
+
     $('#product_image').on('change', function () {
         const file = $(this)[0].files[0];
         const fileReader = new FileReader();
