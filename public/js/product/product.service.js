@@ -9,6 +9,7 @@ class productService {
         let endpoint = paramsUrl(url || '/v1/product', { search: params });
         const response = await axios.get(endpoint);
         const responseData = await response.data;
+        console.log('ini response', responseData)
 
         table.empty();
         pagination.empty();
