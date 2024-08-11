@@ -10,6 +10,7 @@ class userManagementService {
         const response = await axios.get(endpoint);
         console.log(response)
         const responseData = await response.data;
+        console.log('ini response', responseData)
 
         table.empty()
         pagination.empty()
