@@ -29,8 +29,8 @@ class ProductRepositories implements ProductInterfaces
     public function getAllData(Request $request)
     {
         $search = $request->input('search');
-        $limit = $request->input('limit') ? $request->input('limit') : 10;
-        $page = (int) $request->input('page', 1);
+        $limit = $request->input('limit') ? $request->input('limit') : 1;
+        $page = $search ? 1 : (int) $request->input('page', 1);
 
         $query = $this->productModel->query();
         
@@ -143,7 +143,7 @@ class ProductRepositories implements ProductInterfaces
     {
         $search = $request->input('search');
         $limit = $request->input('limit') ? $request->input('limit') : 10;
-        $page = (int) $request->input('page', 1);
+        $page = $search ? 1 : (int) $request->input('page', 1);
 
         $query = $this->productModel->where('id_distributor', $id);
 
