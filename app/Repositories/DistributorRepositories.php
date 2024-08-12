@@ -71,7 +71,7 @@ class DistributorRepositories implements DistributorInterfaces
         try {
             $search = $request->input('search');
             $limit = $request->input('limit') ? $request->input('limit') : 1;
-            $page = (int) $request->input('page', 1);
+            $page = $search ? 1 : (int) $request->input('page', 1);
 
             $query = $this->distributorModel->query()->with('product');
 
