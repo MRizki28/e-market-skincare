@@ -65,7 +65,7 @@ export default function Navbar() {
             </nav>
 
             <div className="lg:hidden fixed bottom-0 left-0 z-50 w-full h-16 bg-white  border-t ">
-                <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
+                <div className="grid h-full max-w-lg grid-cols-3 mx-auto font-medium">
                     <Link to='/' className="inline-flex flex-col items-center justify-center px-5  group">
                         <FaHome className="text-2xl mb-2 text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600"></FaHome>
                         <span className="text-sm text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600">Home</span>
@@ -77,10 +77,6 @@ export default function Navbar() {
                     <Link to='/' className="inline-flex flex-col items-center justify-center px-5  group">
                         <FaInfoCircle className="text-2xl mb-2 text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600"></FaInfoCircle>
                         <span className="text-sm text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600">About</span>
-                    </Link>
-                    <Link to='/' className="inline-flex flex-col items-center justify-center px-5  group">
-                        <MdAddShoppingCart className="text-2xl mb-2 text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600"></MdAddShoppingCart>
-                        <span className="text-sm text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600">Keranjang</span>
                     </Link>
                 </div>
             </div>
