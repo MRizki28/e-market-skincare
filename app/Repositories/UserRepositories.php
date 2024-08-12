@@ -23,7 +23,7 @@ class UserRepositories implements UserInterfaces
     public function getAllData(Request $request)
     {
         $search = $request->input('search');
-        $page = (int) $request->input('page', 1);
+        $page = $search ? 1 : (int) $request->input('page', 1);
         $limit = $request->input('limit') ? $request->input('limit') : 10;
 
         $query = $this->userModel->query();
