@@ -9,6 +9,7 @@ import ProtectedLoginRoutes from "../scripts/protectedRoutes/protectedLoginRoute
 import { Register } from "../ui/auth/Register";
 import { Distributor } from "../ui/distributor/Distributor";
 import { DetailDistributor } from "../ui/distributor/detailDistributor/DetailDistributor";
+import { ProductAll } from "../ui/product/ProductAll";
 
 export default function AppRoute() {
     return (
@@ -23,6 +24,7 @@ export default function AppRoute() {
             <Route path="/distributor" element={<Distributor></Distributor>}></Route>
             <Route path="/distributor/detail/:id" element={<ProtectedRoutes><DetailDistributor></DetailDistributor></ProtectedRoutes>}></Route>
             <Route path="*" element={<Navigate to={"/404"}></Navigate>}></Route>
+            <Route path="product/all" element={<ProtectedRoutes><ProductAll></ProductAll></ProtectedRoutes>}></Route>
         </Routes>
     )
 }
