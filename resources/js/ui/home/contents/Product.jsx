@@ -25,7 +25,7 @@ export default function BestProduct() {
                     <h1 className="text-left font-basicCommersialRegular text-2xl">PRODUCT</h1>
                 </div>
                 <div className={`ml-auto text-center ${!hasData ? 'text-gray-500 cursor-not-allowed' : ''}`}>
-                    <Link to="/" className={`hover:text-red-500 ${!hasData ? 'pointer-events-none' : ''}`}>
+                    <Link to="/product/all" className={`hover:text-red-500 ${!hasData ? 'pointer-events-none' : ''}`}>
                         <h3>View All</h3>
                     </Link>
                 </div>
