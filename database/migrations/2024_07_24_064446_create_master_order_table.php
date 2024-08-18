@@ -15,6 +15,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('id_profile')->constrained('tb_profile');
             $table->foreignUuid('id_product')->constrained('tb_product');
+            $table->integer('quantity');
+            $table->integer('total_price');
             $table->timestamps();
         });
     }
