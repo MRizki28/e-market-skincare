@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CMS\AuthController;
 use App\Http\Controllers\CMS\DistributorController;
+use App\Http\Controllers\CMS\OrderController;
 use App\Http\Controllers\CMS\ProductController;
 use App\Http\Controllers\CMS\UserController;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +61,11 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::get('/get/{id}', 'getDataById');
             Route::post('/update/{id}', 'updateData');
             Route::delete('/delete/{id}', 'deleteData');
+        });
+
+        Route::prefix('order')->controller(OrderController::class)->group(function () {
+            Route::get('/', 'getAllData');
+            Route::post('create', 'createOrder');
         });
     });
     
