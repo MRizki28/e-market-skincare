@@ -59,7 +59,7 @@ export function ListDistributor() {
                                         <div className="flex flex-col justify-center">
                                             <span className="text-brownSkincare font-bold text-lg">{item.name_distributor}</span>
                                             <div className="flex space-x-3 mt-2">
-                                                <a href={`https://wa.me/${item.phone_number}?text=Hallo%20admin`} className="border border-brownSkincare px-4 py-2 bg-orange-100 hover:bg-white flex items-center space-x-2">
+                                                <a target="_blank" href={`https://wa.me/${item.phone_number}?text=Hallo%20admin`} className="border border-brownSkincare px-4 py-2 bg-orange-100 hover:bg-white flex items-center space-x-2">
                                                     <IoChatboxEllipsesOutline className="text-xl text-orange-700" />
                                                     <span className="hidden md:inline">Chat</span>
                                                 </a>
