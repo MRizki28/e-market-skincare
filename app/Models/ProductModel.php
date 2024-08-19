@@ -18,7 +18,8 @@ class ProductModel extends Model
         'product_name',
         'product_image',
         'price',
-        'description'
+        'description',
+        'stock',
     ];
 
     public function distributor()
