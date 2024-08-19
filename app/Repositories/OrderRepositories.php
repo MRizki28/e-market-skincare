@@ -10,6 +10,8 @@ use App\Models\ProfileModel;
 use App\Traits\HttpResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Midtrans\Config;
+use Midtrans\Notification;
 
 class OrderRepositories implements OrderInterfaces
 {
@@ -56,19 +58,22 @@ class OrderRepositories implements OrderInterfaces
         }
     }
 
-    public function createOrder(OrderRequest $request) {
+    public function createOrder(OrderRequest $request)
+    {
         try {
             $id_user = Auth::id();
-            $profile = $this->profileModel->where('id_user', $id_user)->first(['id']);
-    
+            $profile = $this->profileModel->where('id_user', $id_user)->first(['id', 'name', 'personal_phone_number']);
+
             if (!$profile) {
                 return $this->dataNotFound('success', 'Data profile not found');
             }
-    
+
             $product = $this->productModel->find($request->id_product, ['price']);
             if (!$product) {
-                return $this->dataNotFound('success','Data product not found');
+                return $this->dataNotFound('success', 'Data product not found');
             }
+
+            $request->request->add(['total_price' => $request->quantity * $product->price, 'status' => 'pending']);
 
             $order = $this->orderModel->create([
                 'id_profile' => $profile->id,
@@ -76,11 +81,90 @@ class OrderRepositories implements OrderInterfaces
                 'quantity' => $request->quantity,
                 'total_price' => $request->quantity * $product->price,
             ]);
-    
-            return $this->success($order, 'Success create data order');
+
+            Config::$serverKey = config('midtrans.server_key');
+            Config::$isProduction = false;
+            Config::$isSanitized = true;
+            Config::$is3ds = true;
+
+            $params = array(
+                'transaction_details' => array(
+                    'order_id' => $order->id,
+                    'gross_amount' => $order->total_price,
+                ),
+                'customer_details' => array(
+                    'first_name' => $profile->name,
+                    'email' => Auth::user()->email,
+                    'phone' => $profile->personal_phone_number,
+                ),
+            );
+
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+            return $this->success([
+                'order' => $order,
+                'snap_token' => $snapToken,
+            ], 'success', 'Success create order');
+
+
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
         }
     }
+
+    public function orderNotification(Request $request)
+    {
+        try {
+            Config::$serverKey = config('midtrans.server_key');
+            Config::$isProduction = false;
+            Config::$isSanitized = true;
+            Config::$is3ds = true;
     
+            $notification = new Notification();
+            
+            if (!$notification->transaction_status || !$notification->order_id) {
+                return $this->error('Invalid notification data.');
+            }
+    
+            $status = $notification->transaction_status;
+            $order_id = $notification->order_id;
+    
+            if ($order_id) {
+                $order = $this->orderModel->where('id', $order_id)->first();
+    
+                if ($order) {
+                    switch ($status) {
+                        case 'capture':
+                        case 'settlement':
+                            $order->status = 'success';
+                            break;
+    
+                        case 'pending':
+                            $order->status = 'pending';
+                            break;
+    
+                        case 'deny':
+                        case 'expire':
+                        case 'cancel':
+                            $order->status = 'cancel';
+                            break;
+    
+                        default:
+                            $order->status = 'pending';
+                            break;
+                    }
+    
+                    $order->save();
+                } else {
+                    return $this->success($order, 'success', 'Success update order status');
+                }
+            } else {
+                return $this->dataNotFound();
+            }
+    
+            return response()->json(['status' => 'success'], 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
+    }
 }
