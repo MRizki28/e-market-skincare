@@ -25,4 +25,9 @@ class OrderController extends Controller
     {
         return $this->orderRepositories->createOrder($request);
     }
+
+    public function orderNotification(Request $request)
+    {
+        return $this->orderRepositories->orderNotification($request);
+    }
 }
