@@ -78,6 +78,15 @@ class SweetAlertService {
             confirmButtonText: 'OK',
         });
     }
+
+    static async stockNotEnough() {
+        return MySwal.fire({
+            title: 'Stock tidak cukup',
+            text: 'Stock barang yang anda pilih tidak cukup',
+            icon: 'warning',
+            confirmButtonText: 'OK',
+        });
+    }
 }
 
 export default SweetAlertService;
