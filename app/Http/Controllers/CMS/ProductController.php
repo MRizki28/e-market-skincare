@@ -50,4 +50,9 @@ class ProductController extends Controller
     {
         return $this->productRepositories->getDataByDistributor($request, $id);
     }
+
+    public function getAvailableProduct(Request $request)
+    {
+        return $this->productRepositories->getAvailableProduct($request);
+    }
 }
