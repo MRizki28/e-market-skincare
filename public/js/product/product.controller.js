@@ -7,7 +7,7 @@ $(document).ready(function () {
 
     $(document).on('input', '#price', function () {
         this.value = formatCurrency(this.value);
-        localStorage.setItem('price', this.value.split('.').join(''));
+        localStorage.setItem('price', this.value.split(',').join(''));
     })
 
     $(document).on('click', '.page-link', function (e) {
@@ -64,6 +64,9 @@ $(document).ready(function () {
                 description: {
                     required: true,
                     minlength:50
+                },
+                stock: {
+                    required: true
                 }
             },
             messages: {
@@ -79,6 +82,9 @@ $(document).ready(function () {
                 description: {
                     required: 'Description tidak boleh kosong',
                     minlength: 'Description minimal 50 karakter'
+                },
+                stock: {
+                    required: 'Stock tidak boleh kosong'
                 }
             },
             highlight: function (element) {
@@ -124,6 +130,7 @@ $(document).ready(function () {
         $('#price').val('')
         $('#description').val('')
         $('#product_image').val('')
+        $('#stock').val('')
         $('#modal-title').text('Tambah Data');
         $('.button-footer button[type="submit"]').text('Simpan');
         $('.form-group').removeClass('has-error').removeClass('has-success')
