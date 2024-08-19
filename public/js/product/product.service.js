@@ -21,6 +21,7 @@ class productService {
                 tableBody += "<td>" + item.product_code + "</td>"
                 tableBody += "<td>" + item.product_name + "</td>"
                 tableBody += "<td>" + "Rp. " + numberWithCommas(item.price) + "</td>"
+                tableBody += "<td>" + item.stock + "</td>"
                 tableBody += "<td class='text-center'>" + insertLineBreaks(item.description, 15) + "</td>"
                 tableBody += `
                 <td>
@@ -109,7 +110,7 @@ class productService {
                 $('#price').val(formattedPrice)
                 $('#description').val(responseData.data.description)
                 $('#preview').attr('src', `${appUrl}/uploads/product/${responseData.data.product_image}`);
-
+                $('#stock').val(responseData.data.stock)
                 $('#product_image').on('change', function () {
                     const file = $(this)[0].files[0];
                     const fileReader = new FileReader();
