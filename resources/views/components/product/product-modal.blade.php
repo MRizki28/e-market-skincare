@@ -26,6 +26,11 @@
                                     placeholder="Rp.">
                             </div>
                             <div class="form-group form-show-validation">
+                                <label for="stock">Stok</label>
+                                <input type="number" class="form-control" name="stock" id="stock"
+                                    placeholder="1">
+                            </div>
+                            <div class="form-group form-show-validation">
                                 <label for="product_image">Gambar</label>
                                 <input type="file" class="form-control" name="product_image" id="product_image">
                             </div>
