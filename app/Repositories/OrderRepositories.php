@@ -68,12 +68,19 @@ class OrderRepositories implements OrderInterfaces
                 return $this->dataNotFound('success', 'Data profile not found');
             }
 
-            $product = $this->productModel->find($request->id_product, ['price']);
+            $product = $this->productModel->find($request->id_product, ['price', 'stock']);
             if (!$product) {
                 return $this->dataNotFound('success', 'Data product not found');
             }
 
             $request->request->add(['total_price' => $request->quantity * $product->price, 'status' => 'pending']);
+
+            if($request->quantity > $product->stock) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Stock product is not enough'
+                ]);
+            }
 
             $order = $this->orderModel->create([
                 'id_profile' => $profile->id,
@@ -121,6 +128,7 @@ class OrderRepositories implements OrderInterfaces
             Config::$is3ds = true;
     
             $notification = new Notification();
+            $id_product = $request->id_product;
             
             if (!$notification->transaction_status || !$notification->order_id) {
                 return $this->error('Invalid notification data.');
@@ -131,12 +139,18 @@ class OrderRepositories implements OrderInterfaces
     
             if ($order_id) {
                 $order = $this->orderModel->where('id', $order_id)->first();
+                $product = $this->productModel->where('id', $id_product)->first();
+                if(!$product) {
+                    return $this->dataNotFound('success', 'Data product not found');
+                }
     
                 if ($order) {
                     switch ($status) {
                         case 'capture':
                         case 'settlement':
                             $order->status = 'success';
+                            $product->stock = $product->stock - $order->quantity;
+                            $product->save();
                             break;
     
                         case 'pending':
@@ -155,14 +169,15 @@ class OrderRepositories implements OrderInterfaces
                     }
     
                     $order->save();
-                } else {
-                    return $this->success($order, 'success', 'Success update order status');
                 }
             } else {
                 return $this->dataNotFound();
             }
     
-            return response()->json(['status' => 'success'], 200);
+            return $this->success([
+                'order' => $order,
+                'product' => $product,
+            ], 'success', 'Success update order status');
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
         }
