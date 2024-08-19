@@ -33,7 +33,7 @@ class ProductRepositories implements ProductInterfaces
         $page = $search ? 1 : (int) $request->input('page', 1);
 
         $query = $this->productModel->query();
-        
+
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('product_name', 'like', '%' . $search . '%')
@@ -60,7 +60,7 @@ class ProductRepositories implements ProductInterfaces
             } else {
                 $data = new $this->productModel;
                 $data->product_name = $request->input('product_name');
-                $data->product_code = '#'. Str::random(5);
+                $data->product_code = '#' . Str::random(5);
                 $data->id_distributor = $distributor->id;
                 if ($request->hasFile('product_image')) {
                     $data->product_image = $this->fileUpload->uploadFile($request->file('product_image'), 'uploads/product/', 'PRODUCT-');
@@ -130,7 +130,7 @@ class ProductRepositories implements ProductInterfaces
     public function bestProduct(Request $request)
     {
         try {
-            $data = $this->productModel->orderBy('created_at', 'desc')->limit(5)->get();
+            $data = $this->productModel->where('stock', '>', 0)->orderBy('created_at', 'desc')->take(5)->get();
             if ($data->isEmpty()) {
                 return $this->dataNotFound();
             } else {
@@ -157,12 +157,36 @@ class ProductRepositories implements ProductInterfaces
             });
         }
 
-        $data = $query->paginate($limit, ['*'], 'page', $page);
+        $data = $query->where('stock', '>', 0)->paginate($limit, ['*'], 'page', $page);
 
         if ($data->isEmpty()) {
             return $this->dataNotFound();
         } else {
             return $this->success($data, 'success', 'Success get data product by distributor');
+        }
+    }
+
+    public function getAvailableProduct(Request $request)
+    {
+        $search = $request->input('search');
+        $limit = $request->input('limit') ? $request->input('limit') : 1;
+        $page = $search ? 1 : (int) $request->input('page', 1);
+
+        $query = $this->productModel->query();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('product_name', 'like', '%' . $search . '%')
+                    ->orWhere('price', 'like', '%' . $search . '%');
+            });
+        }
+
+        $data = $query->where('stock', '>', 0)->paginate($limit, ['*'], 'page', $page);
+
+        if ($data->isEmpty()) {
+            return $this->dataNotFound();
+        } else {
+            return $this->success($data, 'success', 'Success get data product');
         }
     }
 }
