@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignUuid('id_product')->constrained('tb_product');
             $table->integer('quantity');
             $table->integer('total_price');
+            $table->enum('status', ['pending', 'success', 'cancel']);
             $table->timestamps();
         });
     }
