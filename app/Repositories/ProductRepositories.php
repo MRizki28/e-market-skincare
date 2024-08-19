@@ -67,6 +67,7 @@ class ProductRepositories implements ProductInterfaces
                 }
                 $data->price = $request->input('price');
                 $data->description = $request->input('description');
+                $data->stock = $request->input('stock');
                 $data->save();
                 return $this->success($data, 'success', 'Success create data product');
             }
@@ -98,6 +99,7 @@ class ProductRepositories implements ProductInterfaces
                 }
                 $data->price = $request->input('price');
                 $data->description = $request->input('description');
+                $data->stock = $request->input('stock');
                 $data->save();
                 return $this->success($data, 'success', 'Success update data product');
             }
