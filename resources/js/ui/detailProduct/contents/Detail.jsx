@@ -13,6 +13,7 @@ import axios from "axios";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { CiShop } from "react-icons/ci";
 import DistributorImg from '../../../../../public/distributor.webp';
+import SweetAlertService from "../../../helper/sweetAlert";
 
 export function Detail() {
     const [data, setData] = useState([]);
@@ -47,46 +48,54 @@ export function Detail() {
                 quantity: formData.quantity,
             });
             const result = response.data;
-            const { snap_token } = result.data;
-            if (snap_token) {
-                window.snap.pay(snap_token, {
-                    onSuccess: function (result) {
-                        console.log('Payment success:', result);
-                        window.location.href = '/';
-                        updateStatusOrder(result.order_id, result.transaction_status, result.transaction_id);
-                    },
-                    onPending: function (result) {
-                        console.log('Payment pending:', result);
-                    },
-                    onError: function (result) {
-                        console.log('Payment failed:', result);
-                        alert('Payment failed');
-                    },
-                    onClose: function () {
-                        console.log('Payment closed');
-                        updateStatusOrder(result.order_id, 'pending', result.transaction_id);
-                    }
-                });
+            if (result.message == 'Stock product is not enough') {
+                SweetAlertService.stockNotEnough();
+                return;
             } else {
-                console.error('Snap token not found');
+                const id_product = data.id;
+                const { snap_token } = result.data;
+                if (snap_token) {
+                    window.snap.pay(snap_token, {
+                        onSuccess: function (result) {
+                            console.log('Payment success:', result);
+                            window.location.href = '/';
+                            updateStatusOrder(result.order_id, result.transaction_status, result.transaction_id, id_product);
+                        },
+                        onPending: function (result) {
+                            console.log('Payment pending:', result);
+                        },
+                        onError: function (result) {
+                            console.log('Payment failed:', result);
+                            alert('Payment failed');
+                        },
+                        onClose: function () {
+                            console.log('Payment closed');
+                        }
+                    });
+                } else {
+                    console.error('Snap token not found');
+                }
             }
         } catch (error) {
             console.log(error);
         }
     };
 
-    const updateStatusOrder = async (order_id, transaction_status, transaction_id) => {
+    const updateStatusOrder = async (order_id, transaction_status, transaction_id, id_product) => {
         try {
-            await axios.post(`${appUrl}/v1/order/update`, {
+            const response = await axios.post(`${appUrl}/v1/order/update`, {
                 order_id,
                 transaction_status,
                 transaction_id,
+                id_product,
             });
+
+            console.log(response);
         } catch (error) {
             console.log(error);
         }
     }
-    
+
 
     useEffect(() => {
         getDataById();
@@ -106,9 +115,11 @@ export function Detail() {
                             <span className="text-[12px] text-greyText">{data.product_code}</span>
                         </div>
                         <div className="mt-2">
+                            <span className="text-sm text-greyText">Stock: {data.stock}</span>
+                        </div>
+                        <div className="mt-2">
                             <span className="text-sm text-priceColor">{data.priceFormat}</span>
                         </div>
-
                         <div className="mt-2">
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div>
@@ -124,6 +135,7 @@ export function Detail() {
                                         {...register("quantity", { required: "Quantity is required" })}
                                         className={`mt-1 p-2 w-full border rounded-md   outline-none transition-colors duration-300 ${errors.quantity ? 'border-red-500' : 'border-gray-300'
                                             }`}
+                                        placeholder="1"
                                     />
                                     {errors.quantity && (
                                         <p className="text-red-500 text-xs mt-1">{errors.quantity.message}</p>
