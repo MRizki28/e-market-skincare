@@ -66,6 +66,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::prefix('order')->controller(OrderController::class)->group(function () {
             Route::get('/', 'getAllData');
             Route::post('create', 'createOrder');
+            Route::post('update/', 'orderNotification');
         });
     });
     
