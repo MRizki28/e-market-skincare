@@ -9,4 +9,5 @@ interface OrderInterfaces
 {
     public function getAllData(Request $request);
     public function createOrder (OrderRequest $request);
+    public function orderNotification(Request $request);
 }
