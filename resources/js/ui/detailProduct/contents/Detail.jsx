@@ -1,23 +1,24 @@
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import ProductImg from '../../../../../public/product.webp';
-import { BsCartCheck } from "react-icons/bs";
-import { RiBankCardFill, RiMoneyDollarBoxFill } from "react-icons/ri";
-import DistributorImg from '../../../../../public/distributor.webp';
-import { IoChatboxEllipsesOutline } from "react-icons/io5";
-import { CiShop } from "react-icons/ci";
-import detailProductScript from "../../../scripts/detailProduct/detailProductScript";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import ProductImg from '../../../../../public/product.webp';
+import { RiBankCardFill, RiMoneyDollarBoxFill } from "react-icons/ri";
+import detailProductScript from "../../../scripts/detailProduct/detailProductScript";
 import { FaPlus } from "react-icons/fa6";
 import { FiMinus } from "react-icons/fi";
 import { FaMotorcycle } from "react-icons/fa";
 import { LuPackageCheck } from "react-icons/lu";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import { CiShop } from "react-icons/ci";
+import DistributorImg from '../../../../../public/distributor.webp';
 
 export function Detail() {
     const [data, setData] = useState([]);
-    const navigate = useNavigate();
-
     const [openAcording, setOpenAcording] = useState({});
+    const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
     const toggleAccordion = (index) => {
         setOpenAcording((prevState) => ({
@@ -26,21 +27,70 @@ export function Detail() {
         }));
     };
 
+
     const getIdUrl = window.location.pathname.split('/').pop();
     const getDataById = async () => {
         const product = await detailProductScript.getDataById(getIdUrl);
         if (product.length === 0) {
-            navigate('/404')
+            navigate('/404');
         } else {
-            setData(product)
+            setData(product);
         }
-    }
+    };
 
     const dataUser = JSON.parse(localStorage.getItem('infoUser'));
 
+    const onSubmit = async (formData) => {
+        try {
+            const response = await axios.post(`${appUrl}/v1/order/create`, {
+                id_product: data.id,
+                quantity: formData.quantity,
+            });
+            const result = response.data;
+            const { snap_token } = result.data;
+            if (snap_token) {
+                window.snap.pay(snap_token, {
+                    onSuccess: function (result) {
+                        console.log('Payment success:', result);
+                        window.location.href = '/';
+                        updateStatusOrder(result.order_id, result.transaction_status, result.transaction_id);
+                    },
+                    onPending: function (result) {
+                        console.log('Payment pending:', result);
+                    },
+                    onError: function (result) {
+                        console.log('Payment failed:', result);
+                        alert('Payment failed');
+                    },
+                    onClose: function () {
+                        console.log('Payment closed');
+                        updateStatusOrder(result.order_id, 'pending', result.transaction_id);
+                    }
+                });
+            } else {
+                console.error('Snap token not found');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const updateStatusOrder = async (order_id, transaction_status, transaction_id) => {
+        try {
+            await axios.post(`${appUrl}/v1/order/update`, {
+                order_id,
+                transaction_status,
+                transaction_id,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
+
     useEffect(() => {
         getDataById();
-    }, [])
+    }, []);
 
     return (
         <div className="max-w-screen-xl p-4 mx-auto">
@@ -60,26 +110,36 @@ export function Detail() {
                         </div>
 
                         <div className="mt-2">
-                            <form action="">
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                 <div>
-                                    <input type="text" id="name" aria-label="disabled input" className="mb-5 bg-gray-100 border border-gray-300 text-sm rounded-lg   block w-full p-2.5 cursor-not-allowed dark:bg-gray-300 dark:border-[#e8e8e8] dark:placeholder-[#e8e8e8] dark:text-gray-400" value={dataUser.name}  disabled />
+                                    <input type="text" id="name" aria-label="disabled input" className="mb-5 bg-gray-100 border border-gray-300 text-sm rounded-lg   block w-full p-2.5 cursor-not-allowed dark:bg-gray-300 dark:border-[#e8e8e8] dark:placeholder-[#e8e8e8] dark:text-gray-400" defaultValue={dataUser.name} disabled />
                                 </div>
                                 <div>
-                                    <input type="text" id="address" aria-label="disabled input" className="mb-5 bg-gray-100 border border-gray-300 text-sm rounded-lg   block w-full p-2.5 cursor-not-allowed dark:bg-gray-300 dark:border-[#e8e8e8] dark:placeholder-[#e8e8e8] dark:text-gray-400" value={dataUser.address}   disabled />
+                                    <input type="text" id="address" aria-label="disabled input" className="mb-5 bg-gray-100 border border-gray-300 text-sm rounded-lg   block w-full p-2.5 cursor-not-allowed dark:bg-gray-300 dark:border-[#e8e8e8] dark:placeholder-[#e8e8e8] dark:text-gray-400" defaultValue={dataUser.address} disabled />
                                 </div>
                                 <div>
-                                    <input type="number" id="number" className="shadow-sm bg-gray-50 border border-gray-500 text-black text-sm rounded-lg block w-full p-2.5  dark:placeholder-gray-400 " placeholder="1" required />
+                                    <input
+                                        type="number"
+                                        id="quantity"
+                                        {...register("quantity", { required: "Quantity is required" })}
+                                        className={`mt-1 p-2 w-full border rounded-md   outline-none transition-colors duration-300 ${errors.quantity ? 'border-red-500' : 'border-gray-300'
+                                            }`}
+                                    />
+                                    {errors.quantity && (
+                                        <p className="text-red-500 text-xs mt-1">{errors.quantity.message}</p>
+                                    )}
+                                </div>
+
+                                <div className="mt-5">
+                                    <div>
+                                        <button type="submit" className="bg-black text-white p-2 text-sm rounded-md w-full flex justify-center hover:bg-gray-700">
+                                            +<RiMoneyDollarBoxFill className="text-xl" />
+                                        </button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
 
-                        <div className="mt-5">
-                            <div>
-                                <button className="bg-black text-white p-2 text-sm rounded-md w-full flex justify-center hover:bg-gray-700">
-                                    +<RiMoneyDollarBoxFill className="text-xl" />
-                                </button>
-                            </div>
-                        </div>
                         <div id="accordion-flush" className="mt-3" >
                             <h2 id="accordion-flush-heading-1">
                                 <button
@@ -109,7 +169,7 @@ export function Detail() {
                                     type="button"
                                     className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-black border-b border-gray-200 dark:border-gray-400  text-sm dark:text-semiBlack gap-3"
                                     data-accordion-target="#accordion-flush-body-1"
-                                    aria-expanded={!!openAcording[1]}
+                                    aria-expanded={!!openAcording[2]}
                                     aria-controls="accordion-flush-body-1"
                                 >
                                     <span>Pengiriman</span>
@@ -189,6 +249,5 @@ export function Detail() {
                 </div>
             </div>
         </div>
-
     );
 }
