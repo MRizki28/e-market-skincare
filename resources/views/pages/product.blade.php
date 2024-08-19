@@ -12,6 +12,7 @@
                         <th>Kode</th>
                         <th>Nama produk</th>
                         <th>Harga</th>
+                        <th>Stok</th>
                         <th>Deskripsi</th>
                         <th>Gambar</th>
                         <th>Aksi</th>
