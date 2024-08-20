@@ -10,6 +10,7 @@ import { Register } from "../ui/auth/Register";
 import { Distributor } from "../ui/distributor/Distributor";
 import { DetailDistributor } from "../ui/distributor/detailDistributor/DetailDistributor";
 import { ProductAll } from "../ui/product/ProductAll";
+import { History } from "../ui/history/History";
 
 export default function AppRoute() {
     return (
@@ -25,6 +26,7 @@ export default function AppRoute() {
             <Route path="/distributor/detail/:id" element={<ProtectedRoutes><DetailDistributor></DetailDistributor></ProtectedRoutes>}></Route>
             <Route path="*" element={<Navigate to={"/404"}></Navigate>}></Route>
             <Route path="product/all" element={<ProtectedRoutes><ProductAll></ProductAll></ProtectedRoutes>}></Route>
+            <Route path="/history" element={<ProtectedRoutes><History></History></ProtectedRoutes>}></Route>
         </Routes>
     )
 }
