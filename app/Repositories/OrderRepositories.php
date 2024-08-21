@@ -75,7 +75,7 @@ class OrderRepositories implements OrderInterfaces
 
             $request->request->add(['total_price' => $request->quantity * $product->price, 'status' => 'pending']);
 
-            if($request->quantity > $product->stock) {
+            if ($request->quantity > $product->stock) {
                 return response()->json([
                     'status' => 'failed',
                     'message' => 'Stock product is not enough'
@@ -112,8 +112,6 @@ class OrderRepositories implements OrderInterfaces
                 'order' => $order,
                 'snap_token' => $snapToken,
             ], 'success', 'Success create order');
-
-
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
         }
@@ -126,24 +124,24 @@ class OrderRepositories implements OrderInterfaces
             Config::$isProduction = false;
             Config::$isSanitized = true;
             Config::$is3ds = true;
-    
+
             $notification = new Notification();
             $id_product = $request->id_product;
-            
+
             if (!$notification->transaction_status || !$notification->order_id) {
                 return $this->error('Invalid notification data.');
             }
-    
+
             $status = $notification->transaction_status;
             $order_id = $notification->order_id;
-    
+
             if ($order_id) {
                 $order = $this->orderModel->where('id', $order_id)->first();
                 $product = $this->productModel->where('id', $id_product)->first();
-                if(!$product) {
+                if (!$product) {
                     return $this->dataNotFound('success', 'Data product not found');
                 }
-    
+
                 if ($order) {
                     switch ($status) {
                         case 'capture':
@@ -152,32 +150,67 @@ class OrderRepositories implements OrderInterfaces
                             $product->stock = $product->stock - $order->quantity;
                             $product->save();
                             break;
-    
+
                         case 'pending':
                             $order->status = 'pending';
                             break;
-    
+
                         case 'deny':
                         case 'expire':
                         case 'cancel':
                             $order->status = 'cancel';
                             break;
-    
+
                         default:
                             $order->status = 'pending';
                             break;
                     }
-    
+
                     $order->save();
                 }
             } else {
                 return $this->dataNotFound();
             }
-    
+
             return $this->success([
                 'order' => $order,
                 'product' => $product,
             ], 'success', 'Success update order status');
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
+    }
+
+    public function historyOrder(Request $request)
+    {
+        try {
+            $search = $request->input('search');
+            $limit = $request->input('limit') ? $request->input('limit') : 10;
+            $page = $search ? 1 : (int) $request->input('page', 1);
+
+            $id_user = Auth::user()->id;
+            $id_profile = $this->profileModel->where('id_user', $id_user)->first(['id']);
+
+            $query = $this->orderModel->query()->with('product.distributor')->where('id_profile', $id_profile->id);
+
+            if ($search) {
+                $query->where('id_profile', 'like', '%' . $search . '%')
+                    ->orWhere('id_product', 'like', '%' . $search . '%')
+                    ->orWhereHas('product.distributor', function ($q) use ($search) {
+                        $q->where('product_name', 'like', '%' . $search . '%')
+                            ->orWhere('name_distributor', 'like', '%' . $search . '%');
+                    })
+                    ->orWhere('quantity', 'like', '%' . $search . '%')
+                    ->orWhere('status', 'like', '%' . $search . '%');
+            }
+
+            $orders = $query->paginate($limit, ['*'], 'page', $page);
+
+            if ($orders->isEmpty()) {
+                return $this->dataNotFound();
+            } else {
+                return $this->success($orders, 'success', 'Success get history order');
+            }
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
         }
