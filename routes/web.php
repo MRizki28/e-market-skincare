@@ -68,6 +68,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::get('/', 'getAllData');
             Route::post('create', 'createOrder');
             Route::post('update/', 'orderNotification');
+            Route::get('history', 'historyOrder');
         });
     });
     
