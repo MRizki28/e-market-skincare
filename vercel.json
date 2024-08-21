@@ -1,0 +1,14 @@
+{
+    "version" : 2,
+    "functions" : {
+        "public/index.php": {
+            "runtime": "vercel-php@0.7.0"
+        }
+    },
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/public/index.php"
+        }
+    ]
+}
