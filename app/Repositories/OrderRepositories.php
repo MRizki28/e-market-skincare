@@ -191,7 +191,7 @@ class OrderRepositories implements OrderInterfaces
             $id_user = Auth::user()->id;
             $id_profile = $this->profileModel->where('id_user', $id_user)->first(['id']);
 
-            $query = $this->orderModel->query()->with('product.distributor')->where('id_profile', $id_profile->id);
+            $query = $this->orderModel->query()->with('product.distributor')->where('id_profile', $id_profile->id)->where('status', '!=', 'cancel');
 
             if ($search) {
                 $query->where('id_profile', 'like', '%' . $search . '%')
