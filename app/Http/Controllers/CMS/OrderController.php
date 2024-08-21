@@ -30,4 +30,9 @@ class OrderController extends Controller
     {
         return $this->orderRepositories->orderNotification($request);
     }
+
+    public function historyOrder(Request $request)
+    {
+        return $this->orderRepositories->historyOrder($request);
+    }   
 }
