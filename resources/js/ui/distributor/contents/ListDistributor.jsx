@@ -4,17 +4,27 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useEffect, useState } from "react";
 import listDistributor from "../../../scripts/distributor/listDistributor";
 import { Link } from "react-router-dom";
+import { loadingSpinner } from "../../../baseComponents/LoadingSpiner";
 
 export function ListDistributor() {
     const [data, setData] = useState([]);
     const [pagination, setPagination] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const getlistData = async (search, page) => {
+        setLoading(true);
         const distributor = await listDistributor.getData(search, page);
-        setData(distributor.data);
-        setPagination(distributor);
+        if(distributor) {
+            setTimeout(() => setLoading(false), 3000);
+            setData(distributor.data);
+            setPagination(distributor);
+        }else{
+            setTimeout(() => setLoading(false), 3000);
+            setData([])
+            setPagination([])
+        }
     }
 
     const handlePageChange = (page) => {
@@ -40,7 +50,9 @@ export function ListDistributor() {
                 <div>
                     <input type="text" value={searchQuery} name="search" id="search" className="border w-full p-3" placeholder="Search" onChange={searchInput} />
                 </div>
-                {!data ? (
+                {loading ?(
+                    loadingSpinner()
+                ): !data ? (
                     <div className="text-center mt-10">
                         <span className="text-lg text-semiBlack">Data not found</span>
                     </div>
