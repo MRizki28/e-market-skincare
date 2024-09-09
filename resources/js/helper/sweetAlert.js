@@ -34,6 +34,33 @@ class SweetAlertService {
         });
     }
 
+    static async successOrder() {
+        return MySwal.fire({
+            title: 'Order Berhasil',
+            text: 'Order berhasil, silahkan tunggu admin akan menghubungi anda',
+            icon: 'success',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    static async pendingOrder() {
+        return MySwal.fire({
+            title: 'Order Pending',
+            text: 'Anda sudah melakukan order, silahkan ke halaman history untuk melanjutkan pembayaran',
+            icon: 'info',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    static async pendingOrder() {
+        return MySwal.fire({
+            title: 'Order Pending',
+            text: 'Anda sudah melakukan order, silahkan ke halaman history untuk melanjutkan pembayaran',
+            icon: 'info',
+            confirmButtonText: 'OK',
+        })
+    }
+
     static async passwordNotMatch() {
         return MySwal.fire({
             title: 'Password tidak sama',
