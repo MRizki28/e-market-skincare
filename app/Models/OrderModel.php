@@ -16,7 +16,8 @@ class OrderModel extends Model
         'id_profile',
         'id_product',
         'quantity',
-        'total_price'
+        'total_price',
+        'status'
     ];
 
     public function profile()
