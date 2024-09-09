@@ -43,11 +43,12 @@ export function Detail() {
 
     const onSubmit = async (formData) => {
         try {
-            const response = await axios.post(`${appUrl}/v1/order/create`, {
+            const response = await axios.post(`${appUrl}/v1/order/prepare-order`, {
                 id_product: data.id,
                 quantity: formData.quantity,
             });
             const result = response.data;
+            console.log(result);
             if (result.message == 'Stock product is not enough') {
                 SweetAlertService.stockNotEnough();
                 return;
@@ -56,21 +57,37 @@ export function Detail() {
                 const { snap_token } = result.data;
                 if (snap_token) {
                     window.snap.pay(snap_token, {
-                        onSuccess: function (result) {
+                        onSuccess: async function (result) {
                             console.log('Payment success:', result);
-                            window.location.href = '/';
-                            updateStatusOrder(result.order_id, result.transaction_status, result.transaction_id, id_product);
+                            const testing = await axios.post(`${appUrl}/v1/order/create-order`, {
+                                id_product: id_product,
+                                quantity: formData.quantity,
+                                status: 'success'
+                            })
+
+                            console.log(testing)
+                            SweetAlertService.successOrder().then(() => {
+                                window.location.href = '/';
+                            });
                         },
-                        onPending: function (result) {
-                            console.log('Payment pending:', result);
+                        onPending: async function (result) {
+                            await axios.post(`${appUrl}/v1/order/create-order`, {
+                                id_product: id_product,
+                                quantity: formData.quantity,
+                                status: 'pending'
+                            })
+                            SweetAlertService.pendingOrder().then(() => {
+                                window.location.href = '/history';
+                            })
                         },
                         onError: function (result) {
                             console.log('Payment failed:', result);
                             alert('Payment failed');
                         },
                         onClose: function () {
-                            console.log('Payment closed');
+                            console.log('close')
                         }
+
                     });
                 } else {
                     console.error('Snap token not found');
@@ -81,20 +98,20 @@ export function Detail() {
         }
     };
 
-    const updateStatusOrder = async (order_id, transaction_status, transaction_id, id_product) => {
-        try {
-            const response = await axios.post(`${appUrl}/v1/order/update`, {
-                order_id,
-                transaction_status,
-                transaction_id,
-                id_product,
-            });
+    // const updateStatusOrder = async (order_id, transaction_status, transaction_id, id_product) => {
+    //     try {
+    //         const response = await axios.post(`${appUrl}/v1/order/update`, {
+    //             order_id,
+    //             transaction_status,
+    //             transaction_id,
+    //             id_product,
+    //         });
 
-            console.log(response);
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    //         console.log(response);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
 
     useEffect(() => {
