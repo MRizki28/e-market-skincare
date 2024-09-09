@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CMS;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\OrderRequest;
+use App\Http\Requests\PrepareOrder\PrepareOrderRequest;
 use App\Repositories\OrderRepositories;
 use Illuminate\Http\Request;
 
@@ -19,6 +20,11 @@ class OrderController extends Controller
     public function getAllData(Request $request)
     {
         return $this->orderRepositories->getAllData($request);
+    }
+
+    public function prepareOrder(PrepareOrderRequest $request)
+    {
+        return $this->orderRepositories->prepareOrder($request);
     }
 
     public function createOrder(OrderRequest $request)
