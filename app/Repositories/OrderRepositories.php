@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Http\Requests\Order\OrderRequest;
+use App\Http\Requests\PrepareOrder\PrepareOrderRequest;
 use App\Interfaces\OrderInterfaces;
 use App\Models\OrderModel;
 use App\Models\ProductModel;
@@ -10,6 +11,7 @@ use App\Models\ProfileModel;
 use App\Traits\HttpResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Midtrans\Config;
 use Midtrans\Notification;
 
@@ -58,7 +60,7 @@ class OrderRepositories implements OrderInterfaces
         }
     }
 
-    public function createOrder(OrderRequest $request)
+    public function prepareOrder(PrepareOrderRequest $request)
     {
         try {
             $id_user = Auth::id();
@@ -82,13 +84,6 @@ class OrderRepositories implements OrderInterfaces
                 ]);
             }
 
-            $order = $this->orderModel->create([
-                'id_profile' => $profile->id,
-                'id_product' => $request->id_product,
-                'quantity' => $request->quantity,
-                'total_price' => $request->quantity * $product->price,
-            ]);
-
             Config::$serverKey = config('midtrans.server_key');
             Config::$isProduction = false;
             Config::$isSanitized = true;
@@ -96,8 +91,8 @@ class OrderRepositories implements OrderInterfaces
 
             $params = array(
                 'transaction_details' => array(
-                    'order_id' => $order->id,
-                    'gross_amount' => $order->total_price,
+                    'order_id' => uniqid(),
+                    'gross_amount' => $request->quantity * $product->price,
                 ),
                 'customer_details' => array(
                     'first_name' => $profile->name,
@@ -109,9 +104,35 @@ class OrderRepositories implements OrderInterfaces
             $snapToken = \Midtrans\Snap::getSnapToken($params);
 
             return $this->success([
-                'order' => $order,
                 'snap_token' => $snapToken,
-            ], 'success', 'Success create order');
+            ], 'success', 'Success prepare order');
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
+    }
+
+    public function createOrder(OrderRequest $request)
+    {
+        try {
+
+            $product = $this->productModel->where('id', $request->id_product)->first();
+            if (!$product) {
+                return $this->dataNotFound('success', 'Data product not found');
+            }
+
+            $order = $this->orderModel->create([
+                'id_profile' => Auth::user()->profile->id,
+                'id_product' => $request->id_product,
+                'quantity' => $request->quantity,
+                'total_price' => $product->price * $request->quantity,
+                'status' => $request->status,
+            ]);
+
+            if($order->status == 'success'){
+                $product->stock = $product->stock - $order->quantity;
+                $product->save();
+            }
+            return $this->success($product, 'success', 'Success create order');
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
         }
