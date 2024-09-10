@@ -14,4 +14,6 @@ interface OrderInterfaces
     public function orderNotification(Request $request);
     public function historyOrder(Request $request);
     public function cancelOrder($id);
+    public function getDataById($id);
+    public function updateOrder(OrderRequest $request, $id);
 }
