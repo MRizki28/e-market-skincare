@@ -14,6 +14,16 @@ class historyScript {
             console.log(error);
         }
     }
+
+    static async cancelOrder(id){
+        try {
+            const response = await axios.delete(`${appUrl}/v1/order/cancel-order/${id}`)
+            const responseData = await response.data
+            return responseData
+        } catch (error) {
+            console.log(error);
+        };
+    }
 }
 
 export default historyScript
