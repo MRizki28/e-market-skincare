@@ -46,4 +46,14 @@ class OrderController extends Controller
     {
         return $this->orderRepositories->cancelOrder($id);
     }
+
+    public function getDataById($id)
+    {
+        return $this->orderRepositories->getDataById($id);
+    }
+
+    public function updateOrder(OrderRequest $request, $id)
+    {
+        return $this->orderRepositories->updateOrder($request, $id);
+    }
 }
