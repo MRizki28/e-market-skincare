@@ -73,6 +73,68 @@ export function HistoryPayment() {
         })
     }
 
+    const getDataById = async () => {
+        const btnPayNow = document.getElementById('btnPayNow')
+        const id = btnPayNow.getAttribute('data-id')
+        const response = await axios.get(`${appUrl}/v1/order/get/${id}`)
+        return response.data
+    }
+
+    const payNow = async () => {
+        const response = await getDataById()
+        const data = response.data
+        try {
+            const response = await axios.post(`${appUrl}/v1/order/prepare-order`, {
+                id_product: data.id_product,
+                quantity: data.quantity,
+            });
+            const result = response.data;
+            console.log(result);
+            if (result.message == 'Stock product is not enough') {
+                SweetAlertService.stockNotEnough();
+                return;
+            } else {
+                const id_order = data.id;
+                const { snap_token } = result.data;
+                if (snap_token) {
+                    window.snap.pay(snap_token, {
+                        onSuccess: async function (result) {
+                            console.log('Payment success:', result);
+                            const testing = await axios.post(`${appUrl}/v1/order/update-order/${id_order}`, {
+                                status: 'success'
+                            })
+
+                            console.log(testing)
+                            SweetAlertService.successOrder().then(() => {
+                                window.location.href = '/';
+                            });
+                        },
+                        onPending: async function (result) {
+                            await axios.post(`${appUrl}/v1/order/update-order/${id_order}`, {
+                                status: 'pending'
+                            })
+                            SweetAlertService.pendingOrder().then(() => {
+                                window.location.href = '/history';
+                            })
+                        },
+                        onError: function (result) {
+                            console.log('Payment failed:', result);
+                            alert('Payment failed');
+                        },
+                        onClose: function () {
+                            console.log('close')
+                        }
+
+                    });
+                } else {
+                    console.error('Snap token not found');
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
         getHistory(querySearch, currentPage)
     }, [currentPage, querySearch])
@@ -125,7 +187,7 @@ export function HistoryPayment() {
                                         <Link to="#">
                                             {history.status == "pending" ? (
                                                 <div className="mt-auto flex gap-2">
-                                                    <button
+                                                    <button onClick={payNow} data-id={history.id} id="btnPayNow"
                                                         className="bg-red-600 font-basicCommersialRegular text-white p-2 text-sm rounded-md w-full flex justify-center hover:bg-red-800"
                                                     >
                                                         Bayar
