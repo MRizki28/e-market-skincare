@@ -70,6 +70,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::post('create-order', 'createOrder');
             Route::post('update/', 'orderNotification');
             Route::get('history', 'historyOrder');
+            Route::delete('cancel-order/{id}', 'cancelOrder');
         });
     });
     
