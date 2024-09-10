@@ -23,10 +23,19 @@ class OrderRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'id_product' => 'required',
-            'quantity' => 'required'
-        ];
+        $rules = [];
+
+        if ($this->is("v1/order/create")) {
+            $rules = [
+                'id_product' => 'required',
+                'quantity' => 'required'
+            ];
+        } else {
+            $rules = [
+                'status' => 'required'
+            ];
+        }
+        return $rules;
     }
 
     protected function failedValidation(Validator $validator)
