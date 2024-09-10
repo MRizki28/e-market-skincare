@@ -5,8 +5,8 @@ import { IoStorefrontOutline } from "react-icons/io5";
 import historyScript from "../../../scripts/history/historyScript";
 import { useEffect, useState } from "react";
 import format from "../../../helper/format";
-import { set } from "react-hook-form";
 import { loadingSpinner } from "../../../baseComponents/LoadingSpiner";
+import SweetAlertService from "../../../helper/sweetAlert";
 
 export function HistoryPayment() {
     const [dataHistory, setDataHistory] = useState([])
@@ -56,6 +56,23 @@ export function HistoryPayment() {
                 break;
         }
     }
+
+    const cancelOrder = async () => {
+        const btnCancelOrder = document.getElementById('btnCancelOrder')
+        const idUser = btnCancelOrder.getAttribute('data-id')
+        SweetAlertService.confirmedCancelOrder().then(async (result) => {
+            if(result.isConfirmed){
+                const response = await historyScript.cancelOrder(idUser)
+                if (response.message == 'success cancel order') {
+                    SweetAlertService.cancelOrder()
+                    getHistory(querySearch, currentPage)
+                } else {
+                    SweetAlertService.errorAlert()
+                }
+            }
+        })
+    }
+
     useEffect(() => {
         getHistory(querySearch, currentPage)
     }, [currentPage, querySearch])
@@ -113,7 +130,7 @@ export function HistoryPayment() {
                                                     >
                                                         Bayar
                                                     </button>
-                                                    <button
+                                                    <button onClick={cancelOrder} data-id={history.id} id="btnCancelOrder"
                                                         className="border border-gray-400 hover:border-red-600 font-basicCommersialRegular text-black p-2 text-sm rounded-md w-full flex justify-center"
                                                     >
                                                         Batalkan
