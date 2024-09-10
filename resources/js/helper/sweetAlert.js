@@ -61,6 +61,27 @@ class SweetAlertService {
         })
     }
 
+    static async cancelOrder() {
+        return MySwal.fire({
+            title: 'Success',
+            text: 'Sukses cancel orderan',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        })
+    }
+
+    static async confirmedCancelOrder(){
+        return MySwal.fire({
+            title: 'Confirmed',
+            text: 'Anda yakin ingin cancel orderan ini?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+        })
+    }
+
     static async passwordNotMatch() {
         return MySwal.fire({
             title: 'Password tidak sama',
