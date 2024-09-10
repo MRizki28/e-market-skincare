@@ -71,6 +71,8 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::post('update/', 'orderNotification');
             Route::get('history', 'historyOrder');
             Route::delete('cancel-order/{id}', 'cancelOrder');
+            Route::get('/get/{id}', 'getDataById');
+            Route::post('/update-order/{id}', 'updateOrder');
         });
     });
     
