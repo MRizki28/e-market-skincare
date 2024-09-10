@@ -236,4 +236,30 @@ class OrderRepositories implements OrderInterfaces
             return $this->error($th->getMessage());
         }
     }
+
+    public function cancelOrder($id)
+    {
+        try {
+            $id_user = Auth::user()->id;
+            $data = $this->orderModel->where('id', $id)->where('status', '=', 'pending')->whereHas('profile', function($query) use ($id_user) {
+                $query->where('id_user', $id_user);
+            })->first();
+
+            if (!$data) {
+                return response()->json([
+                    'status' => 'not found',
+                    'message' => 'Order tidak ditemukan'
+                ]);
+            }
+    
+            $data->delete();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'success cancel order'
+            ]);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
+    }
 }
