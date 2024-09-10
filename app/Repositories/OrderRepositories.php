@@ -11,7 +11,6 @@ use App\Models\ProfileModel;
 use App\Traits\HttpResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Midtrans\Config;
 use Midtrans\Notification;
 
@@ -258,6 +257,48 @@ class OrderRepositories implements OrderInterfaces
                 'status' => 'success',
                 'message' => 'success cancel order'
             ]);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
+    }
+
+    public function getDataById($id)
+    {
+        try {
+            $id_user = Auth::user()->id;
+            $data = $this->orderModel->where('id', $id)->whereHas('profile', function($query) use ($id_user) {
+                $query->where('id_user', $id_user);
+            })->with('product')->first();
+
+            if(!$data){
+                return $this->dataNotFound();
+            }
+
+            return $this->success($data, 'success', 'Success get data by id');
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
+    }
+
+    public function updateOrder(OrderRequest $request, $id)
+    {
+        try {
+            $order = $this->orderModel->find($id);
+            if (!$order) {
+                return $this->dataNotFound('success', 'Data order not found');
+            }
+
+            $order->update([
+                'status' => $request->status,
+            ]);
+
+            if($order->status == 'success'){
+                $product = $this->productModel->where('id', $order->id_product)->first();
+                $product->stock = $product->stock - $order->quantity;
+                $product->save();
+            }
+
+            return $this->success($order, 'success', 'Success update order');
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
         }
