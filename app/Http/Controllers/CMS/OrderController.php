@@ -41,4 +41,9 @@ class OrderController extends Controller
     {
         return $this->orderRepositories->historyOrder($request);
     }   
+
+    public function cancelOrder($id)
+    {
+        return $this->orderRepositories->cancelOrder($id);
+    }
 }
