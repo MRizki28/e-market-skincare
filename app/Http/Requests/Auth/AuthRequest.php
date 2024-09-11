@@ -35,13 +35,10 @@ class AuthRequest extends FormRequest
                 'password' => 'required|confirmed',
                 'password_confirmation' => 'required',
                 'role' => 'required|in:user,distributor',
+                'name' => 'required',
+                'personal_address' => 'required',
+                'personal_phone_number' => 'required',
             ];
-
-            if ($this->input('role') !== 'distributor') {
-                $rules['name'] = 'required';
-                $rules['personal_address'] = 'required';
-                $rules['personal_phone_number'] = 'required';
-            }
 
         } else {
             $rules = [
