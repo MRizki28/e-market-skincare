@@ -34,7 +34,7 @@ export function ListDetailDistributor() {
             setData(formattedData);
             setPagination(product);
         } else {
-            setTimeout(() => setLoading(false), 3000);
+            setTimeout(() => setLoading(false), 1000);
             setData([]);
             setPagination({});
         }
