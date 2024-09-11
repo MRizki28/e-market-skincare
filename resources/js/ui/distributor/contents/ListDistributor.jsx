@@ -17,11 +17,11 @@ export function ListDistributor() {
         setLoading(true);
         const distributor = await listDistributor.getData(search, page);
         if(distributor) {
-            setTimeout(() => setLoading(false), 3000);
+            setTimeout(() => setLoading(false), 1000);
             setData(distributor.data);
             setPagination(distributor);
         }else{
-            setTimeout(() => setLoading(false), 3000);
+            setTimeout(() => setLoading(false), 1000);
             setData([])
             setPagination([])
         }
