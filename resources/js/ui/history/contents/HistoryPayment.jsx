@@ -19,7 +19,7 @@ export function HistoryPayment() {
         setLoading(true)
         const data = await historyScript.getHistory(search, page)
         if (data && data.data) {
-            setTimeout(() => setLoading(false), 3000)
+            setTimeout(() => setLoading(false), 1000)
             const FormatHelper = new format()
             const formatedData = data.data.data.map(history => ({
                 ...history,
@@ -30,7 +30,7 @@ export function HistoryPayment() {
             setDataHistory(formatedData)
             setPagination(data.data)
         } else {
-            setTimeout(() => setLoading(false), 3000)
+            setTimeout(() => setLoading(false), 1000)
             setDataHistory([])
             setPagination({})
         }
