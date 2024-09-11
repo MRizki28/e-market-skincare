@@ -80,26 +80,24 @@ class AuthRepositories implements AuthInterfaces
             $user->role = $request->input('role');
             $user->save();
 
-            if($user->role == 'user') {
-                DB::commit();
-                $profile = new $this->profileModel;
-                $profile->id_user = $user->id;
-                $profile->name = $request->input('name');
-                $profile->personal_address = $request->input('personal_address');
-                $profile->personal_phone_number = $request->input('personal_phone_number');
-                $profile->save();
+            DB::commit();
+            $profile = new $this->profileModel;
+            $profile->id_user = $user->id;
+            $profile->name = $request->input('name');
+            $profile->personal_address = $request->input('personal_address');
+            $profile->personal_phone_number = $request->input('personal_phone_number');
+            $profile->save();
 
-                return $this->success([
-                    'user' => $user,
-                    'profile' => $profile,
-                ],'success', 'register success');
-            }
+            return $this->success([
+                'user' => $user,
+                'profile' => $profile,
+            ], 'success', 'register success');
+
             DB::commit();
 
             return $this->success([
                 'user' => $user,
-            ],'success', 'register success');
-
+            ], 'success', 'register success');
         } catch (\Throwable $th) {
             DB::rollBack();
             return $this->error($th->getMessage());
