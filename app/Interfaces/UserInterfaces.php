@@ -12,4 +12,5 @@ interface UserInterfaces
     public function getDataById($id);
     public function updateData(UserRequest $request, $id);
     public function deleteData($id);
+    public function getDataPersonalUser();
 }
