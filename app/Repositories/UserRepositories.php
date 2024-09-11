@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Http\Requests\User\UserRequest;
 use App\Interfaces\UserInterfaces;
+use App\Models\ProfileModel;
 use App\Models\User;
 use App\Traits\HttpResponseTrait;
 use Illuminate\Http\Request;
@@ -14,10 +15,12 @@ class UserRepositories implements UserInterfaces
 {
     use HttpResponseTrait;
     protected $userModel;
+    protected $profileModel;
 
-    public function __construct(User $userModel)
+    public function __construct(User $userModel, ProfileModel $profileModel)
     {
         $this->userModel = $userModel;
+        $this->profileModel = $profileModel;
     }
 
     public function getAllData(Request $request)
@@ -99,6 +102,16 @@ class UserRepositories implements UserInterfaces
             } else {
                 return $this->dataNotFound();
             }
+        }
+    }
+
+    public function getDataPersonalUser()
+    {
+        $data = $this->userModel->with('profile')->where('id', Auth::user()->id)->first();
+        if ($data) {
+            return $this->success($data, 'success', 'Success get data personal user');
+        } else {
+            return $this->dataNotFound();
         }
     }
 }
