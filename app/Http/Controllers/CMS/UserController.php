@@ -40,4 +40,9 @@ class UserController extends Controller
     {
         return $this->userRepositories->deleteData($id);
     }
+
+    public function getDataPersonalUser()
+    {
+        return $this->userRepositories->getDataPersonalUser();
+    }
 }
