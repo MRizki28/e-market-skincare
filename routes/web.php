@@ -29,15 +29,15 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('product-detail/{id}', [ProductController::class, 'getDataById']);
     Route::get('/cms/admin/usermanagement', function () {
         return view('pages.usermanagement');
-    });
+    })->middleware('role:admin');
 
     Route::get('/cms/admin/distributor', function() {
         return view('pages.distributor');
-    });
+    })->middleware('role:distributor');
 
     Route::get('/cms/admin/product', function() {
         return view('pages.product');
-    });
+    })->middleware('role:distributor');
 
     Route::post('/logout', [AuthController::class, 'logout']);
     
@@ -48,6 +48,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::get('/get/{id}', 'getDataById');
             Route::post('update/{id}', 'updateData');
             Route::delete('delete/{id}', 'deleteData');
+            Route::get('get-personal', 'getDataPersonalUser');
         });
 
         Route::prefix('distributor')->controller(DistributorController::class)->group(function () {
