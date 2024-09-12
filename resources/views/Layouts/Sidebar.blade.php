@@ -45,6 +45,12 @@
 								<p>Product</p>
 							</a>
 						</li>   
+						<li class="nav-item {{ request()->is('cms/admin/data-pesanan') ? 'active' : '' }}">
+							<a href="{{ url('cms/admin/data-pesanan') }}">
+								<i class="fa-solid fa-user"></i>
+								<p>Data pesanan</p>
+							</a>
+						</li>   
 						@elseif (auth()->user()->role == 'admin')
 						<li class="nav-item {{ request()->is('/cms/admin') ? 'active' : '' }}">
 							<a href="{{ url('/cms/admin') }}">
