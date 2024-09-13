@@ -24,7 +24,7 @@ export function HistoryPayment() {
             const formatedData = data.data.data.map(history => ({
                 ...history,
                 total_price_format: FormatHelper.formatCurrency(history.total_price),
-                price_format: FormatHelper.formatCurrency(history.product.price),
+                price_format: FormatHelper.formatCurrency(history.price),
                 created_at_format: new Date(history.created_at).toJSON().slice(0, 10)
             }))
             setDataHistory(formatedData)
