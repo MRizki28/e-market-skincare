@@ -38,7 +38,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/cms/admin/product', function() {
         return view('pages.product');
     })->middleware('role:distributor');
-    
+
     Route::get('/cms/admin/data-pesanan', function() {
         return view('pages.data-pesanan');
     })->middleware('role:distributor');
@@ -78,6 +78,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::delete('cancel-order/{id}', 'cancelOrder');
             Route::get('/get/{id}', 'getDataById');
             Route::post('/update-order/{id}', 'updateOrder');
+            Route::get('/get-by-distributor', 'getDataByDistributor');
         });
     });
     
