@@ -13,7 +13,7 @@ class ProductModel extends Model
     protected $table = 'tb_product';
     protected $fillable = [
         'id',
-        'id_distibutor',
+        'id_distributor',
         'product_code',
         'product_name',
         'product_image',
