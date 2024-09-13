@@ -16,4 +16,5 @@ interface OrderInterfaces
     public function cancelOrder($id);
     public function getDataById($id);
     public function updateOrder(OrderRequest $request, $id);
+    public function getDataByDistributor(Request $request);
 }
