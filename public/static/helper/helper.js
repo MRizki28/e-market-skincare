@@ -387,3 +387,7 @@ function formatCurrency(value) {
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+function formatDate(date) {
+    return new Date(date).toJSON().slice(0, 10);
+}
