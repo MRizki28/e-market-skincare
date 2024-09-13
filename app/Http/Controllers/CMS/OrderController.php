@@ -56,4 +56,9 @@ class OrderController extends Controller
     {
         return $this->orderRepositories->updateOrder($request, $id);
     }
+
+    public function getDataByDistributor(Request $request)
+    {
+        return $this->orderRepositories->getDataByDistributor($request);
+    }
 }
