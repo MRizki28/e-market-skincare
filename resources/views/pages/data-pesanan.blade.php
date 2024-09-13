@@ -11,7 +11,9 @@
                     <tr class="text-center">
                         <th>Data Produk</th>
                         <th>Nama kustomer</th>
+                        <th>Waktu order</th>
                         <th>Harga</th>
+                        <th>Phone</th>
                         <th>Jumlah</th>
                         <th>Total harga</th>
                         <th>Aksi</th>
@@ -25,5 +27,5 @@
 @endsection
 
 @section('js-service')
-    <script type="module" src="{{ asset('js/product/product.controller.js') }}"></script>
+    <script type="module" src="{{ asset('js/data-pesanan/data-pesanan.controller.js') }}"></script>
 @endsection
