@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Http\Requests\Order\OrderRequest;
 use App\Http\Requests\PrepareOrder\PrepareOrderRequest;
 use App\Interfaces\OrderInterfaces;
+use App\Models\DistributorModel;
 use App\Models\OrderModel;
 use App\Models\ProductModel;
 use App\Models\ProfileModel;
@@ -19,13 +20,15 @@ class OrderRepositories implements OrderInterfaces
     protected $orderModel;
     protected $profileModel;
     protected $productModel;
+    protected $distributorModal;
     use HttpResponseTrait;
 
-    public function __construct(OrderModel $orderModel, ProfileModel $profileModel, ProductModel $productModel)
+    public function __construct(OrderModel $orderModel, ProfileModel $profileModel, ProductModel $productModel, DistributorModel $distributorModel)
     {
         $this->orderModel = $orderModel;
         $this->profileModel = $profileModel;
         $this->productModel = $productModel;
+        $this->distributorModal = $distributorModel;
     }
 
     public function getAllData(Request $request)
@@ -125,9 +128,10 @@ class OrderRepositories implements OrderInterfaces
                 'quantity' => $request->quantity,
                 'total_price' => $product->price * $request->quantity,
                 'status' => $request->status,
+                'price' => $product->price,
             ]);
 
-            if($order->status == 'success'){
+            if ($order->status == 'success') {
                 $product->stock = $product->stock - $order->quantity;
                 $product->save();
             }
@@ -240,7 +244,7 @@ class OrderRepositories implements OrderInterfaces
     {
         try {
             $id_user = Auth::user()->id;
-            $data = $this->orderModel->where('id', $id)->where('status', '=', 'pending')->whereHas('profile', function($query) use ($id_user) {
+            $data = $this->orderModel->where('id', $id)->where('status', '=', 'pending')->whereHas('profile', function ($query) use ($id_user) {
                 $query->where('id_user', $id_user);
             })->first();
 
@@ -250,7 +254,7 @@ class OrderRepositories implements OrderInterfaces
                     'message' => 'Order tidak ditemukan'
                 ]);
             }
-    
+
             $data->delete();
 
             return response()->json([
@@ -266,11 +270,11 @@ class OrderRepositories implements OrderInterfaces
     {
         try {
             $id_user = Auth::user()->id;
-            $data = $this->orderModel->where('id', $id)->whereHas('profile', function($query) use ($id_user) {
+            $data = $this->orderModel->where('id', $id)->whereHas('profile', function ($query) use ($id_user) {
                 $query->where('id_user', $id_user);
             })->with('product')->first();
 
-            if(!$data){
+            if (!$data) {
                 return $this->dataNotFound();
             }
 
@@ -292,13 +296,58 @@ class OrderRepositories implements OrderInterfaces
                 'status' => $request->status,
             ]);
 
-            if($order->status == 'success'){
+            if ($order->status == 'success') {
                 $product = $this->productModel->where('id', $order->id_product)->first();
                 $product->stock = $product->stock - $order->quantity;
                 $product->save();
             }
 
             return $this->success($order, 'success', 'Success update order');
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
+    }
+
+    public function getDataByDistributor(Request $request)
+    {
+        try {
+            $search = $request->input('search');
+            $limit = $request->input('limit') ? $request->input('limit') : 10;
+            $page = $search ? 1 : (int) $request->input('page', 1);
+            $id_user = Auth::user()->id;
+            $distributor = $this->distributorModal->where('id_user', $id_user)->first();
+
+            if (!$distributor) {
+                return $this->dataNotFound('Distributor not found');
+            }
+
+            $id_distributor = $distributor->id;
+
+            $query = $this->orderModel->query()->with('profile', 'product');
+
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('id_profile', 'like', '%' . $search . '%')
+                        ->where('status', 'like', '%' . $search . '%')
+                        ->where('total_price', 'like', '%' . $search . '%')
+                        ->where('quantity', 'like', '%' . $search . '%')
+                        ->orWhereHas('profile', function ($q) use ($search) {
+                            $q->where('name', 'like', '%' . $search . '%');
+                        })->orWhereHas('product', function ($q) use ($search) {
+                            $q->where('product_name', 'like', '%' . $search . '%');
+                        });
+                });
+            }
+
+            $data = $query->whereHas('product', function ($query) use ($id_distributor) {
+                $query->where('id_distributor', $id_distributor);
+            })->paginate($limit, ['*'], 'page', $page);
+
+            if ($data->isEmpty()) {
+                return $this->dataNotFound();
+            }
+
+            return $this->success($data, 'success', 'success get data order by distributor');
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
         }
