@@ -61,4 +61,9 @@ class OrderController extends Controller
     {
         return $this->orderRepositories->getDataByDistributor($request);
     }
+
+    public function deleteData($id)
+    {
+        return $this->orderRepositories->deleteData($id);
+    }
 }
