@@ -16,6 +16,7 @@
                         <th>Phone</th>
                         <th>Jumlah</th>
                         <th>Total harga</th>
+                        <th>Status pembayaran</th>
                         <th>Aksi</th>
                     </tr>
                 </x-slot>
