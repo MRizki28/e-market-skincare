@@ -391,3 +391,16 @@ function numberWithCommas(x) {
 function formatDate(date) {
     return new Date(date).toJSON().slice(0, 10);
 }
+
+function statusInfo(status) {
+    switch (status) {
+        case 'pending':
+            return '<span class="badge badge-warning">Pending</span>';
+        case 'success':
+            return '<span class="badge badge-success">Success</span>';
+        case 'failed':
+            return '<span class="badge badge-danger">Failed</span>';
+        default:
+            break;
+    }
+}
