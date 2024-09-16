@@ -79,6 +79,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::get('/get/{id}', 'getDataById');
             Route::post('/update-order/{id}', 'updateOrder');
             Route::get('/get-by-distributor', 'getDataByDistributor');
+            Route::delete('/delete/{id}', 'deleteData');
         });
     });
     
