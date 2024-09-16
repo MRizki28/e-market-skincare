@@ -352,4 +352,21 @@ class OrderRepositories implements OrderInterfaces
             return $this->error($th->getMessage());
         }
     }
+
+
+    public function deleteData($id)
+    {
+        try {
+            $data = $this->orderModel->find($id);
+            if (!$data) {
+                return $this->dataNotFound();
+            }
+
+            $data->delete();
+
+            return $this->delete();
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
+    }
 }
