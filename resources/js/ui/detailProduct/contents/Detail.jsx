@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import ProductImg from '../../../../../public/product.webp';
-import { RiBankCardFill, RiMoneyDollarBoxFill } from "react-icons/ri";
+import { RiMoneyDollarBoxFill } from "react-icons/ri";
 import detailProductScript from "../../../scripts/detailProduct/detailProductScript";
 import { FaPlus } from "react-icons/fa6";
 import { FiMinus } from "react-icons/fi";
@@ -12,14 +11,20 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { CiShop } from "react-icons/ci";
-import DistributorImg from '../../../../../public/distributor.webp';
 import SweetAlertService from "../../../helper/sweetAlert";
 
 export function Detail() {
     const [data, setData] = useState([]);
+    const [dataDistributor, setDataDistributor] = useState([]);
     const [openAcording, setOpenAcording] = useState({});
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
+
+    const getDistributor = async (idDistributor) => {
+        const distributor = await detailProductScript.getDataDistributor(idDistributor);
+        setDataDistributor(distributor);
+    };
+
 
     const toggleAccordion = (index) => {
         setOpenAcording((prevState) => ({
@@ -32,10 +37,14 @@ export function Detail() {
     const getIdUrl = window.location.pathname.split('/').pop();
     const getDataById = async () => {
         const product = await detailProductScript.getDataById(getIdUrl);
+        console.log(product)
         if (product.length === 0) {
             navigate('/404');
         } else {
             setData(product);
+            if (product.id_distributor) {
+                await getDistributor(product.id_distributor);
+            }
         }
     };
 
@@ -112,7 +121,6 @@ export function Detail() {
     //         console.log(error);
     //     }
     // }
-
 
     useEffect(() => {
         getDataById();
@@ -241,22 +249,22 @@ export function Detail() {
                 <div className="flex flex-col md:flex-row p-5 space-y-4 md:space-y-0 md:space-x-10">
                     <div className="flex items-center space-x-4">
                         <LazyLoadImage
-                            src={DistributorImg}
+                            src={`${appUrl}/uploads/distributor/${dataDistributor.image_distributor}`}
                             className="rounded-full w-20 h-20 object-cover"
                             effect="blur"
                             wrapperProps={{ style: { transitionDelay: "1s" } }}
                         />
                         <div className="flex flex-col justify-center">
-                            <span className="text-brownSkincare font-bold text-lg">Rizki Skincare</span>
+                            <span className="text-brownSkincare font-bold text-lg">{dataDistributor.name_distributor}</span>
                             <div className="flex space-x-3 mt-2">
-                                <button className="border border-brownSkincare px-4 py-2 bg-orange-100 hover:bg-white flex items-center space-x-2">
+                                <a target="_blank" href={`https://wa.me/${dataDistributor.phone_number}?text=Hallo%20admin`} className="border border-brownSkincare px-4 py-2 bg-orange-100 hover:bg-white flex items-center space-x-2">
                                     <IoChatboxEllipsesOutline className="text-xl text-orange-700" />
                                     <span className="hidden md:inline">Chat</span>
-                                </button>
-                                <button className="border px-4 py-2 hover:bg-gray-200 flex items-center space-x-2">
+                                </a>
+                                <Link to={`/distributor/detail/${dataDistributor.id}`} className="border px-4 py-2 hover:bg-gray-200 flex items-center space-x-2">
                                     <CiShop className="text-xl text-orange-700" />
                                     <span className="hidden md:inline">Shop</span>
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
