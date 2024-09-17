@@ -20,6 +20,21 @@ class detailProductScript {
             console.log(error);
         };
     }
+
+    static async getDataDistributor(id) {
+        try {
+            const response = await axios.get(`/api/v1/distributor/${id}`)
+            const responseData = await response.data
+            console.log(responseData);
+            if (responseData.message == 'Success get data by id') {
+                return responseData.data
+            } else {
+                return []
+            }
+        } catch (error) {
+            console.log(error);
+        };
+    }
 }
 
 export default detailProductScript;
