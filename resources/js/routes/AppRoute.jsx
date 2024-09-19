@@ -11,6 +11,7 @@ import { Distributor } from "../ui/distributor/Distributor";
 import { DetailDistributor } from "../ui/distributor/detailDistributor/DetailDistributor";
 import { ProductAll } from "../ui/product/ProductAll";
 import { History } from "../ui/history/History";
+import { About } from "../ui/about/About";
 
 export default function AppRoute() {
     return (
@@ -27,6 +28,7 @@ export default function AppRoute() {
             <Route path="*" element={<Navigate to={"/404"}></Navigate>}></Route>
             <Route path="product/all" element={<ProtectedRoutes><ProductAll></ProductAll></ProtectedRoutes>}></Route>
             <Route path="/history" element={<ProtectedRoutes><History></History></ProtectedRoutes>}></Route>
+            <Route path="/about" element={<About></About>}></Route>
         </Routes>
     )
 }
