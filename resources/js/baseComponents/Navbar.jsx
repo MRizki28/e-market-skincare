@@ -57,7 +57,7 @@ export default function Navbar() {
                                 <Link to='/distributor'  className="block py-2 px-3 text-black hover:text-red-600">Distributor</Link>
                             </li>
                             <li>
-                                <a href="#" className="block py-2 px-3 text-black hover:text-red-600">About</a>
+                                <Link to='/about'  className="block py-2 px-3 text-black hover:text-red-600">About</Link>
                             </li>
                             <li>
                                 <Link to="/history" className={login === true ? "block py-2 px-3 text-black hover:text-red-600" :" py-2 px-3 text-black hover:text-red-600 hidden"}>History</Link>
@@ -77,7 +77,7 @@ export default function Navbar() {
                         <FaShop className="text-2xl mb-2 text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600"></FaShop>
                         <span className="text-sm text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600">Distributor</span>
                     </Link>
-                    <Link to='/' className="inline-flex flex-col items-center justify-center px-5  group">
+                    <Link to='/about' className="inline-flex flex-col items-center justify-center px-5  group">
                         <FaInfoCircle className="text-2xl mb-2 text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600"></FaInfoCircle>
                         <span className="text-sm text-black dark:text-black group-hover:text-red-600 dark:group-hover:text-red-600">About</span>
                     </Link>
