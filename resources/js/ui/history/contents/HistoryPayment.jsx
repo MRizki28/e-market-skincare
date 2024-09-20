@@ -199,11 +199,11 @@ export function HistoryPayment() {
                                                     </button>
                                                 </div>
                                             ) : (
-                                                <button
+                                                <Link to={`/detail-product/${history.product.id}`}
                                                     className="bg-red-600 font-basicCommersialRegular text-white p-2 text-sm rounded-md w-full flex justify-center hover:bg-red-800"
                                                 >
                                                     Beli lagi
-                                                </button>
+                                                </Link>
                                             )}
                                         </Link>
                                     </div>
