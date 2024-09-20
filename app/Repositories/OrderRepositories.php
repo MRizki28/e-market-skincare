@@ -225,7 +225,8 @@ class OrderRepositories implements OrderInterfaces
                             ->orWhere('name_distributor', 'like', '%' . $search . '%');
                     })
                     ->orWhere('quantity', 'like', '%' . $search . '%')
-                    ->orWhere('status', 'like', '%' . $search . '%');
+                    ->orWhere('status', 'like', '%' . $search . '%')
+                    ->orWhere('created_at', 'like', '%' . $search . '%');
             }
 
             $orders = $query->paginate($limit, ['*'], 'page', $page);
@@ -335,7 +336,8 @@ class OrderRepositories implements OrderInterfaces
                             $q->where('name', 'like', '%' . $search . '%');
                         })->orWhereHas('product', function ($q) use ($search) {
                             $q->where('product_name', 'like', '%' . $search . '%');
-                        });
+                        })
+                        ->orWhere('created_at', 'like', '%' . $search . '%');
                 });
             }
 
