@@ -17,7 +17,7 @@
 <body>
     <div class="wrapper">
         <div class="main-header">
-            <div class="logo-header position-relative" style="background-color: #FF4191">
+            <div class="logo-header position-relative" style="background-color: #C5705D">
                 <a href="/" class="logo ">
                     <span class="navbar-brand text-light position-relative font-weight-bold ">e-skincare</span>
                 </a>
