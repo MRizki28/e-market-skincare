@@ -27,8 +27,8 @@
 					</div>
 					<ul class="nav nav-primary">
 						@if (auth()->user()->role == 'distributor')
-						<li class="nav-item {{ request()->is('/cms/admin') ? 'active' : '' }}">
-							<a href="{{ url('/cms/admin') }}">
+						<li class="nav-item {{ request()->is('/cms/admin/dashboard') ? 'active' : '' }}">
+							<a href="{{ url('/cms/admin/dashboard') }}">
 								<i class="fa-solid fa-home"></i>
 								<p>Dashboard</p>
 							</a>
@@ -78,7 +78,7 @@
 						url: `${appUrl}/v1/user/get-personal`,
 						dataType: "json",
 						success: function (response) {
-							if(response.length != null){
+							if (response.message == 'Success get data personal user') {
 								$('#userName').text(response.data.profile.name)
 							}else{
 								$('#userName').text('Developer')
