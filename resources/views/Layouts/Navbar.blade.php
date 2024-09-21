@@ -1,4 +1,4 @@
-<nav class="navbar navbar-header navbar-expand-lg" style="background-color: #FF4191">
+<nav class="navbar navbar-header navbar-expand-lg" style="background-color: #C5705D">
     <div class="container-fluid">
         <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
             <li class="nav-item dropdown hidden-caret">
