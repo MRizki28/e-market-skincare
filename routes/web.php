@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CMS\AuthController;
+use App\Http\Controllers\CMS\DashboardController;
 use App\Http\Controllers\CMS\DistributorController;
 use App\Http\Controllers\CMS\OrderController;
 use App\Http\Controllers\CMS\ProductController;
@@ -43,6 +44,10 @@ Route::middleware(['web', 'auth'])->group(function () {
         return view('pages.data-pesanan');
     })->middleware('role:distributor');
 
+    Route::get('/cms/admin/dashboard', function() {
+        return view('pages.dashboard');
+    })->middleware('role:distributor,admin');
+
     Route::post('/logout', [AuthController::class, 'logout']);
     
     Route::prefix('v1')->group(function () {
@@ -80,6 +85,10 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::post('/update-order/{id}', 'updateOrder');
             Route::get('/get-by-distributor', 'getDataByDistributor');
             Route::delete('/delete/{id}', 'deleteData');
+        });
+
+        Route::prefix('dashboard')->controller(DashboardController::class)->group(function () {
+            Route::get('/', 'dashboard');
         });
     });
     
