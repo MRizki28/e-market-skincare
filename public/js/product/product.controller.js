@@ -59,7 +59,8 @@ $(document).ready(function () {
                     required: true
                 },
                 product_image: {
-                    required: true
+                    required: true,
+                    extension: "jpg|jpeg|png"
                 },
                 description: {
                     required: true,
@@ -77,7 +78,8 @@ $(document).ready(function () {
                     required: 'Price tidak boleh kosong'
                 },
                 product_image: {
-                    required: 'Product image tidak boleh kosong'
+                    required: 'Product image tidak boleh kosong',
+                    extension: 'Format file harus jpg, jpeg, png'
                 },
                 description: {
                     required: 'Description tidak boleh kosong',
