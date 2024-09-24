@@ -55,4 +55,9 @@ class ProductController extends Controller
     {
         return $this->productRepositories->getAvailableProduct($request);
     }
+
+    public function getProductForAdmin(Request $request)
+    {
+        return $this->productRepositories->getProductForAdmin($request);
+    }
 }
