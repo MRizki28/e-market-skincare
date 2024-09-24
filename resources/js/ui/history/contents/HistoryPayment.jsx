@@ -61,7 +61,7 @@ export function HistoryPayment() {
         const btnCancelOrder = document.getElementById('btnCancelOrder')
         const idUser = btnCancelOrder.getAttribute('data-id')
         SweetAlertService.confirmedCancelOrder().then(async (result) => {
-            if(result.isConfirmed){
+            if (result.isConfirmed) {
                 const response = await historyScript.cancelOrder(idUser)
                 if (response.message == 'success cancel order') {
                     SweetAlertService.cancelOrder()
@@ -167,7 +167,7 @@ export function HistoryPayment() {
                                 </div>
                                 <LazyLoadImage
                                     alt="product"
-                                    src={productImage}
+                                    src={`${appUrl}/uploads/product/${history.product.product_image}`}
                                     className="w-full h-60 object-cover p-3 mt-2"
                                     width="388"
                                     height="240"
@@ -184,28 +184,26 @@ export function HistoryPayment() {
                                     <h5 className="mb-2 text-xl font-bold tracking-tight text-brownSkincare">{history.price_format}</h5>
                                     <p className="mb-3 font-normal text-[12px] text-black">Total {history.quantity} Produk: <b>{history.total_price_format}</b></p>
                                     <div className="mt-auto">
-                                        <Link to="#">
-                                            {history.status == "pending" ? (
-                                                <div className="mt-auto flex gap-2">
-                                                    <button onClick={payNow} data-id={history.id} id="btnPayNow"
-                                                        className="bg-red-600 font-basicCommersialRegular text-white p-2 text-sm rounded-md w-full flex justify-center hover:bg-red-800"
-                                                    >
-                                                        Bayar
-                                                    </button>
-                                                    <button onClick={cancelOrder} data-id={history.id} id="btnCancelOrder"
-                                                        className="border border-gray-400 hover:border-red-600 font-basicCommersialRegular text-black p-2 text-sm rounded-md w-full flex justify-center"
-                                                    >
-                                                        Batalkan
-                                                    </button>
-                                                </div>
-                                            ) : (
-                                                <Link to={`/detail-product/${history.product.id}`}
+                                        {history.status == "pending" ? (
+                                            <div className="mt-auto flex gap-2">
+                                                <button onClick={payNow} data-id={history.id} id="btnPayNow"
                                                     className="bg-red-600 font-basicCommersialRegular text-white p-2 text-sm rounded-md w-full flex justify-center hover:bg-red-800"
                                                 >
-                                                    Beli lagi
-                                                </Link>
-                                            )}
-                                        </Link>
+                                                    Bayar
+                                                </button>
+                                                <button onClick={cancelOrder} data-id={history.id} id="btnCancelOrder"
+                                                    className="border border-gray-400 hover:border-red-600 font-basicCommersialRegular text-black p-2 text-sm rounded-md w-full flex justify-center"
+                                                >
+                                                    Batalkan
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <Link to={history.product.stock !== 0 ? `/detail-product/${history.product.id}` : '#'}
+                                                className={history.product.stock != 0 ? "bg-red-600 font-basicCommersialRegular text-white p-2 text-sm rounded-md w-full flex justify-center hover:bg-red-800" : "bg-red-400 font-basicCommersialRegular text-white p-2 text-sm rounded-md w-full flex justify-center "}
+                                            >
+                                                {history.product.stock != 0 ? "Beli lagi" : "Stok habis"}
+                                            </Link>
+                                        )}
                                     </div>
                                 </div>
                             </div>
