@@ -53,6 +53,90 @@ class managementProductAdminService {
         }
 
     }
+
+    async updateData(e) {
+        let submitButton = $(e.target).find(':submit')
+        try {
+            let formData = new FormData(e.target)
+            formData.append('price', localStorage.getItem('price'))
+            let id = $('#id').val()
+            console.log(id)
+            submitButton.attr('disabled', true)
+            const response = await axios.post(`${appUrl}/v1/product/update/${id}`, formData)
+            const responseData = await response.data
+            if (responseData.status == 'success') {
+                successUpdateAlert().then(function () {
+                    $('#productModal').modal('hide')
+                })
+                this.getAllData()
+                submitButton.attr('disabled', false)
+            }
+        } catch (error) {
+            console.log(error);
+            submitButton.attr('disabled', false)
+            if (error.response.status == 422) {
+                warningAlert();
+            } else {
+                errorAlert();
+            }
+        }
+    }
+
+    async getDataById(id) {
+        try {
+            const response = await axios.get(`${appUrl}/v1/product/get/${id}`)
+            const responseData = await response.data
+            if (responseData.status == 'success') {
+                const priceAsString = responseData.data.price.toString();
+                const formattedPrice = formatCurrency(priceAsString);
+
+                localStorage.setItem('price', responseData.data.price);
+                $('#id').val(responseData.data.id)
+                $('#product_name').val(responseData.data.product_name)
+                $('#price').val(formattedPrice)
+                $('#description').val(responseData.data.description)
+                $('#preview').attr('src', `${appUrl}/uploads/product/${responseData.data.product_image}`);
+                $('#stock').val(responseData.data.stock)
+                $('#product_image').on('change', function () {
+                    const file = $(this)[0].files[0];
+                    const fileReader = new FileReader();
+                    fileReader.onloadend = function () {
+                        $('#preview').attr('src', fileReader.result);
+                    }
+                    fileReader.readAsDataURL(file);
+                });
+
+                const fileUrl = `${appUrl}/uploads/product/${responseData.data.product_image}`;
+                const fileNames = fileUrl.split('/').pop();
+                const blob = await fetch(fileUrl).then(r => r.blob());
+                const file = new File([blob], fileNames);
+                const fileList = new DataTransfer();
+                fileList.items.add(file);
+                $('#product_image').prop('files', fileList.files);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async deleteData(id) {
+        deleteAlert().then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await axios.delete(`${appUrl}/v1/product/delete/` + id)
+                    const responseData = await response.data
+                    if (responseData.message == 'Success delete') {
+                        successDeleteAlert()
+                        this.getAllData()
+                    } else {
+                        failedDeleteDataAlert()
+                    }
+                } catch (error) {
+                    errorAlert()
+                };
+            }
+        })
+    }
 }
 
 export default managementProductAdminService;
