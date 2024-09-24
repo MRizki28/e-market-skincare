@@ -180,7 +180,7 @@
                     success: function(response) {
                         console.log('here', response)
                         if (response.message == 'Success get data personal user') {
-                            $('#name').text(response.data.profile.name)
+                            response.product != null ? $('#name').text(response.data.profile.name ? 'Admin' : response.data.profile.name) : $('#name').text('Admin')
                         } else {
                             $('#name').text('Developer')
                         }
