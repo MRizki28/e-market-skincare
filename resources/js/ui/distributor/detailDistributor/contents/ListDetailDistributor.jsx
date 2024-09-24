@@ -120,8 +120,8 @@ export function ListDetailDistributor() {
                     />
                 </div>
                 {loading ? (
-                    loadingSpinner() 
-                ): !data || data.length === 0 ? (
+                    loadingSpinner()
+                ) : !data || data.length === 0 ? (
                     <div className="text-center mt-10">
                         <span className="text-lg text-semiBlack">Data not found</span>
                     </div>
@@ -147,7 +147,10 @@ export function ListDetailDistributor() {
                                             <Link to={`${appUrl}/detail-product/${item.id}`}>
                                                 <h5 className="mb-2 text-xl font-bold tracking-tight text-brownSkincare">{item.priceFormat}</h5>
                                             </Link>
-                                            <p className="mb-3 font-normal text-[12px] text-black">{truncateText(item.description, 100)}</p>
+                                            <p className="mb-3 font-normal text-[12px] text-black overflow-hidden text-ellipsis break-words max-h-16">
+                                                {truncateText(item.description, 100)}
+                                            </p>
+
                                             <div className="mt-auto">
                                                 <Link to={`${appUrl}/detail-product/${item.id}`}>
                                                     <button
