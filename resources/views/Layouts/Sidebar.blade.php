@@ -64,6 +64,12 @@
 								<p>User management</p>
 							</a>
 						</li>  
+						<li class="nav-item {{ request()->is('/cms/admin/management-product-admin') ? 'active' : '' }}">
+							<a href="{{ url('/cms/admin/management-product-admin') }}">
+								<i class="fas fa-database"></i>
+								<p>Data seluruh produk</p>
+							</a>
+						</li>  
 						@endif
 					<ul>
 				</div>
@@ -79,9 +85,9 @@
 						dataType: "json",
 						success: function (response) {
 							if (response.message == 'Success get data personal user') {
-								$('#userName').text(response.data.profile.name)
+								$('#userName').text(!response.data.name ? 'Admin' : response.data.name)
 							}else{
-								$('#userName').text('Developer')
+								$('#userName').text('Admin')
 							}
 						}
 					});
