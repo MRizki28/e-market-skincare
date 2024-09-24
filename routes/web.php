@@ -48,6 +48,10 @@ Route::middleware(['web', 'auth'])->group(function () {
         return view('pages.dashboard');
     })->middleware('role:distributor,admin');
 
+    Route::get('/cms/admin/management-product-admin', function() {
+        return view('pages.product-admin');
+    })->middleware('role:admin');
+
     Route::post('/logout', [AuthController::class, 'logout']);
     
     Route::prefix('v1')->group(function () {
@@ -72,6 +76,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::post('/update/{id}', 'updateData');
             Route::delete('/delete/{id}', 'deleteData');
             Route::get('/get-isready', 'getAvailableProduct');
+            Route::get('/get-all-product-for-admin', 'getProductForAdmin');
         });
 
         Route::prefix('order')->controller(OrderController::class)->group(function () {
