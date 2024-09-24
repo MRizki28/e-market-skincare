@@ -9,7 +9,7 @@
         let appUrl = '{{ env('API_URL_BE') }}';
    </script>
    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
-   data-client-key="SB-Mid-client-wMSrDf1bMOIJq1iD"></script>
+   data-client-key="SB-Mid-client-2iJJEoVghf7BAXJE"></script>
 </head>
 <body>
     @viteReactRefresh
