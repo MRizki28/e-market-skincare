@@ -1,3 +1,5 @@
+@props(['addSearching', 'buttonAdd', 'modalId', 'headerAddButton'])
+
 <div class="p-3">
     <div class="d-flex justify-content-between align-items-center mb-md-0 row">
         @if ($addSearching == 'true')
