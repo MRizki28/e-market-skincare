@@ -27,27 +27,27 @@
 					</div>
 					<ul class="nav nav-primary">
 						@if (auth()->user()->role == 'distributor')
-						<li class="nav-item {{ request()->is('/cms/admin/dashboard') ? 'active' : '' }}">
+						<li class="nav-item {{ request()->is('cms/admin/dashboard') ? 'active' : '' }}">
 							<a href="{{ url('/cms/admin/dashboard') }}">
 								<i class="fa-solid fa-home"></i>
 								<p>Dashboard</p>
 							</a>
 						</li>  
-						<li class="nav-item {{ request()->is('/cms/admin/distributor') ? 'active' : '' }}">
+						<li class="nav-item {{ request()->is('cms/admin/distributor') ? 'active' : '' }}">
 							<a href="{{ url('/cms/admin/distributor') }}">
-								<i class="fa-solid fa-user"></i>
+								<i class="fas fa-building"></i>
 								<p>Distributor</p>
 							</a>
 						</li> 
 						<li class="nav-item {{ request()->is('cms/admin/product') ? 'active' : '' }}">
 							<a href="{{ url('cms/admin/product') }}">
-								<i class="fa-solid fa-user"></i>
+								<i class="fab fa-product-hunt"></i>
 								<p>Product</p>
 							</a>
 						</li>   
 						<li class="nav-item {{ request()->is('cms/admin/data-pesanan') ? 'active' : '' }}">
 							<a href="{{ url('cms/admin/data-pesanan') }}">
-								<i class="fa-solid fa-user"></i>
+								<i class="fas fa-mortar-pestle"></i>
 								<p>Data pesanan</p>
 							</a>
 						</li>   
