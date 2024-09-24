@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import format from "../../../helper/format";
 import { loadingSpinner } from "../../../baseComponents/LoadingSpiner";
 import SweetAlertService from "../../../helper/sweetAlert";
+import loadingSpinnerFull from "../../../baseComponents/LoadingSpinerfull";
 
 export function HistoryPayment() {
     const [dataHistory, setDataHistory] = useState([])
@@ -13,6 +14,7 @@ export function HistoryPayment() {
     const [currentPage, setCurrentPage] = useState(1)
     const [querySearch, setQuerySearch] = useState('')
     const [loading, setLoading] = useState(false)
+    const [loadingPayment, setLoadingPayment] = useState(false)
 
     const getHistory = async (search, page) => {
         setLoading(true)
@@ -98,15 +100,19 @@ export function HistoryPayment() {
                 if (snap_token) {
                     window.snap.pay(snap_token, {
                         onSuccess: async function (result) {
+                            setLoadingPayment(true)
                             console.log('Payment success:', result);
                             const testing = await axios.post(`${appUrl}/v1/order/update-order/${id_order}`, {
                                 status: 'success'
                             })
 
                             console.log(testing)
-                            SweetAlertService.successOrder().then(() => {
-                                window.location.href = '/';
-                            });
+                            setTimeout(() => {
+                                setLoadingPayment(false)
+                                SweetAlertService.successOrder().then(() => {
+                                    window.location.href = '/';
+                                });
+                            },1000)
                         },
                         onPending: async function (result) {
                             await axios.post(`${appUrl}/v1/order/update-order/${id_order}`, {
@@ -139,6 +145,7 @@ export function HistoryPayment() {
     }, [currentPage, querySearch])
     return (
         <div className="max-w-screen-xl p-7 mx-auto">
+            {loadingPayment && loadingSpinnerFull()}
             <div className="font-basicCommersialRegular mt-5 mb-3">
                 <h1>History Pesanan</h1>
             </div>
