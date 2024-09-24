@@ -1,3 +1,4 @@
+@props(['initId', 'thead'])
 <div class="table-responsive">
     <table class="table" id="{{ $initId }}">
         <thead style="background-color: #f7f8fa;">
