@@ -12,6 +12,7 @@ import axios from "axios";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { CiShop } from "react-icons/ci";
 import SweetAlertService from "../../../helper/sweetAlert";
+import loadingSpinnerFull from "../../../baseComponents/LoadingSpinerfull";
 
 export function Detail() {
     const [data, setData] = useState([]);
@@ -19,6 +20,7 @@ export function Detail() {
     const [openAcording, setOpenAcording] = useState({});
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const [loading, setLoading] = useState(false);
 
     const getDistributor = async (idDistributor) => {
         const distributor = await detailProductScript.getDataDistributor(idDistributor);
@@ -67,17 +69,20 @@ export function Detail() {
                 if (snap_token) {
                     window.snap.pay(snap_token, {
                         onSuccess: async function (result) {
+                            setLoading(true);
                             console.log('Payment success:', result);
-                            const testing = await axios.post(`${appUrl}/v1/order/create-order`, {
+                            await axios.post(`${appUrl}/v1/order/create-order`, {
                                 id_product: id_product,
                                 quantity: formData.quantity,
                                 status: 'success'
                             })
 
-                            console.log(testing)
-                            SweetAlertService.successOrder().then(() => {
-                                window.location.href = '/';
-                            });
+                            setTimeout(()=> {
+                                setLoading(false);
+                                SweetAlertService.successOrder().then(() => {
+                                    window.location.href = '/';
+                                });
+                            }, 1000)
                         },
                         onPending: async function (result) {
                             await axios.post(`${appUrl}/v1/order/create-order`, {
@@ -128,6 +133,8 @@ export function Detail() {
 
     return (
         <div className="max-w-screen-xl p-4 mx-auto">
+            {loading && loadingSpinnerFull()}
+
             <div className="font-basicCommersialRegular mt-5 mb-3">
                 <h1>Detail Product</h1>
             </div>
