@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tb_product', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('id_distributor')->constrained('tb_distributor')->onDelete('cascade');
+            $table->foreignUuid('id_distributor')->constrained('tb_distributor');
             $table->string('product_code', 50);
             $table->string('product_name', 50);
             $table->string('product_image');
