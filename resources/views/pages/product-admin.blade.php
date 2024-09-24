@@ -23,7 +23,7 @@
         </x-base-body>
     </div>
 
-    {{-- <x-product.product-modal></x-product.product-modal> --}}
+    <x-product.product-modal></x-product.product-modal>
 @endsection
 
 @section('js-service')
