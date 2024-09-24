@@ -34,7 +34,7 @@ class userManagementService {
             table.append(tableBody)
             paginationLink(pagination, responseData)
             totalData.text(responseData.data.total)
-        }else{
+        } else {
             table.empty()
             dataNotFound.show()
             pagination.empty()
@@ -97,28 +97,32 @@ class userManagementService {
     }
 
     async deleteData(id) {
-        try {
-            const response = await axios.delete(`${appUrl}/v1/user/delete/` + id)
-            deleteAlert().then(async (result) => {
+        deleteAlert().then(async (result) => {
+            try {
+
                 if (result.isConfirmed) {
+                    const response = await axios.delete(`${appUrl}/v1/user/delete/` + id)
                     const responseData = await response.data
+                    console.log(response)
                     if (responseData.status == 'success') {
                         successDeleteAlert()
                         this.getAllData()
                     }
                 }
-            })
-        } catch (error) {
-            if (error.response.status == 400) {
-                Swal.fire({
-                    title: 'Warning',
-                    text: 'Tidak bisa hapus diri sendiri',
-                    icon: 'warning',
-                    timer: 5000,
-                    showConfirmButton: true
-                })
-            }
-        }
+            } catch (error) {
+                if (error.response.status == 400) {
+                    Swal.fire({
+                        title: 'Warning',
+                        text: 'Tidak bisa hapus diri sendiri',
+                        icon: 'warning',
+                        timer: 5000,
+                        showConfirmButton: true
+                    })
+                } else if (error.response.status == 500) {
+                    failedDeleteDataAlert()
+                }
+            };
+        })
     }
 }
 
