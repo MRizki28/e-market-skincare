@@ -138,18 +138,17 @@ class OrderRepositories implements OrderInterfaces
             }
 
             $emailDistributor = $product->distributor->user->email;
-            // dd($emailDistributor);
 
-            EmailHandler::sendEmail($emailDistributor, [
-                'name' => $order->profile->name,
-                'email' => $order->profile->user->email,
-                'amount' => $order->total_price,
-                'payment_date' => $order->created_at,
-                'payment_method' => 'Midtrans',
-                'payment_status' => $order->status,
-            ]);
-        
-
+            if($order->status == 'success'){
+                EmailHandler::sendEmail($emailDistributor, [
+                    'name' => $order->profile->name,
+                    'email' => $order->profile->user->email,
+                    'amount' => $order->total_price,
+                    'payment_date' => $order->created_at,
+                    'payment_method' => 'Midtrans',
+                    'payment_status' => $order->status,
+                ]);
+            }
             return $this->success($order, 'success', 'Success create order');
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
@@ -316,6 +315,19 @@ class OrderRepositories implements OrderInterfaces
                 $product = $this->productModel->where('id', $order->id_product)->first();
                 $product->stock = $product->stock - $order->quantity;
                 $product->save();
+            }
+
+            $emailDistributor = $product->distributor->user->email;
+
+            if($order->status == 'success'){
+                EmailHandler::sendEmail($emailDistributor, [
+                    'name' => $order->profile->name,
+                    'email' => $order->profile->user->email,
+                    'amount' => $order->total_price,
+                    'payment_date' => $order->created_at,
+                    'payment_method' => 'Midtrans',
+                    'payment_status' => $order->status,
+                ]);
             }
 
             return $this->success($order, 'success', 'Success update order');
