@@ -1,4 +1,3 @@
-import productImage from "../../../../../public/product.webp"
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
 import { IoStorefrontOutline } from "react-icons/io5";
