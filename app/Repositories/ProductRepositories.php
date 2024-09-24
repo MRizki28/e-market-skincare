@@ -120,14 +120,18 @@ class ProductRepositories implements ProductInterfaces
                 return $this->dataNotFound();
             } else {
                 $old_file = public_path('uploads/product/') . $data->product_image;
+                $data->delete();
+                
                 if (file_exists($old_file)) {
                     unlink($old_file);
                 }
-                $data->delete();
                 return $this->delete();
             }
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'server sedang maintenance'
+            ]);
         }
     }
 
@@ -205,7 +209,7 @@ class ProductRepositories implements ProductInterfaces
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('product_name', 'like', '%' . $search . '%')
-                    ->whereHas('distributor', function ($q) use ($search) {
+                    ->orwhereHas('distributor', function ($q) use ($search) {
                         $q->where('name_distributor', 'like', '%' . $search . '%');
                     })
                     ->orWhere('price', 'like', '%' . $search . '%');
