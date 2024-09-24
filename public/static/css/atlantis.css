@@ -655,7 +655,7 @@ body {
   .sidebar.sidebar-style-2 .nav .nav-item a[data-toggle=collapse][aria-expanded=true]:before {
     background: transparent !important; }
 .sidebar.sidebar-style-2 .nav.nav-primary > .nav-item.active > a {
-  background: #FF4191 !important;
+  background: #C5705D !important;
   box-shadow: 4px 4px 10px 0 rgba(0, 0, 0, 0.1), 4px 4px 15px -5px rgba(21, 114, 232, 0.4) !important; }
   .sidebar.sidebar-style-2 .nav.nav-primary > .nav-item.active > a:before {
     background: transparent !important; }
@@ -4631,8 +4631,8 @@ label.error {
   border-color: #6861CE;
   color: #ffffff; }
 .pagination.pg-info > li.active > a, .pagination.pg-info > li.active:first-child > a, .pagination.pg-info > li.active:last-child > a, .pagination.pg-info > li.active > span, .pagination.pg-info > li.active:first-child > span, .pagination.pg-info > li.active:last-child > span {
-  background: #FF4191;
-  border-color: #FF4191;
+  background: #C5705D;
+  border-color: #C5705D;
   color: #ffffff; }
 .pagination.pg-success > li.active > a, .pagination.pg-success > li.active:first-child > a, .pagination.pg-success > li.active:last-child > a, .pagination.pg-success > li.active > span, .pagination.pg-success > li.active:first-child > span, .pagination.pg-success > li.active:last-child > span {
   background: #31CE36;
