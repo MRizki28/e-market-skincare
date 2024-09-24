@@ -10,7 +10,8 @@ $(document).ready(function () {
         $('#formDistributor').validate({
             rules: {
                 image_distributor: {
-                    required: true
+                    required: true,
+                    extension: 'jpg|jpeg|png'
                 },
                 name_distributor: {
                     required: true
@@ -28,7 +29,8 @@ $(document).ready(function () {
             },
             messages: {
                 image_distributor: {
-                    required: 'Gambar distributor tidak boleh kosong'
+                    required: 'Gambar distributor tidak boleh kosong',
+                    extension: 'Format file harus jpg, jpeg, png'
                 },
                 name_distributor: {
                     required: 'Nama distributor tidak boleh kosong'
