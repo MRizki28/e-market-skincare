@@ -135,20 +135,22 @@ class productService {
     }
 
     async deleteData(id) {
-        try {
-            deleteAlert().then(async (result) => {
-                if (result.isConfirmed) {
+        deleteAlert().then(async (result) => {
+            if (result.isConfirmed) {
+                try {
                     const response = await axios.delete(`${appUrl}/v1/product/delete/` + id)
                     const responseData = await response.data
                     if (responseData.message == 'Success delete') {
                         successDeleteAlert()
                         this.getAllData()
+                    } else {
+                        failedDeleteDataAlert()
                     }
-                }
-            })
-        } catch (error) {
-            console.log(error);
-        }
+                } catch (error) {
+                    errorAlert()
+                };
+            }
+        })
     }
 }
 
