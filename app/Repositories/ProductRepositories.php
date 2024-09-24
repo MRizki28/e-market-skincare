@@ -28,8 +28,12 @@ class ProductRepositories implements ProductInterfaces
 
     public function getAllData(Request $request)
     {
+        $id_user = Auth::user();
+
+        $id_distributor = $this->distributorModel->where('id_user', $id_user->id)->pluck('id')->first();
+
         $search = $request->input('search');
-        $limit = $request->input('limit') ? $request->input('limit') : 1;
+        $limit = $request->input('limit') ? $request->input('limit') : 10;
         $page = $search ? 1 : (int) $request->input('page', 1);
 
         $query = $this->productModel->query();
@@ -41,7 +45,7 @@ class ProductRepositories implements ProductInterfaces
             });
         }
 
-        $data = $query->paginate($limit, ['*'], 'page', $page);
+        $data = $query->where('id_distributor', $id_distributor)->paginate($limit, ['*'], 'page', $page);
 
         if ($data->isEmpty()) {
             return $this->dataNotFound();
@@ -182,6 +186,33 @@ class ProductRepositories implements ProductInterfaces
         }
 
         $data = $query->where('stock', '>', 0)->paginate($limit, ['*'], 'page', $page);
+
+        if ($data->isEmpty()) {
+            return $this->dataNotFound();
+        } else {
+            return $this->success($data, 'success', 'Success get data product');
+        }
+    }
+
+    public function getProductForAdmin(Request $request)
+    {
+        $search = $request->input('search');
+        $limit = $request->input('limit') ? $request->input('limit') : 10;
+        $page = $search ? 1 : (int) $request->input('page', 1);
+
+        $query = $this->productModel->query();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('product_name', 'like', '%' . $search . '%')
+                    ->whereHas('distributor', function ($q) use ($search) {
+                        $q->where('name_distributor', 'like', '%' . $search . '%');
+                    })
+                    ->orWhere('price', 'like', '%' . $search . '%');
+            });
+        }
+
+        $data = $query->with('distributor')->paginate($limit, ['*'], 'page', $page);
 
         if ($data->isEmpty()) {
             return $this->dataNotFound();
