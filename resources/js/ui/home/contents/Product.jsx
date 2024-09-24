@@ -56,7 +56,9 @@ export default function BestProduct() {
                                 <Link to={`/detail-product/${product.id}`}>
                                     <h5 className="mb-2 text-xl font-bold tracking-tight text-brownSkincare">{product.price}</h5>
                                 </Link>
-                                <p className="mb-3 font-normal text-[12px] text-black">{truncateText(product.description, 100)}</p>
+                                <p className="mb-3 font-normal text-[12px] text-black overflow-hidden text-ellipsis break-words max-h-16">
+                                    {truncateText(product.description, 100)}
+                                </p>
                                 <div className="mt-auto">
                                     <Link to={`/detail-product/${product.id}`}>
                                         <button
