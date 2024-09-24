@@ -320,7 +320,7 @@ $(document).ready(function () {
     $.validator.addMethod("fileExtension", function (value, element) {
         return this.optional(element) || /\.(docx|png|jpg|jpeg|xlsx|xls|csv|doc|pdf)$/i.test(value);
     },
-        "Hanya file dengan ekstensi docx, png, jpg, jpeg, xlsx, xls, csv, doc, atau pdf yang diperbolehkan."
+        "Hanya file dengan ekstensi png, jpg, jpeg yang diperbolehkan."
     );
 });
 
@@ -333,32 +333,6 @@ function decryptToken(tokenEncrpyt, key) {
     return bytes.toString(CryptoJS.enc.Utf8)
 }
 
-function protectedModificationSystem(event) {
-    if (event.originalEvent.storageArea === localStorage) {
-        if (!localStorage.getItem('entire_id_arsip') || !localStorage.getItem('nameUser')
-            || !localStorage.getItem('id_entire_user')
-            || !localStorage.getItem('id_entire_year')
-            || !localStorage.getItem('id_entire_type_document')) {
-            protectedAlert();
-            setTimeout(function () {
-                window.location.href = '/';
-            }, 2000);
-        }
-    }
-}
-
-function protectedModificationSystem2(event) {
-    if (event.originalEvent.storageArea === localStorage) {
-        if (!localStorage.getItem('personal_id_arsip') || !localStorage.getItem('user_name')
-            || !localStorage.getItem('id_year')
-            || !localStorage.getItem('id_type_document')) {
-            protectedAlert();
-            setTimeout(function () {
-                window.location.href = '/';
-            }, 2000);
-        }
-    }
-}
 
 function insertLineBreaks(text, wordsPerLine) {
     const words = text.split(' ');
