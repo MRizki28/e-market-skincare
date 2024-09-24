@@ -24,7 +24,7 @@ class DistributorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image_distributor' => 'required',
+            'image_distributor' => 'required|mimes:png,jpg,jpeg',
             'name_distributor' => 'required',
             'address' => 'required',
             'description' => 'required|min:200',
