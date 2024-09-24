@@ -53,13 +53,17 @@ class dataPesananService {
     async deleteData(id) {
         deleteAlert().then(async (result) => {
             if (result.isConfirmed) {
-                const response = await axios.delete(`/v1/order/delete/${id}`);
-                if (response.data.message === 'success delete order') {
-                    successAlert(response.data.message);
-                    dataPesananService.getDataPesanan();
-                } else {
-                    errorAlert(response.data.message);
-                }
+                try {
+                    const response = await axios.delete(`/v1/order/delete/${id}`);
+                    const responseData = await response.data;
+                    console.log(response)
+                    if (responseData.message === 'Success delete') {
+                        successDeleteAlert()
+                        this.getDataPesanan()
+                    }
+                } catch (error) {
+                    errorAlert()
+                };
             }
         })
     }
