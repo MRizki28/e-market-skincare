@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Helper\EmailHandler;
 use App\Http\Requests\Order\OrderRequest;
 use App\Http\Requests\PrepareOrder\PrepareOrderRequest;
 use App\Interfaces\OrderInterfaces;
@@ -135,7 +136,21 @@ class OrderRepositories implements OrderInterfaces
                 $product->stock = $product->stock - $order->quantity;
                 $product->save();
             }
-            return $this->success($product, 'success', 'Success create order');
+
+            $emailDistributor = $product->distributor->user->email;
+            // dd($emailDistributor);
+
+            EmailHandler::sendEmail($emailDistributor, [
+                'name' => $order->profile->name,
+                'email' => $order->profile->user->email,
+                'amount' => $order->total_price,
+                'payment_date' => $order->created_at,
+                'payment_method' => 'Midtrans',
+                'payment_status' => $order->status,
+            ]);
+        
+
+            return $this->success($order, 'success', 'Success create order');
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
         }
