@@ -15,4 +15,5 @@ interface ProductInterfaces
     public function bestProduct(Request $request);
     public function getDataByDistributor(Request $request, $id);
     public function getAvailableProduct(Request $request);
+    public function getProductForAdmin(Request $request);
 }
