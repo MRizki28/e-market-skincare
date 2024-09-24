@@ -21,7 +21,7 @@ export function LoginForm() {
             if (responseData.message === 'login success') {
                 SweetAlertService.successLogin().then(() => {
                     if (responseData.data.role === 'admin' || responseData.data.role === 'distributor') {
-                        window.location.href = 'cms/admin/distributor';
+                        window.location.href = 'cms/admin/dashboard';
                     } else {
                         localStorage.setItem('token', responseData.data.token);
                         dispatch(login());
