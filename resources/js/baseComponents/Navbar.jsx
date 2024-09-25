@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { json, Link } from "react-router-dom";
-import LogoSkincare from "../../../public/logoEskincare.png";
+import LogoSkincare from "../../../public/logo2.png";
 import { MdAddShoppingCart } from "react-icons/md";
 import { FaHome, FaInfoCircle } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
