@@ -190,38 +190,17 @@
                     </tr>
                     <!-- end copy -->
 
-                    <!-- start button -->
-                    <tr>
-                        <td align="left" bgcolor="#ffffff">
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                <tr>
-                                    <td align="center" bgcolor="#ffffff" style="padding: 12px;">
-                                        <table border="0" cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td align="center" bgcolor="#1a82e2" style="border-radius: 6px;">
-                                                    {{-- <a href="{{ $url }}" target="_blank"
-                                                        style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Gabung
-                                                        sekarang</a> --}}
-                                                        <h2>Pembeli disini</h2>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <!-- end button -->
-
-                    <!-- start copy -->
                     <tr>
                         <td align="left" bgcolor="#ffffff"
                             style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-                            <p style="margin: 0;">Ada pembeli baru </p>
-
+                            <p style="margin: 0;">Nama: {{ $name }}</p>
+                            <p style="margin: 0;">Email: {{ $email }}</p>
+                            <p style="margin: 0;">Jumlah Pembayaran: {{ $amount }}</p>
+                            <p style="margin: 0;">Tanggal Pembayaran: {{ $payment_date }}</p>
+                            <p style="margin: 0;">Metode Pembayaran: {{ $payment_method }}</p>
+                            <p style="margin: 0;">Status Pembayaran: {{ $payment_status }}</p>
                         </td>
                     </tr>
-                    <!-- end copy -->
 
                     <!-- start copy -->
                     <tr>
