@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Frontend</title>
+    <link rel="icon" href="{{ asset('logo2.png') }}" type="image/svg+xml" />
+    <title>E-SKINCARE</title>
     <script>
         let appUrl = '{{ env('API_URL_BE') }}';
    </script>
