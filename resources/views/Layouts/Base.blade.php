@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="key" content="{{ env('APP_KEY') }}">
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-    <link rel="icon" href="{{ asset('static/img/logo.svg') }}" type="image/svg+xml" />
+    <link rel="icon" href="{{ asset('logo2.png') }}" type="image/svg+xml" />
     @include('Layouts.styles')
     <script>
          let appUrl = '{{ env('API_URL_BE') }}';
@@ -18,8 +18,8 @@
     <div class="wrapper">
         <div class="main-header">
             <div class="logo-header position-relative" style="background-color: #C5705D">
-                <a href="/" class="logo ">
-                    <span class="navbar-brand text-light position-relative font-weight-bold ">e-skincare</span>
+                <a href="#" class="logo ">
+                    <span class="navbar-brand text-light position-relative font-weight-bold ">E-SKINCARE</span>
                 </a>
                 <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
                     data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
