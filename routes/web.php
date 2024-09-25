@@ -13,6 +13,10 @@ Route::get('/login' , function() {
     return view('frontend');
 })->name('login');
 
+Route::get('/email', function() {
+    return view('emails.notificationPayment');
+});
+
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('best-product', [ProductController::class, 'bestProduct']);
 Route::post('api/v1/register-user', [AuthController::class, 'registerUser']);
