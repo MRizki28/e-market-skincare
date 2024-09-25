@@ -1,6 +1,6 @@
 import React from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import LogoEskincare from "../../../public/logoEskincare.png";
+import LogoEskincare from "../../../public/logo2.png";
 import { Link } from "react-router-dom";
 
 export function Footer() {
