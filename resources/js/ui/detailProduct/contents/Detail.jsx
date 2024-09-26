@@ -279,7 +279,7 @@ export function Detail() {
                     <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:space-x-5 md:ml-4">
                         <div className="flex justify-between md:space-x-3">
                             <span>Produk</span>
-                            <span className="text-brownSkincare">40</span>
+                            <span className="text-brownSkincare">{data.total_products}</span>
                         </div>
                         <div className="flex justify-between md:space-x-3">
                             <span>Presentasi chat</span>
