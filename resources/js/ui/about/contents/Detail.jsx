@@ -9,7 +9,7 @@ export default function Detail() {
                     <h1 className="text-center">Tentang Kami</h1>
                 </div>
                 <div className="text-center ">
-                    <span className="text-center ">Cari tahu mengenai perusahaan penyedia informasi distributor terbsesar di sulawesi tengah</span>
+                    <span className="text-center ">Cari tahu mengenai perusahaan penyedia informasi distributor terbesar di sulawesi tengah</span>
                 </div>
                 <div className="flex justify-center">
                     <div className="border-b-2 border-[#debd8a] w-1/2"></div>
