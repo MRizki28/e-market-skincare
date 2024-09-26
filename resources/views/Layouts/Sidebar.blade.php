@@ -85,7 +85,7 @@
 						dataType: "json",
 						success: function (response) {
 							if (response.message == 'Success get data personal user') {
-								$('#userName').text(!response.data.name ? 'Admin' : response.data.name)
+								$('#userName').text(!response.data.profile ? 'Admin' : response.data.profile.name)
 							}else{
 								$('#userName').text('Admin')
 							}
