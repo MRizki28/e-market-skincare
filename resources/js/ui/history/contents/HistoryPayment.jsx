@@ -28,6 +28,7 @@ export function HistoryPayment() {
                 price_format: FormatHelper.formatCurrency(history.price),
                 created_at_format: new Date(history.created_at).toJSON().slice(0, 10)
             }))
+
             setDataHistory(formatedData)
             setPagination(data.data)
         } else {
@@ -165,7 +166,7 @@ export function HistoryPayment() {
                             <div key={index} className="bg-white border flex flex-col max-w-xl md:max-w-md">
                                 <div className="p-2 font-basicCommersialRegular flex">
                                     <div className="flex items-center space-x-1">
-                                        <IoStorefrontOutline className="text-xl flex" /><span className="text-[12px] pt-[2px]">Rizki skincare</span>
+                                        <IoStorefrontOutline className="text-xl flex" /><span className="text-[12px] pt-[2px]">{history.product.distributor.name_distributor}</span>
                                     </div>
                                     <div className="ml-auto">
                                         <span className={`text-[12px] ${getStatusClass(history.status)}`}>{history.status}</span>
