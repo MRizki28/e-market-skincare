@@ -82,8 +82,10 @@ class ProductRepositories implements ProductInterfaces
 
     public function getDataById($id)
     {
-        $data = $this->productModel->find($id);
+        $data = $this->productModel->with('distributor.product')->find($id);
         if ($data) {
+            $totalProducts = $data->distributor ? $data->distributor->product->count() : 0;
+            $data['total_products'] = $totalProducts;
             return $this->success($data, 'success', 'Success get data by id');
         } else {
             return $this->dataNotFound();
