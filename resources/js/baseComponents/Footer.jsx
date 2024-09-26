@@ -25,7 +25,7 @@ export function Footer() {
                             <Link to="about" className="hover:underline me-4 md:me-6">About</Link>
                         </li>
                         <li>
-                            <a href="https://wa.me/082290333669?text=Halo%20admin" target="_blank" className="hover:underline">Contact</a>
+                            <a href="https://wa.me/081356707798?text=Halo%20admin" target="_blank" className="hover:underline">Contact</a>
                         </li>
                     </ul>
                 </div>
