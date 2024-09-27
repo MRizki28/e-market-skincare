@@ -62,6 +62,7 @@ class userManagementService {
                 submitButton.attr('disabled', true)
                 const response = await axios.post(`${appUrl}/v1/user/register`, formData)
                 const responseData = await response.data
+                console.log(responseData)
                 if (responseData.status == 'success') {
                     successAlert().then(function () {
                         $('#userManagementModal').modal('hide')
@@ -87,10 +88,18 @@ class userManagementService {
         try {
             const response = await axios.get(`${appUrl}/v1/user/get/` + id)
             const responseData = await response.data
+            console.log('here', responseData)
             if (responseData.status == 'success') {
                 isEditMode(true, responseData.data.id)
                 $('#email').val(responseData.data.email)
-                $('#role').val(responseData.data.role)
+                $('#role').val(responseData.data.role).trigger('change')
+                if(responseData.data.role == 'admin'){
+                    $('#rolechange').empty()
+                }else{
+                    $('#name').val(responseData.data.profile.name)
+                    $('#personal_address').val(responseData.data.profile.personal_address)
+                    $('#personal_phone_number').val(responseData.data.profile.personal_phone_number)
+                }
             }
         } catch (error) {
         }
@@ -110,6 +119,7 @@ class userManagementService {
                     }
                 }
             } catch (error) {
+                console.log(error)
                 if (error.response.status == 400) {
                     Swal.fire({
                         title: 'Warning',
