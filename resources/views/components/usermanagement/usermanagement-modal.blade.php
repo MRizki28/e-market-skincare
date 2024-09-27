@@ -23,6 +23,7 @@
                                     <option value="" selected disabled hidden>Choose here</option>
                                     <option value="admin">Admin</option>
                                     <option value="user">User</option>
+                                    <option value="distributor">Distributor</option>
                                 </select>
                             </div>
                             <div class="form-group form-show-validation">
@@ -30,6 +31,7 @@
                                 <input type="text" class="form-control " readonly="readonly"  name="password"
                                     id="password" value="12345678">
                             </div>
+                            <div id="rolechange"></div>                
                             <div class="button-footer d-flex justify-content-between mt-4">
                                 <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
                                     <div class="button-footer d-flex justify-content-between mt-4">
