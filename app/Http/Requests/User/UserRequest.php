@@ -24,25 +24,48 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-
         $rules = [];
+
         if($this->is('v1/user/register')){
             $rules = [
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required',
+                'role' => 'required|in:user,distributor,admin',
             ];
-        }else{
+
+            if (in_array($this->input('role'), ['user', 'distributor'])) {
+                $rules['name'] = 'required';
+                $rules['personal_address'] = 'required';
+                $rules['personal_phone_number'] = 'required';
+            }
+        } else {
             $rules = [
                 'email' => [
                     'required',
-                    Rule::unique('users', 'email')->ignore($this->route('id'), 'id')
+                    Rule::unique('users', 'email')->ignore($this->route('id'), 'id'),
                 ],
                 'password' => 'required',
+                'role' => 'required|in:user,distributor,admin',
             ];
+
+            if (in_array($this->input('role'), ['user', 'distributor'])) {
+                $rules['name'] = 'required';
+                $rules['personal_address'] = 'required';
+                $rules['personal_phone_number'] = 'required';
+            }
         }
+
         return $rules;
     }
 
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     *
+     * @throws \Illuminate\Http\Exceptions\HttpResponseException
+     */
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
