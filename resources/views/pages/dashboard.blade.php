@@ -25,7 +25,7 @@
                                 <div class="col col-stats ml-3 ml-sm-0">
                                     <div class="numbers">
                                         <p class="card-category">Total Produk</p>
-                                        <h4 class="card-title" id="totalProductByDistributor"></h4>
+                                        <h4 class="card-title" id="totalProduct"></h4>
                                     </div>
                                 </div>
                             </div>
