@@ -52,8 +52,19 @@ class UserRepositories implements UserInterfaces
         try {
             $data = new $this->userModel;
             $data->email = $request->input('email');
+            $data->role = $request->input('role');
             $data->password = Hash::make('12345678');
+
             $data->save();
+            if($data->role == 'user' || $data->role == 'distributor') {
+                $profile = new $this->profileModel;
+                $profile->id_user = $data->id;
+                $profile->name = $request->input('name');
+                $profile->personal_address = $request->input('personal_address');
+                $profile->personal_phone_number = $request->input('personal_phone_number');
+                $profile->save();
+            }
+
             return $this->success($data, 'success', 'Success register');
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
@@ -62,7 +73,7 @@ class UserRepositories implements UserInterfaces
 
     public function getDataById($id)
     {
-        $data = $this->userModel->find($id);
+        $data = $this->userModel->with('profile')->find($id);
         if ($data) {
             return $this->success($data, 'success', 'Success get data by id');
         } else {
@@ -76,8 +87,17 @@ class UserRepositories implements UserInterfaces
             $data = $this->userModel->find($id);
             if ($data) {
                 $data->email = $request->input('email');
+                $data->role = $request->input('role');
                 $data->password = Hash::make('12345678');
                 $data->save();
+
+                if($data->role == 'user' || $data->role == 'distributor') {
+                    $profile = $this->profileModel->where('id_user', $data->id)->first();
+                    $profile->name = $request->input('name');
+                    $profile->personal_address = $request->input('personal_address');
+                    $profile->personal_phone_number = $request->input('personal_phone_number');
+                    $profile->save();
+                }
                 return $this->success($data, 'success', 'Success update data');
             } else {
                 return $this->dataNotFound();
