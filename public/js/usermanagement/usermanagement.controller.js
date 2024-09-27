@@ -29,6 +29,15 @@ $(document).ready(function () {
                 },
                 role: {
                     required: true
+                },
+                name: {
+                    required: true
+                },
+                personal_address: {
+                    required: true
+                },
+                personal_phone_number: {
+                    required: true
                 }
             },
             messages: {
@@ -38,6 +47,15 @@ $(document).ready(function () {
                 },
                 role: {
                     required: 'Role tidak boleh kosong'
+                },
+                name: {
+                    required: 'Nama tidak boleh kosong'
+                },
+                personal_address: {
+                    required: 'Alamat tidak boleh kosong'
+                },
+                personal_phone_number: {
+                    required: 'No hp tidak boleh kosong'
                 }
             },
             highlight: function (element) {
@@ -58,6 +76,30 @@ $(document).ready(function () {
 
     $('#role').on('change', function () {
         $(this).valid()
+        $('#rolechange').empty();
+
+        let selectedRole = $(this).val();
+
+        if (selectedRole === 'user' || selectedRole === 'distributor') {
+            let additionalForm = `
+               <div class="form-group form-show-validation">
+                                <label for="name">Nama</label>
+                                <input type="text" class="form-control "  name="name"
+                                    id="name">
+                            </div>
+                            <div class="form-group form-show-validation">
+                                <label for="name">Alamat</label>
+                                <input type="text" class="form-control "  name="personal_address"
+                                    id="personal_address">
+                            </div>
+                            <div class="form-group form-show-validation">
+                                <label for="personal_phone_number">No hp</label>
+                                <input type="number" class="form-control "  name="personal_phone_number"
+                                    id="personal_phone_number">
+                            </div>
+            `;
+            $('#rolechange').append(additionalForm);
+        }
     })
 
     let isEditMode = false
@@ -82,7 +124,7 @@ $(document).ready(function () {
         isEditMode = true
         const id = $(this).data('id')
         usermanagementservice.getDataById(id, showModal)
-    })  
+    })
 
     $(document).on('click', '.delete-confirm', function (e) {
         e.preventDefault()
@@ -97,6 +139,9 @@ $(document).ready(function () {
         $('#email').val('')
         $('#role').val('').trigger('change')
         $('#modal-title').text('Tambah Data');
+        $('#name').val('')
+        $('#personal_address').val('')
+        $('#personal_phone_number').val('')
         $('.button-footer button[type="submit"]').text('Simpan');
         $('.form-group').removeClass('has-error').removeClass('has-success')
         $('.form-group').find('.error').remove()
