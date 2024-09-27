@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tb_order', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('id_profile')->constrained('tb_profile');
-            $table->foreignUuid('id_product')->constrained('tb_product');
+            $table->foreignUuid('id_profile')->constrained('tb_profile')->onDelete('cascade');
+            $table->foreignUuid('id_product')->constrained('tb_product')->onDelete('cascade');
             $table->integer('price');
             $table->integer('quantity');
             $table->integer('total_price');
