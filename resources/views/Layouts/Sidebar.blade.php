@@ -52,8 +52,8 @@
 							</a>
 						</li>   
 						@elseif (auth()->user()->role == 'admin')
-						<li class="nav-item {{ request()->is('/cms/admin') ? 'active' : '' }}">
-							<a href="{{ url('/cms/admin') }}">
+						<li class="nav-item {{ request()->is('/cms/admin/dashboard') ? 'active' : '' }}">
+							<a href="{{ url('/cms/admin/dashboard') }}">
 								<i class="fa-solid fa-home"></i>
 								<p>Dashboard</p>
 							</a>
